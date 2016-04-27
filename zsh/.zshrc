@@ -27,5 +27,3 @@ twitch() {
 
     livestreamer "twitch.tv/$1" $quality
 }
-
-
