@@ -434,6 +434,18 @@ If REPOSITORY is specified, use that."
   :config
   (add-hook 'ruby-mode-hook 'flymake-ruby-load))
 
+;; Ruby-Refactor keybinds
+;; Extract to Method (C-c C-r e)
+;; Extract Local Variable (C-c C-r v)
+;; Extract Constant (C-c C-r c)
+;; Add Parameter (C-c C-r p)
+;; Extract to Let (C-c C-r l)
+;; Convert Post Conditional (C-c C-r o)
+(use-package ruby-refactor
+  :ensure t
+  :init
+  (add-hook 'ruby-mode-hook 'ruby-refactor-mode-launch))
+
 (use-package yasnippet
   :ensure t
   :config
