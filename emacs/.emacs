@@ -144,6 +144,14 @@ If REPOSITORY is specified, use that."
 (setq delete-trailing-lines t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+(use-package whitespace
+  :ensure t
+  :config
+  (setq whitespace-line-column 80) ;; limit line length
+  (setq whitespace-style '(face lines-tail))
+  :init
+  (global-whitespace-mode +1))
+
 (use-package saveplace
   :ensure t
   :config
@@ -685,6 +693,13 @@ the mode, `toggle' toggles the state."
 
 (use-package dictionary
   :ensure t)
+
+(use-package google-this
+  :ensure t
+  :init
+  (google-this-mode 1)
+  :config
+  (global-set-key (kbd "C-x g") 'google-this-mode-submap))
 
 (use-package google-translate
   :ensure t
