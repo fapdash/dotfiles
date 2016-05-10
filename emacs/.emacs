@@ -454,6 +454,12 @@ If REPOSITORY is specified, use that."
   :init
   (add-hook 'ruby-mode-hook 'ruby-refactor-mode-launch))
 
+;; you need to have the rcodetools gem installed to use this
+(use-package rcodetools
+  :bind
+  ;; inline code evaluation for ruby
+  ("C-c C-e" . xmp))
+
 (use-package yasnippet
   :ensure t
   :config
