@@ -460,6 +460,12 @@ If REPOSITORY is specified, use that."
   ;; inline code evaluation for ruby
   ("C-c C-e" . xmp))
 
+(use-package quickrun
+  :ensure t
+  :bind
+  ("C-c C-q" . quickrun)
+  ("C-c C-Q" . quickrun-region))
+
 (use-package yasnippet
   :ensure t
   :config
