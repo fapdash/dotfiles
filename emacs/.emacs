@@ -290,6 +290,11 @@ If REPOSITORY is specified, use that."
 (setq tab-width 2)
 (setq indent-tabs-mode nil)
 
+(use-package aggressive-indent
+  :ensure t
+  :init
+  (global-aggressive-indent-mode 1))
+
 ;; Change "yes or no" to "y or n"
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq confirm-kill-emacs 'yes-or-no-p) ;; Ask for confirmation before closing emacs
