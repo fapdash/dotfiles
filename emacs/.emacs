@@ -593,7 +593,8 @@ If REPOSITORY is specified, use that."
   :init
   (rvm-activate-corresponding-ruby)
   :config
-  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)))
+  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+    (rvm-activate-corresponding-ruby)))
 
 ;; elixir integration
 (use-package alchemist
