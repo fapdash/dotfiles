@@ -398,18 +398,23 @@ If REPOSITORY is specified, use that."
 (use-package fuzzy
   :ensure t)
 
-(use-package auto-complete
+(use-package company
   :ensure t
   :init
-  (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20151112.2030/ac-dict")
-  (global-auto-complete-mode +1)
+  (global-company-mode t)
   :config
-  (setq ac-auto-show-menu t
-		ac-quick-help-delay 0.2
-		ac-use-fuzzy t
-        ac-show-menu-immediately-on-auto-complete t))
+  (setq
+   company-idle-delay 0.2
+   company-minimum-prefix-length 0
+   company-echo-delay 0))
 
+(use-package company-quickhelp
+  :ensure t
+  :init
+  (company-quickhelp-mode 1)
+  :config
+  (setq
+   company-quickhelp-delay 0.2))
 
 (set-frame-parameter nil 'fullscreen 'maximized)
 
@@ -468,8 +473,8 @@ If REPOSITORY is specified, use that."
 (use-package quickrun
   :ensure t
   :bind
-  ("C-c C-q" . quickrun)
-  ("C-c C-Q" . quickrun-region))
+  ("C-c q" . quickrun)
+  ("C-c Q" . quickrun-region))
 
 (use-package yasnippet
   :ensure t
@@ -567,8 +572,8 @@ If REPOSITORY is specified, use that."
   :ensure t
   :config
   (add-hook 'ruby-mode-hook 'robe-mode)
-  ;; use robe for smarter auto-complete-mode
-  (add-hook 'robe-mode-hook 'ac-robe-setup))
+  ;; use robe for smarter company-mode
+  (push 'company-robe company-backends))
 
 (use-package web-mode
   :ensure t
@@ -593,16 +598,12 @@ If REPOSITORY is specified, use that."
   :init
   (rvm-activate-corresponding-ruby)
   :config
-  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)))
+  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+    (rvm-activate-corresponding-ruby)))
 
 ;; elixir integration
 (use-package alchemist
   :ensure t)
-
-(use-package ac-alchemist
-  :ensure t
-  :config
-  (add-hook 'elixir-mode-hook 'ac-alchemist-setup))
 
 (use-package elixir-yasnippets
   :ensure t)
@@ -625,10 +626,6 @@ If REPOSITORY is specified, use that."
                  :when '(("SPC" "RET"))
                  :post-handlers '(:add my-elixir-do-end-close-action)
                  :actions '(insert)))
-
-                                        ;(global-company-mode t)
-                                        ;(push 'company-robe company-backends)
-
 
 (define-minor-mode my/pair-programming-mode
   "Toggle visualizations for pair programming.
