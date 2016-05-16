@@ -407,6 +407,7 @@ If REPOSITORY is specified, use that."
   :config
   (setq ac-auto-show-menu t
 		ac-quick-help-delay 0.2
+        ac-auto-start 0
 		ac-use-fuzzy t
         ac-show-menu-immediately-on-auto-complete t))
 
