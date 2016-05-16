@@ -240,23 +240,41 @@ If REPOSITORY is specified, use that."
 
 (global-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
 
-(use-package ace-jump-mode
+;; EasyMotion-like code navigation
+;; jump to specific character
+(use-package avy
   :ensure t
   :config
-  (global-set-key (kbd "C-c SPC") 'ace-jump-mode))
+  (global-set-key (kbd "C-c SPC") 'avy-goto-word-or-subword-1)
+  (global-set-key (kbd "C-c j") 'avy-goto-word-or-subword-1)
+  (global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
+  (global-set-key (kbd "s-,") 'avy-goto-char-2))
+
+;; move to window by window number
+;; swap windows with C-u + ace-window
+(use-package ace-window
+  :ensure t
+  :config
+  (global-set-key (kbd "s-w") 'ace-window)
+  (global-set-key (kbd "C-x o") 'ace-window))
+
+;; move to different window with shift + arrow keys
+(use-package windmove
+  :ensure t
+  :config
+  (when (fboundp 'windmove-default-keybindings)
+    (windmove-default-keybindings)))
+
+;; winner-mode lets you use C-c <left> and C-c <right> to switch between window configurations.
+(use-package winner
+  :ensure t
+  :config (winner-mode 1))
 
 (use-package magit
   :ensure t
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
   (global-set-key (kbd "C-c m") 'magit-status))
-
-;  (add-to-list 'package-pinned-packages '(magit . "melpa-stable")))
-
-;; winner-mode lets you use C-c <left> and C-c <right> to switch between window configurations.
-(use-package winner
-  :ensure t
-  :config (winner-mode 1))
 
 ;; use ibuffer groups to garbage collect temp buffers
 (use-package ibuffer
@@ -335,16 +353,6 @@ If REPOSITORY is specified, use that."
 
 (global-set-key (kbd "<C-tab>") 'other-window)
 
-(use-package windmove
-  :ensure t
-  :config
-  (when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings)))
-
-(use-package switch-window
-  :ensure t
-  :bind (("C-x o" . switch-window)))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -384,6 +392,7 @@ If REPOSITORY is specified, use that."
 
 (transient-mark-mode 1)
 
+;; step through symbols with Meta + left/right
 (use-package auto-highlight-symbol
   :ensure t
   :init
