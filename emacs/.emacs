@@ -277,9 +277,6 @@ If REPOSITORY is specified, use that."
   :bind
   ("C-x C-b" . ibuffer))
 
-
-
-
 (use-package discover
   :ensure t
   :init
@@ -289,6 +286,12 @@ If REPOSITORY is specified, use that."
 
 (setq tab-width 2)
 (setq indent-tabs-mode nil)
+
+(use-package move-text
+  :ensure t
+  :config
+  (global-set-key [(meta up)] 'move-text-up)
+  (global-set-key [(meta down)] 'move-text-down))
 
 (use-package aggressive-indent
   :ensure t
