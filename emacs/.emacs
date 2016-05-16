@@ -628,6 +628,31 @@ If REPOSITORY is specified, use that."
                  :post-handlers '(:add my-elixir-do-end-close-action)
                  :actions '(insert)))
 
+
+(use-package rust-mode
+  :ensure t)
+
+(use-package racer
+  :ensure t
+  :init
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  :config
+  (setq racer-cmd (concat (getenv "HOME") "/.cargo/bin/racer"))
+  (setq racer-rust-src-path (concat (getenv "HOME") "/src/rust/src")))
+
+(use-package ac-racer
+  :ensure t
+  :init
+  (defun my/racer-mode-hook ()
+    (ac-racer-setup))
+  (add-hook 'racer-mode-hook 'my/racer-mode-hook))
+
+(use-package flycheck-rust
+  :ensure t
+  :init
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
                                         ;(global-company-mode t)
                                         ;(push 'company-robe company-backends)
 
