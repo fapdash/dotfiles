@@ -469,8 +469,8 @@ If REPOSITORY is specified, use that."
 (use-package quickrun
   :ensure t
   :bind
-  ("C-c C-q" . quickrun)
-  ("C-c C-Q" . quickrun-region))
+  ("C-c q" . quickrun)
+  ("C-c Q" . quickrun-region))
 
 (use-package yasnippet
   :ensure t
