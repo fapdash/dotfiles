@@ -293,6 +293,12 @@ If REPOSITORY is specified, use that."
   (global-set-key [(meta up)] 'move-text-up)
   (global-set-key [(meta down)] 'move-text-down))
 
+(use-package crux
+  :ensure t
+  :config
+  (global-set-key [(meta super up)] 'crux-duplicate-current-line-or-region)
+  (global-set-key [(meta super down)] 'crux-duplicate-current-line-or-region))
+
 (use-package aggressive-indent
   :ensure t
   :init
