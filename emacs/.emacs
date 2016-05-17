@@ -769,10 +769,27 @@ the mode, `toggle' toggles the state."
   (require 'google-translate-smooth-ui)
   :config
   (setq google-translate-translation-directions-alist
-      '(("de" . "en") ("en" . "de")))
+        '(("de" . "en") ("en" . "de")))
   (setq google-translate-enable-ido-completion 't)
   (global-set-key "\C-ct" 'google-translate-smooth-translate)
   (global-set-key "\C-cT" 'google-translate-query-translate))
+
+;; plantUML for UML generation from text
+(use-package puml-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.puml\\'" . puml-mode))
+  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . puml-mode))
+  (setq puml-plantuml-jar-path (concat (getenv "HOME") "/plantUML/plantuml.jar")))
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  ;; source for css: https://gist.github.com/Dashed/6714393
+  :init (setq markdown-command (concat (concat "pandoc -c file:///" (getenv "HOME")) "/.emacs.d/github-pandoc.css --from markdown_github -t html5 --mathjax --highlight-style pygments --standalone")))
 
 (use-package workgroups2
   :ensure t
