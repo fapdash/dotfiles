@@ -575,6 +575,17 @@ If REPOSITORY is specified, use that."
     (define-key ido-completion-map (kbd "C-p") 'ido-prev-match))
   (add-hook 'ido-setup-hook 'ido-define-keys))
 
+
+;; convenient interface to your recently and most frequently used commands
+;; build on top of ido, so you get flx-ido behaviour
+(use-package smex
+  :ensure t
+  :config
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  ;; This is your old M-x.
+  (global-set-key (kbd "C-c M-x") 'execute-extended-command))
+
 (use-package neotree
   :ensure t
   :config
