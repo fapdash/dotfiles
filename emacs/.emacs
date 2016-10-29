@@ -817,7 +817,7 @@ the mode, `toggle' toggles the state."
   (global-set-key "\C-cT" 'google-translate-query-translate))
 
 ;; plantUML for UML generation from text
-(use-package puml-mode
+(use-package plantuml-mode
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.puml\\'" . puml-mode))
