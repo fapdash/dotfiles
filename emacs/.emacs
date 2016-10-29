@@ -319,7 +319,8 @@ If REPOSITORY is specified, use that."
 (use-package aggressive-indent
   :ensure t
   :init
-  (global-aggressive-indent-mode 1))
+  ;; messes with open source contribution
+  (global-aggressive-indent-mode 0))
 
 ;; Change "yes or no" to "y or n"
 (fset 'yes-or-no-p 'y-or-n-p)
