@@ -17,6 +17,8 @@
 
 (package-initialize)
 
+(when (not package-archive-contents)
+    (package-refresh-contents))
 
 (defun sacha/package-install (package &optional repository)
   "Install PACKAGE if it has not yet been installed.
