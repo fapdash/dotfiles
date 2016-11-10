@@ -206,6 +206,9 @@ If REPOSITORY is specified, use that."
 
 (use-package rainbow-delimiters
   :disabled t)
+
+(use-package adoc-mode
+  :ensure t)
 										;(use-package edts
 										;  :ensure t
 										;  :init (require 'edts-start))
