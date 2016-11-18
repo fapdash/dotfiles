@@ -208,7 +208,9 @@ If REPOSITORY is specified, use that."
   :disabled t)
 
 (use-package adoc-mode
-  :ensure t)
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode)))
 										;(use-package edts
 										;  :ensure t
 										;  :init (require 'edts-start))
