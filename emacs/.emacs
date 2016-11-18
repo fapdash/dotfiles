@@ -689,6 +689,13 @@ If REPOSITORY is specified, use that."
                  :post-handlers '(:add my-elixir-do-end-close-action)
                  :actions '(insert)))
 
+(use-package flycheck-credo
+  :ensure t
+  :config
+  (eval-after-load 'flycheck
+    '(flycheck-credo-setup))
+  (add-hook 'elixir-mode-hook 'flycheck-mode))
+
 (use-package elm-mode
   :ensure t
   :init
