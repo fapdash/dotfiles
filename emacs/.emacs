@@ -164,14 +164,6 @@ If REPOSITORY is specified, use that."
   :config
   (global-set-key (kbd "M-+") 'er/expand-region))
 
-
-                                        ;(require 'emacs-color-themes)
-                                        ;(load-theme 'spolsky t)
-
-
-(use-package flymake
-  :ensure t)
-
 (use-package flycheck
   :ensure t
   :config
@@ -225,7 +217,6 @@ If REPOSITORY is specified, use that."
   :ensure t
   :init
   (require 'erlang-start)
-  (require 'erlang-flymake)
   (defvar inferior-erlang-prompt-timeout t))
 
 
@@ -493,10 +484,6 @@ If REPOSITORY is specified, use that."
                "\\.gemspec\\'" "Gemfile\\'" "Kirkfile\\'"))
   (add-to-list 'auto-mode-alist
               (cons exp 'ruby-mode)))
-(use-package flymake-ruby
-  :ensure t
-  :config
-  (add-hook 'ruby-mode-hook 'flymake-ruby-load))
 
 ;; Ruby-Refactor keybinds
 ;; Extract to Method (C-c C-r e)
