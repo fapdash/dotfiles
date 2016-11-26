@@ -679,6 +679,7 @@ If REPOSITORY is specified, use that."
 (use-package flycheck-credo
   :ensure t
   :config
+  (setq flychck-elixir-credo-strict t)
   (eval-after-load 'flycheck
     '(flycheck-credo-setup))
   (add-hook 'elixir-mode-hook 'flycheck-mode))
