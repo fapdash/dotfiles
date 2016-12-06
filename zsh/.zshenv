@@ -14,7 +14,8 @@ export DOCKER_HOST=tcp://192.168.99.100:2376 DOCKER_TLS_VERIFY=1
 
 alias rs='rails s'
 alias rc='rails c'
-alias rg='rails g'
+# rg is blocked by ripgrep
+alias rrg='rails g'
 alias rgm='rails g model'
 alias rgc='rails g controller'
 alias rgn='rails g migration'

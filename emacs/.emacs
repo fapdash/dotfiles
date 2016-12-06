@@ -791,6 +791,18 @@ the mode, `toggle' toggles the state."
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t))
 
+(use-package ripgrep
+  :ensure)
+
+(use-package projectile-ripgrep
+  :ensure)
+
+(use-package dumb-jump
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go))
+  :config (setq dumb-jump-selector 'ivy)
+  :ensure)
+
 ;;Fullframe saves your window configuration before displaying the next command in the entire Emacs window. When the command finishes, it restores your previous window configuration.
 (use-package fullframe
   :ensure t
