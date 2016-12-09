@@ -470,7 +470,7 @@ If REPOSITORY is specified, use that."
 (use-package projectile
   :ensure t
   :init
-  (projectile-global-mode)
+  (projectile-mode)
   (setq projectile-completion-system 'ivy))
 
 (use-package projectile-rails
