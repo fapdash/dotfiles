@@ -271,7 +271,8 @@ If REPOSITORY is specified, use that."
   :ensure t
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
-  (global-set-key (kbd "C-c m") 'magit-status))
+  (global-set-key (kbd "C-c m") 'magit-status)
+  (setq magit-completing-read-function 'ivy-completing-read))
 
 ;; use ibuffer groups to garbage collect temp buffers
 (use-package ibuffer
@@ -596,11 +597,10 @@ If REPOSITORY is specified, use that."
   (global-set-key (kbd "C-c k") 'counsel-ag)
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-  ;; source: http://oremacs.com/2016/01/06/ivy-flx/
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+  ;; source: http://oremacs.com/2016/01/06/ivy-flx/
   (setq ivy-re-builders-alist
-      '((ivy-switch-buffer . ivy--regex-plus)
-        (t . ivy--regex-fuzzy)))
+      '((t . ivy--regex-plus)))
   (setq ivy-initial-inputs-alist nil))
 
 (use-package flx
