@@ -469,7 +469,8 @@ If REPOSITORY is specified, use that."
 (use-package projectile
   :ensure t
   :init
-  (projectile-global-mode))
+  (projectile-global-mode)
+  (setq projectile-completion-system 'ivy))
 
 (use-package projectile-rails
   :ensure t
@@ -573,37 +574,43 @@ If REPOSITORY is specified, use that."
      (define-key ruby-mode-map (kbd "C-c b u")
        (lambda () (interactive) (async-shell-command "bundle update" "**Bundler**")))))
 
-(use-package ido
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  ;; This is your old M-x.
+  (global-set-key (kbd "C-c M-x") 'execute-extended-command)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  ;; source: http://oremacs.com/2016/01/06/ivy-flx/
+  (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+  (setq ivy-re-builders-alist
+      '((ivy-switch-buffer . ivy--regex-plus)
+        (t . ivy--regex-fuzzy)))
+  (setq ivy-initial-inputs-alist nil))
+
+(use-package flx
   :ensure t)
 
-(use-package flx-ido
-  :ensure t
-  :init
-  (ido-mode 1)
-  (ido-everywhere 1)
-  (flx-ido-mode 1)
-  :config
-  ;; disable ido faces to see flx highlights.
-  (setq ido-enable-flex-matching t)
-  (setq ido-use-faces nil)
-  (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
-  (defun ido-disable-line-truncation () (set (make-local-variable 'truncate-lines) nil))
-  (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-truncation)
-  (defun ido-define-keys () ;; C-n/p is more intuitive in vertical layout
-    (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
-    (define-key ido-completion-map (kbd "C-p") 'ido-prev-match))
-  (add-hook 'ido-setup-hook 'ido-define-keys))
+(use-package swiper
+  :ensure t)
 
-
-;; convenient interface to your recently and most frequently used commands
-;; build on top of ido, so you get flx-ido behaviour
-(use-package smex
-  :ensure t
-  :config
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-  ;; This is your old M-x.
-  (global-set-key (kbd "C-c M-x") 'execute-extended-command))
+(use-package counsel
+  :ensure t)
 
 (use-package neotree
   :ensure t
@@ -807,7 +814,8 @@ the mode, `toggle' toggles the state."
 (use-package fullframe
   :ensure t
   :config
-  (fullframe magit-status magit-mode-quit-window nil))
+  (fullframe magit-status magit-mode-quit-window nil)
+  (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package dictionary
   :ensure t)
