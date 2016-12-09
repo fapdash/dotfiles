@@ -272,6 +272,9 @@ If REPOSITORY is specified, use that."
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
   (global-set-key (kbd "C-c m") 'magit-status)
+  ;; TODO: this fixes keybinding conflicts with smartscan, find a better solution
+  (global-set-key (kbd "C-M-p") 'git-rebase-move-line-up)
+  (global-set-key (kbd "C-M-n") 'git-rebase-move-line-down)
   (setq magit-completing-read-function 'ivy-completing-read))
 
 ;; use ibuffer groups to garbage collect temp buffers
