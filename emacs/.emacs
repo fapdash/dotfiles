@@ -150,8 +150,17 @@ If REPOSITORY is specified, use that."
   :config
   (setq whitespace-line-column 80) ;; limit line length
   (setq whitespace-style '(face lines-tail))
+  ;; deactivate line limit for adoc-mode
+  ;; can't be set to nil because it then uses fill-column
+  ;; TODO: would be better to remove lines-tail and tail from whitespace-style
+  (add-hook 'adoc-mode-hook
+            (lambda ()
+              (and (boundp 'whitespace-mode)
+                   (set (make-local-variable 'whitespace-line-column) 999))))
   :init
   (global-whitespace-mode +1))
+
+
 
 (use-package saveplace
   :ensure t
