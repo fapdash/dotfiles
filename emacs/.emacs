@@ -153,14 +153,15 @@ If REPOSITORY is specified, use that."
   ;; deactivate line limit for adoc-mode
   ;; can't be set to nil because it then uses fill-column
   ;; TODO: would be better to remove lines-tail and tail from whitespace-style
-  (add-hook 'adoc-mode-hook
-            (lambda ()
-              (and (boundp 'whitespace-mode)
-                   (set (make-local-variable 'whitespace-line-column) 999))))
+  (add-hook 'adoc-mode-hook #'deactivate-line-max-highlight)
+  (add-hook 'org-mode-hook #'deactivate-line-max-highlight)
   :init
   (global-whitespace-mode +1))
 
 
+(defun deactivate-line-max-highlight ()
+  (and (boundp 'whitespace-mode)
+       (set (make-local-variable 'whitespace-line-column) 999)))
 
 (use-package saveplace
   :ensure t
@@ -392,7 +393,7 @@ If REPOSITORY is specified, use that."
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (org-preview-html org-preview-html-mode counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -430,6 +431,9 @@ If REPOSITORY is specified, use that."
 (setq debug-on-error t)
 
 (transient-mark-mode 1)
+
+(use-package org-preview-html
+  :ensure t)
 
 ;; step through symbols with Meta + left/right
 (use-package auto-highlight-symbol
