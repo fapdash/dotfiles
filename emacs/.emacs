@@ -392,7 +392,7 @@ If REPOSITORY is specified, use that."
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (counsel-projectile fzf smex magit counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -618,8 +618,10 @@ If REPOSITORY is specified, use that."
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
   ;; source: http://oremacs.com/2016/01/06/ivy-flx/
+  ;; https://github.com/abo-abo/swiper/issues/830#issuecomment-267330841
   (setq ivy-re-builders-alist
-      '((t . ivy--regex-plus)))
+        '((swiper . ivy--regex-plus)
+          (t . ivy--regex-fuzzy)))
   (setq ivy-initial-inputs-alist nil))
 
 (use-package flx
