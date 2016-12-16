@@ -167,7 +167,9 @@ If REPOSITORY is specified, use that."
   :ensure t
   :config
   (setq-default save-place t)
-  (setq save-place-file "~/.emacs.d/saved-places"))
+  (setq save-place-file "~/.emacs.d/saved-places")
+  :init
+  (save-place-mode 1))
 
 (use-package expand-region
   :ensure t
