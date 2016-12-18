@@ -437,6 +437,8 @@ If REPOSITORY is specified, use that."
 (use-package org-preview-html
   :ensure t)
 
+(setq org-agenda-files '("~/repos/org"))
+
 ;; step through symbols with Meta + left/right
 (use-package auto-highlight-symbol
   :ensure t
