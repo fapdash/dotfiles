@@ -689,6 +689,11 @@ If REPOSITORY is specified, use that."
   (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
     (rvm-activate-corresponding-ruby)))
 
+(use-package rbenv
+  :ensure t
+  :init
+  (global-rbenv-mode))
+
 ;; elixir integration
 (use-package alchemist
   :ensure t)
