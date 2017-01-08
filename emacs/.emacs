@@ -848,7 +848,8 @@ the mode, `toggle' toggles the state."
 
 (use-package dumb-jump
   :bind (("M-g o" . dumb-jump-go-other-window)
-         ("M-g j" . dumb-jump-go))
+         ("M-g j" . dumb-jump-go)
+         ("M-g b" . dumb-jump-back))
   :config (setq dumb-jump-selector 'ivy)
   :ensure)
 
