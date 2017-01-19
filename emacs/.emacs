@@ -865,9 +865,8 @@ the mode, `toggle' toggles the state."
 
 (use-package engine-mode
   :ensure t
-  :init
-  (engine-mode t)
   :config
+  (engine-mode t)
   (defengine amazon
     "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=%s")
 
