@@ -23,7 +23,31 @@ twitch() {
         quality="best"
     else
         quality=$2
-    fi  
+    fi
 
     livestreamer "twitch.tv/$1" $quality
 }
+
+gc() {
+    gradle $1 --continuous
+}
+
+# use this to rebase master on upstream
+default_repo=upstream
+function gitup(){
+  git stash && git checkout master && git pull ${1-$default_repo} master && git stash pop
+}
+
+# use this to rebase non-master branch on upstream
+default_repo=upstream
+function gitupp(){
+  git stash && git checkout master && git pull ${1-$default_repo} master && git checkout - && git rebase master && git stash pop
+}
+
+export PATH="/home/fap/.cask/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/fap/.sdkman"
+[[ -s "/home/fap/.sdkman/bin/sdkman-init.sh" ]] && source "/home/fap/.sdkman/bin/sdkman-init.sh"
