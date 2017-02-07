@@ -936,12 +936,12 @@ the mode, `toggle' toggles the state."
 (use-package plantuml-mode
   :ensure t
   :init
-  (add-to-list 'auto-mode-alist '("\\.puml\\'" . puml-mode))
-  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . puml-mode))
-  (setq puml-plantuml-jar-path (concat (getenv "HOME") "/plantUML/plantuml.jar"))
+  (add-to-list 'auto-mode-alist '("\\.puml\\'" . planuml-mode))
+  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+  (setq plantuml-jar-path (concat (getenv "HOME") "/plantUML/plantuml.jar"))
   :config
   ;; puml doesn't support auto-indent
-  (add-hook 'puml-mode-hook (lambda () (aggressive-indent-mode -1))))
+  (add-hook 'plantuml-mode-hook (lambda () (aggressive-indent-mode -1))))
 
 (use-package markdown-mode
   :ensure t
