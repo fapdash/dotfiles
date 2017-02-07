@@ -936,7 +936,7 @@ the mode, `toggle' toggles the state."
 (use-package plantuml-mode
   :ensure t
   :init
-  (add-to-list 'auto-mode-alist '("\\.puml\\'" . planuml-mode))
+  (add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
   (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
   (setq plantuml-jar-path (concat (getenv "HOME") "/plantUML/plantuml.jar"))
   :config
