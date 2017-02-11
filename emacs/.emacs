@@ -213,6 +213,9 @@ If REPOSITORY is specified, use that."
 (use-package rainbow-delimiters
   :ensure t)
 
+;; provides color preview in buffer
+(use-package rainbow-mode
+  :ensure t)
 
 (use-package adoc-mode
   :ensure t
