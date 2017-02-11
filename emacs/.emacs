@@ -94,7 +94,8 @@ If REPOSITORY is specified, use that."
 (global-auto-revert-mode 1) ;; Always reload the file if it changed on disk
 (prefer-coding-system 'utf-8) ;; Prefer UTF-8 encoding
 
-(set-fringe-mode '(10 . 0)) ;; Show a nice fringe
+(and window-system (set-fringe-mode '(10 . 0))) ;; Show a nice fringe
+
 
 ;; Remove the fringe indicators
 (when (boundp 'fringe-indicator-alist)
