@@ -528,6 +528,10 @@ If REPOSITORY is specified, use that."
   :init
   (add-hook 'ruby-mode-hook 'ruby-refactor-mode-launch))
 
+;; provides functions to convert string to symbol etc.
+(use-package ruby-tools
+  :ensure t)
+
 ;; you need to have the rcodetools gem installed to use this
 (use-package rcodetools
   :bind
