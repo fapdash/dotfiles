@@ -209,8 +209,10 @@ If REPOSITORY is specified, use that."
   :ensure t
   :defer t)
 
+;; shows matching paranthesis with matching colors
 (use-package rainbow-delimiters
-  :disabled t)
+  :ensure t)
+
 
 (use-package adoc-mode
   :ensure t
