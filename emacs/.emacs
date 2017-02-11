@@ -295,6 +295,14 @@ If REPOSITORY is specified, use that."
   (global-set-key (kbd "C-M-n") 'git-rebase-move-line-down)
   (setq magit-completing-read-function 'ivy-completing-read))
 
+(use-package git-timemachine
+  :ensure t)
+
+(use-package git-gutter
+  :ensure t
+  :config
+  (global-git-gutter-mode +1))
+
 ;; use ibuffer groups to garbage collect temp buffers
 (use-package ibuffer
   :init
