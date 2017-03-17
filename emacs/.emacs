@@ -460,6 +460,17 @@ If REPOSITORY is specified, use that."
 (use-package org-preview-html
   :ensure t)
 
+(use-package ox-pandoc
+  :ensure t
+  :config
+  ;; default options for all output formats
+  (setq org-pandoc-options '((standalone . t)))
+  ;; cancel above settings only for 'docx' format
+  (setq org-pandoc-options-for-docx '((standalone . nil)))
+  ;; special settings for beamer-pdf and latex-pdf exporters
+  (setq org-pandoc-options-for-beamer-pdf '((latex-engine . "xelatex")))
+  (setq org-pandoc-options-for-latex-pdf '((latex-engine . "xelatex"))))
+
 (setq org-agenda-files '("~/repos/org"))
 
 ;; step through symbols with Meta + left/right
