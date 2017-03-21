@@ -332,6 +332,15 @@ If REPOSITORY is specified, use that."
 (setq tab-width 2)
 (setq indent-tabs-mode nil)
 
+(use-package highlight-indent-guides
+  :ensure t
+  :config
+  (setq highlight-indent-guides-method 'character)
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+
+(use-package highlight-indentation
+:ensure t)
+
 (use-package move-text
   :ensure t
   :config
