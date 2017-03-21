@@ -179,8 +179,8 @@ If REPOSITORY is specified, use that."
 
 (use-package flycheck
   :ensure t
-  :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  :init
+  (global-flycheck-mode))
 
 (use-package ag
   :ensure t)
