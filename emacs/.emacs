@@ -127,6 +127,10 @@ If REPOSITORY is specified, use that."
   (global-set-key [(control ?.)] 'goto-last-change)
   (global-set-key [(control ?,)] 'goto-last-change-reverse))
 
+;; really important for discoverability,
+;; pops up a window with all possible keystroke completions
+(use-package which-key
+   :ensure t)
 
 (use-package nyan-mode
   :ensure t
