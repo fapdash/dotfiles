@@ -464,6 +464,11 @@ If REPOSITORY is specified, use that."
 (use-package org-preview-html
   :ensure t)
 
+(org-babel-do-load-languages
+      'org-babel-load-languages
+      '((ruby . t)
+        (java . t)))
+
 (use-package ox-pandoc
   :ensure t
   :config
