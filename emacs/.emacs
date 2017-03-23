@@ -500,7 +500,14 @@ If REPOSITORY is specified, use that."
   (require 'smartparens-config)
   (setq sp-show-pair-delay "0.075"))
 
+;; edit results inside grep result buffer
+;; activate with C-c C-p, save with C-x C-s
+(use-package wgrep-ag
+:ensure t)
 
+;; basically rename refactoring with C-;
+(use-package iedit
+:ensure t)
 
 
 (use-package fuzzy
