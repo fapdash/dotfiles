@@ -676,6 +676,7 @@ If REPOSITORY is specified, use that."
   (global-set-key (kbd "C-c g") 'counsel-git)
   (global-set-key (kbd "C-c j") 'counsel-git-grep)
   (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-c K") 'counsel-projectile-ag)
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
