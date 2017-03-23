@@ -687,6 +687,9 @@ If REPOSITORY is specified, use that."
           (t . ivy--regex-fuzzy)))
   (setq ivy-initial-inputs-alist nil))
 
+(use-package ivy-historian
+  :ensure t)
+
 (use-package flx
   :ensure t)
 
