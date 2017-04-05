@@ -151,6 +151,14 @@ If REPOSITORY is specified, use that."
 (setq delete-trailing-lines t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; smooth scrolling, tried sublimity but it felt "jumpy" when scrolling fast
+;; more info under: http://www.emacswiki.org/emacs/SmoothScrolling
+(setq scroll-step 1) ;; is said to introduce lag
+(setq scroll-conservatively 10000)
+(setq auto-window-vscroll nil)
+(setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; three lines at a time
+(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+
 (use-package whitespace
   :ensure t
   :config
