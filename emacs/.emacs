@@ -355,6 +355,9 @@ If REPOSITORY is specified, use that."
 (setq tab-width 2)
 (setq indent-tabs-mode nil)
 
+;; don't require escaped backslashes in re-builder
+(setq reb-re-syntax 'string)
+
 (use-package highlight-indent-guides
   :ensure t
   :config
