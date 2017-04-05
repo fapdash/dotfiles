@@ -293,6 +293,10 @@ If REPOSITORY is specified, use that."
   (when (fboundp 'windmove-default-keybindings)
     (windmove-default-keybindings)))
 
+;; move buffers from window to window
+(use-package buffer-move
+  :ensure t)
+
 ;; winner-mode lets you use C-c <left> and C-c <right> to switch between window configurations.
 (use-package winner
   :ensure t
