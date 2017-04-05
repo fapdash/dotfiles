@@ -129,6 +129,7 @@ If REPOSITORY is specified, use that."
 
 ;; really important for discoverability,
 ;; pops up a window with all possible keystroke completions
+;; alternative: https://github.com/kai2nenobu/guide-key
 (use-package which-key
    :ensure t)
 
