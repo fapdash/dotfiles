@@ -599,6 +599,12 @@ If REPOSITORY is specified, use that."
   (ahs-set-idle-interval 0.1)
   (ahs-chrange-display))
 
+(use-package imenu-list
+  :ensure t
+  :config
+  (global-set-key (kbd "s-o") #'imenu-list-smart-toggle)
+  (setq imenu-list-focus-after-activation t))
+
 (use-package smartparens
   :ensure t
   :init
