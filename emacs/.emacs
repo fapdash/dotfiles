@@ -339,6 +339,12 @@ If REPOSITORY is specified, use that."
   :bind
   ("C-x C-b" . ibuffer))
 
+(use-package ibuffer-vc
+  :ensure t)
+
+(use-package ibuffer-projectile
+  :ensure t)
+
 (use-package discover
   :ensure t
   :init
