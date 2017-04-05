@@ -1159,3 +1159,6 @@ the mode, `toggle' toggles the state."
 (workgroups-mode 1)        ; put this one at the bottom of .emacs
 
 (and window-system (server-start))
+
+(provide '.emacs)
+;;; .emacs ends here
