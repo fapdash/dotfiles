@@ -504,6 +504,92 @@ If REPOSITORY is specified, use that."
 
 (setq org-agenda-files '("~/repos/org"))
 
+(use-package org-brain
+  :ensure t)
+
+;; source: https://emacs.stackexchange.com/a/14987/11806
+(defun my/open-tree-view ()
+  "Open a clone of the current buffer to the left, resize it to 30 columns
+, and bind <mouse-1> to jump to the same position in the base buffer."
+  (interactive)
+  (let ((new-buffer-name (concat "<tree>" (buffer-name))))
+    ;; Create tree buffer
+    (split-window-right 30)
+   ;; (setq org-last-indirect-buffer (get-buffer (buffer-name)))
+    (if (get-buffer new-buffer-name)
+        (switch-to-buffer new-buffer-name)  ; Use existing tree buffer
+      ;; Make new tree buffer
+      (progn
+        (clone-indirect-buffer new-buffer-name nil t)
+              (switch-to-buffer new-buffer-name)
+              (outline-show-all)
+              (outline-hide-body)
+              (read-only-mode)
+              (toggle-truncate-lines)
+
+              ;; Do this twice in case the point is in a hidden line
+              (dotimes (_ 2 (forward-line 0)))
+
+              ;; Map keys
+              ;;(use-local-map (copy-keymap outline-mode-map))
+              ;;(local-set-key (kbd "q") 'delete-window)
+              (mapc (lambda (key) (local-set-key (kbd key) 'org-tree-open-in-right-frame))
+                    '("RET"))
+              (mapc (lambda (key) (local-set-key (kbd key) 'my/jump-to-point-and-show))
+                    '("<C-M-m"))))))
+
+(add-to-list 'special-display-regexps '("<tree>.*" my-display-buffers))
+
+(defun my-display-buffers (buf)
+  "put all buffers in a window other than the one in the bottom right"
+  (let ((window-list (window-list nil nil (frame-first-window))))
+  (print (length window-list))
+    (if (<= 3 (length window-list))
+        (progn
+          (print "if block")
+          (select-window (car window-list))
+          (split-window-vertically)))
+    (let ((pop-up-windows t))
+      (print "else block")
+      (set-window-buffer (nth 1 window-list) buf)
+      (nth 1 window-list))))
+
+(defun print-elements-of-list (list)
+  "Print each element of LIST on a line of its own."
+  (while list
+    (print (car list))
+    (setq list (cdr list))))
+
+(defun org-tree-open-in-right-frame ()
+  (interactive)
+  (org-tree-to-indirect-buffer)
+  (windmove-right))
+
+(setq org-indirect-buffer-display 'other-window)
+
+(defun my/jump-to-point-and-show ()
+  "Switch to a cloned buffer's base buffer and move point to the cursor position in the clone."
+  (interactive)
+  (let ((buf (buffer-base-buffer)))
+    (unless buf
+      (error "You need to be in a cloned buffer!"))
+    (let ((pos (point))
+          (win (car (get-buffer-window-list buf))))
+      (if win
+          (select-window win)
+        (other-window 1)
+        (switch-to-buffer buf))
+      (goto-char pos)
+      (when (invisible-p (point))
+        (show-branches)))))
+
+(defun my/org-narrow-to-here ()
+   (interactive)
+   (org-narrow-to-subtree)
+   (save-excursion
+     (org-next-visible-heading 1)
+     (narrow-to-region (point-min) (point))))
+
 ;; step through symbols with Meta + left/right
 (use-package auto-highlight-symbol
   :ensure t
