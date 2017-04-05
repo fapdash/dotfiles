@@ -631,15 +631,35 @@ If REPOSITORY is specified, use that."
   :ensure t
   :init
   (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20151112.2030/ac-dict")
   (global-auto-complete-mode +1)
   :config
   (setq ac-auto-show-menu t
 		ac-quick-help-delay 0.2
         ac-auto-start 0
 		ac-use-fuzzy t
-        ac-show-menu-immediately-on-auto-complete t))
+        ac-show-menu-immediately-on-auto-complete t)
+  (define-key ac-complete-mode-map (kbd "M-x") 'execute-extended-command)
+  (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
+  (define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
+  (define-key ac-complete-mode-map (kbd "C-g") 'ac-stop)
+  ;; trigger auto-complete on delete
+  (define-key ac-complete-mode-map (kbd "DEL")
+    (lambda ()
+      (interactive)
+      (backward-delete-char-untabify 1)
+      (ac-start)))
+  (provide 'auto-complete-config)
+  ;; deactivate company-mode so it can't interfe with ac completion
+  (setq company-backends nil))
 
+(use-package ac-dabbrev
+  :ensure t
+  :config
+  (global-set-key "\M-/" 'ac-dabbrev-expand)
+  (defun ac-dabbrev-expand ()
+    (interactive)
+    (auto-complete '(ac-source-dabbrev)))
+  (setq ac-dabbrev-sort t))
 
 (set-frame-parameter nil 'fullscreen 'maximized)
 
