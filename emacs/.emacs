@@ -115,6 +115,7 @@ If REPOSITORY is specified, use that."
   :ensure t
   :config
   (setq multi-term-program "/usr/bin/zsh")
+  (setq multi-term-program-switches "--login")
   (add-hook 'term-mode-hook
             (lambda ()
               (setq show-trailing-whitespace nil)
