@@ -295,6 +295,7 @@ If REPOSITORY is specified, use that."
     (windmove-default-keybindings)))
 
 ;; move buffers from window to window
+;; methods are called buf-move-*
 (use-package buffer-move
   :ensure t)
 
