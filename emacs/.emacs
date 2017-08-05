@@ -1208,6 +1208,7 @@ the mode, `toggle' toggles the state."
 
 (use-package terminal-here
   :ensure t)
+
 (and window-system (server-start))
 
 (provide '.emacs)
