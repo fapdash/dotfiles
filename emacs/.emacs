@@ -796,7 +796,7 @@ If REPOSITORY is specified, use that."
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
-  (global-set-key "\C-s" 'swiper)
+  (global-set-key "\C-s" 'counsel-grep-or-swiper)
   (global-set-key (kbd "C-S-s") 'swiper-all)
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
   (global-set-key (kbd "<f6>") 'ivy-resume)
@@ -821,7 +821,9 @@ If REPOSITORY is specified, use that."
   (setq ivy-re-builders-alist
         '((swiper . ivy--regex-plus)
           (t . ivy--regex-fuzzy)))
-  (setq ivy-initial-inputs-alist nil))
+  (setq ivy-initial-inputs-alist nil)
+  (setq counsel-grep-base-command
+        "rg -i -M 120 --no-heading --line-number --color never '%s' %s"))
 
 (use-package ivy-historian
   :ensure t)
