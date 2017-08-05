@@ -1020,7 +1020,11 @@ the mode, `toggle' toggles the state."
 (use-package discover
   :ensure t
   :init
-  (global-discover-mode 1))
+  ;;(global-discover-mode 1)
+  )
+
+(use-package discover-my-major
+  :ensure t)
 
 (use-package uniquify
   :config
