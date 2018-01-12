@@ -225,6 +225,14 @@ If REPOSITORY is specified, use that."
   :ensure t
   :defer t)
 
+(use-package vlf
+  :ensure t
+  :config
+  (require 'vlf-setup))
+
+(use-package itail
+  :ensure t)
+
 ;; shows matching paranthesis with matching colors
 (use-package rainbow-delimiters
   :ensure t)
