@@ -32,6 +32,12 @@ If REPOSITORY is specified, use that."
 (sacha/package-install 'use-package)
 (require 'use-package)
 
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize)))
+
 (defun sacha/byte-recompile ()
   (interactive)
   (byte-recompile-directory "~/.emacs.d" 0))
@@ -98,6 +104,9 @@ If REPOSITORY is specified, use that."
 
 (and window-system (set-fringe-mode '(10 . 0))) ;; Show a nice fringe
 
+;; invert electric-indent keybinds
+(global-set-key (kbd "C-j") 'newline)
+(global-set-key (kbd "RET") 'electric-newline-and-maybe-indent)
 
 ;; Remove the fringe indicators
 (when (boundp 'fringe-indicator-alist)
@@ -289,6 +298,18 @@ If REPOSITORY is specified, use that."
   (global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
   (global-set-key (kbd "s-,") 'avy-goto-char-2))
 
+(use-package iy-go-to-char
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c f") 'iy-go-to-char)
+  (global-set-key (kbd "C-c F") 'iy-go-to-char-backward)
+  ;; (global-set-key (kbd "C-c ;") 'iy-go-to-or-up-to-continue)
+  ;; (global-set-key (kbd "C-c ,") 'iy-go-to-or-up-to-continue-backward)
+  )
+
+(use-package copy-as-format
+  :ensure t)
+
 ;; move to window by window number
 ;; swap windows with C-u + ace-window
 (use-package ace-window
@@ -314,15 +335,33 @@ If REPOSITORY is specified, use that."
   :ensure t
   :config (winner-mode 1))
 
+(defun halve-other-window-height ()
+  "Expand current window to use half of the other window's lines."
+  (interactive)
+  (enlarge-window (/ (window-height (next-window)) 2)))
+
+(global-set-key (kbd "C-c v") 'halve-other-window-height)
+
 (use-package magit
   :ensure t
   :config
-  (setq magit-last-seen-setup-instructions "1.4.0")
   (global-set-key (kbd "C-c m") 'magit-status)
   ;; TODO: this fixes keybinding conflicts with smartscan, find a better solution
   (global-set-key (kbd "C-M-p") 'git-rebase-move-line-up)
   (global-set-key (kbd "C-M-n") 'git-rebase-move-line-down)
   (setq magit-completing-read-function 'ivy-completing-read))
+
+(autoload 'org-read-date "org")
+
+(defun magit-org-read-date (prompt &optional _default)
+  (org-read-date 'with-time nil nil prompt))
+
+(magit-define-popup-option 'magit-log-popup
+  ?s "Since date" "--since=" #'magit-org-read-date)
+
+(magit-define-popup-option 'magit-log-popup
+  ?u "Until date" "--until=" #'magit-org-read-date)
+
 
 (use-package git-timemachine
   :ensure t)
@@ -384,6 +423,12 @@ If REPOSITORY is specified, use that."
   :config
   (global-set-key [(meta up)] 'move-text-up)
   (global-set-key [(meta down)] 'move-text-down))
+
+(use-package smart-shift
+  :ensure t
+  :config
+(global-set-key (kbd "<C-iso-lefttab>") 'smart-shift-left)
+(global-set-key [(C tab)] 'smart-shift-right))
 
 (use-package crux
   :ensure t
@@ -456,7 +501,7 @@ If REPOSITORY is specified, use that."
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -495,7 +540,121 @@ If REPOSITORY is specified, use that."
 
 (transient-mark-mode 1)
 
+(defun newline-and-indent-anywhere ()
+  "Insert a newline character, but from the end of the current line."
+  (interactive)
+  (progn
+    (end-of-line)
+    (newline-and-indent)))
+
+(global-set-key (kbd "s-j") 'newline-and-indent-anywhere)
+
+(use-package org
+  :ensure t
+  :config
+  (setq org-startup-with-inline-images t)
+  (setq org-capture-templates
+        '(
+          ("c" "Current file todo entry" entry
+           (file+datetree buffer-file-name)
+           "* TODO %? \n%t")
+          ))
+  (setq org-refile-targets '((nil :level . 3))))
+
+(defun org-refile-to-datetree (&optional file)
+  "Refile a subtree to a datetree corresponding to it's timestamp.
+
+The current time is used if the entry has no timestamp. If FILE
+is nil, refile in the current file."
+  (interactive "f")
+  (let* ((datetree-date (or (org-entry-get nil "TIMESTAMP" t)
+                            (org-read-date t nil "now")))
+         (date (org-date-to-gregorian datetree-date))
+         )
+    (save-excursion
+      (with-current-buffer (current-buffer)
+        (org-cut-subtree)
+        (if file (find-file file))
+        (org-datetree-find-date-create date)
+        (org-narrow-to-subtree)
+        (outline-show-subtree)
+        (org-end-of-subtree t)
+        (newline)
+        (goto-char (point-max))
+        (org-paste-subtree 4)
+        (widen)
+        ))
+    )
+  )
+
+;; https://github.com/raamdev/dotfiles/blob/aff0a369fdc31de57914a7b8b030bda506f7a971/emacs.d/config/custom-functions.el#L86
+;;-----------------------------------------------------------------
+;; See http://punchagan.muse-amuse.in/posts/refile-to-date-tree.html
+(defun my/org-refile-to-journal ()
+  "Refile an entry to journal file's date-tree"
+  (interactive)
+  (require 'org-datetree)
+  (let ((journal (expand-file-name org-journal-file org-directory))
+	post-date)
+    (setq post-date (or (org-entry-get (point) "TIMESTAMP_IA")
+			(org-entry-get (point) "TIMESTAMP")))
+    (setq post-date (nthcdr 3 (parse-time-string post-date)))
+    (setq post-date (list (cadr post-date)
+			  (car post-date)
+			  (caddr post-date)))
+    (org-cut-subtree)
+    (with-current-buffer (or (find-buffer-visiting journal)
+			     (find-file-noselect journal))
+      (save-excursion
+	(org-datetree-file-entry-under (current-kill 0) post-date)
+	(bookmark-set "org-refile-last-stored")))
+    (message "Refiled to %s" journal))
+  (setq this-command 'my/org-refile-to-journal)) ;; See http://emacs.stackexchange.com/q/21322/8494
+
+(defun my/org-insert-link ()
+  "Insert org link where default description is set to html title."
+  (interactive)
+  (let* ((url (read-string "URL: "))
+         (title (get-html-title-from-url url)))
+    (org-insert-link nil url title)))
+
+(defun get-html-title-from-url (url)
+  "Return content in <title> tag."
+  (let (x1 x2 (download-buffer (url-retrieve-synchronously url)))
+    (save-excursion
+      (set-buffer download-buffer)
+      (beginning-of-buffer)
+      (setq x1 (search-forward "<title>"))
+      (search-forward "</title>")
+      (setq x2 (search-backward "<"))
+      (mm-url-decode-entities-string (buffer-substring-no-properties x1 x2)))))
+
+;; seems broken, reference: https://emacs.stackexchange.com/a/29413/11806
+(defun org-read-datetree-date (d)
+  "Parse a time string D and return a date to pass to the datetree functions."
+  (let ((dtmp (nthcdr 3 (parse-time-string d))))
+    (list (cadr dtmp) (car dtmp) (caddr dtmp))))
+(defun org-refile-to-archive-datetree ()
+  "Refile an entry to a datetree under an archive."
+  (interactive)
+  (require 'org-datetree)
+  (let ((datetree-date (org-read-datetree-date (org-read-date t nil))))
+    (org-refile nil nil (list nil (buffer-file-name) nil
+                              (save-excursion
+                                (org-datetree-find-date-create datetree-date)))))
+  (setq this-command 'org-refile-to-journal))
+
+(dolist (hook '(text-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode -1))))
+
+(setq flyspell-issue-message-flag nil)
+
 (use-package org-preview-html
+  :ensure t)
+
+(use-package org-download
   :ensure t)
 
 (org-babel-do-load-languages
@@ -517,6 +676,9 @@ If REPOSITORY is specified, use that."
 (setq org-agenda-files '("~/repos/org"))
 
 (use-package org-brain
+  :ensure t)
+
+(use-package htmlize
   :ensure t)
 
 ;; source: https://emacs.stackexchange.com/a/14987/11806
@@ -601,6 +763,12 @@ If REPOSITORY is specified, use that."
    (save-excursion
      (org-next-visible-heading 1)
      (narrow-to-region (point-min) (point))))
+
+(use-package epresent
+  :ensure t)
+
+(use-package org-tree-slide
+  :ensure t)
 
 ;; step through symbols with Meta + left/right
 (use-package auto-highlight-symbol
@@ -689,8 +857,8 @@ If REPOSITORY is specified, use that."
 (use-package projectile
   :ensure t
   :init
-  (projectile-mode)
-  (setq projectile-completion-system 'ivy))
+  (setq projectile-completion-system 'ivy)
+  (projectile-mode))
 
 (use-package projectile-rails
   :ensure t
@@ -744,6 +912,9 @@ If REPOSITORY is specified, use that."
   (yas-global-mode 1)
   ;; show dropdown menu if more than one snippet available for keyword
   (setq yas-prompt-functions '(yas-x-prompt yas-dropdown-prompt)))
+
+(use-package yasnippet-snippets
+  :ensure t)
 
 (use-package rspec-mode
   :ensure t
@@ -849,8 +1020,8 @@ If REPOSITORY is specified, use that."
 
 (use-package counsel-projectile
   :ensure t
-  :init
-  (counsel-projectile-on))
+  :config
+  (counsel-projectile-mode))
 
 (use-package fzf
   :ensure t)
@@ -877,10 +1048,16 @@ If REPOSITORY is specified, use that."
   (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.eex\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   ;; activate web-mode for plain html
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (setq web-mode-enable-current-element-highlight t)
+  (setq web-mode-enable-current-column-highlight t)
+  (add-hook 'web-mode-hook
+          (lambda ()
+            (smartparens-mode -1)))
   :init
   (setq-default indent-tabs-mode nil)
   (setq web-mode-markup-indent-offset 2)
@@ -909,8 +1086,15 @@ If REPOSITORY is specified, use that."
   :config
   (add-hook 'elixir-mode-hook 'ac-alchemist-setup))
 
-(use-package elixir-yasnippets
-  :ensure t)
+;; Create a buffer-local hook to run elixir-format on save, only when we enable elixir-mode.
+(add-hook 'elixir-mode-hook
+          (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
+
+(fset 'elixir-pipe-operator-on-newline
+   "\C-e\C-j|> ")
+(with-eval-after-load 'elixir-mode
+     (define-key elixir-mode-map (kbd "<C-return>") 'elixir-pipe-operator-on-newline)
+     (define-key elixir-mode-map (kbd "<M-return>") 'elixir-pipe-operator-on-newline))
 
 ;; smartparens hack for elixir
 (defun my-elixir-do-end-close-action (id action context)
@@ -931,13 +1115,13 @@ If REPOSITORY is specified, use that."
                  :post-handlers '(:add my-elixir-do-end-close-action)
                  :actions '(insert)))
 
-(use-package flycheck-credo
-  :ensure t
-  :config
-  (setq flycheck-elixir-credo-strict t)
-  (eval-after-load 'flycheck
-    '(flycheck-credo-setup))
-  (add-hook 'elixir-mode-hook 'flycheck-mode))
+;; (use-package flycheck-credo
+;;   :ensure t
+;;   :config
+;;   (setq flycheck-elixir-credo-strict t)
+;;   (eval-after-load 'flycheck
+;;     '(flycheck-credo-setup))
+;;   (add-hook 'elixir-mode-hook 'flycheck-mode))
 
 (use-package elm-mode
   :ensure t
@@ -1217,6 +1401,14 @@ the mode, `toggle' toggles the state."
 (add-to-list 'find-file-not-found-functions #'my-create-non-existent-directory)
 
 (use-package terminal-here
+  :ensure t)
+
+(use-package yaml-mode
+  :ensure t
+  :config
+  (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode))
+
+(use-package mastodon
   :ensure t)
 
 ;; Mitigate Bug#28350 (security) in Emacs 25.2 and earlier.
