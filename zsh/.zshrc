@@ -18,6 +18,9 @@ if [ -n "$INSIDE_EMACS" ]; then
   print -P "\033AnSiTc %d"
 fi
 
+# shell history for erlang / iex
+export ERL_AFLAGS="-kernel shell_history enabled"
+
 twitch() {
     if [ -z $2 ]; then
         quality="best"
