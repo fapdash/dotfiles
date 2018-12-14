@@ -1,0 +1,106 @@
+(in-package :stumpwm)
+
+;;(stumpwm:run-shell-command
+;; "feh --bg-scale ~/dotfiles/images/wallpapers/raining-green-background.jpg")
+
+(setq *startup-message* "^5Lisp ^2^bsystem operational.")
+
+;;;; Default terminal emulator
+;; (setq *terminal* "urxvt")
+
+;;;; Default Browser
+(setq *browser* "chromium-browser")
+
+;;; Lock screen
+(defparameter *my-lock-command*
+  "gnome-screensaver-command -l")
+(defcommand lock-screen () ()
+  "Lock my screen."
+  (run-shell-command *my-lock-command* t))
+;; (run-shell-command "gnome-screensaver-command -l")
+
+
+(defmacro bind-shell-to-key (key command &optional (map *root-map*))
+  `(define-key ,map (kbd ,key) (concatenate 'string
+                                            "run-shell-command "
+                                            ,command)))
+(bind-shell-to-key "D" "deadbeef")
+(bind-shell-to-key "C-M-z" "goldendict" *top-map*)
+(bind-shell-to-key "T" "thunderbird")
+(bind-shell-to-key "N" "gnome-nettool")
+(bind-shell-to-key "C-t" "bash") ;; new shell
+;; (bind-shell-to-key "C" "xfce4-settings-manager")
+(bind-shell-to-key "M-m" "pavucontrol") ;; pulseaudio
+(bind-shell-to-key "l" "xscreensaver-command -lock; systemctl suspend")
+
+(define-key *top-map* (kbd "C-M-l") "lock-screen")
+
+;; --------------------------------------------------------------------
+;; fonts
+;;(ql:quickload :clx-truetype)
+;;(load-module "ttf-fonts")
+
+;; ------------------------------------------------------------
+;; Windows
+
+;;;; Style of window borders
+(setf *mouse-focus-policy* :click
+      *window-border-style* :thin)
+
+;; Set the border color for focused windows. This is only used when there is
+;; more than one frame.
+(set-focus-color "#555555")
+(set-unfocus-color "#999999")
+
+;; ------------------------------------------------------------
+;; Message window
+
+;;;; Message window gravity
+;; ; :top-left :top-right :bottom-left :bottom-right :center
+(setq *message-window-gravity* :center)
+
+;;;; Input window gravity
+;; ; :top-left :top-right :bottom-left :bottom-right :center
+(setq *input-window-gravity* :center)
+
+(set-bg-color "#F0FFF0")
+(set-fg-color "#326B6B")
+
+(set-win-bg-color "#DCDAD5")
+
+;; Set the border color for the message bar and input bar.
+(set-border-color "#555555")
+
+;; ------------------------------------------------------------
+;; modeline
+(setf *mode-line-timeout* 60)
+
+(setf *mode-line-position* :top)
+
+(setf *mode-line-background-color* "#DCDAD5")
+(setf *mode-line-foreground-color* "#222222")
+(setf *mode-line-border-width* 1)
+(setf *mode-line-border-color* "#DCDAD5")
+
+(load-module "cpu")
+(load-module "mem")
+;;(ql:quickload :xembed)
+;;(ql:quickload :zpng)
+(load-module "screenshot")
+
+(setf stumpwm:*screen-mode-line-format*
+      (list
+       "%n   (%c%M)"
+       "^>" '(:eval (stumpwm:run-shell-command
+                     "LANG=en_US.utf8 date +%A' '%d.%m.%Y' '%R' 'GMT''%:::z'           '" t))))
+
+(stumpwm:enable-mode-line (stumpwm:current-screen)
+                          (stumpwm:current-head)
+                          t)
+
+(load-module "stumptray")
+(stumpwm:run-commands "stumptray")
+(stumpwm:run-shell-command "nm-applet")
+(stumpwm:run-shell-command "conky")
+(stumpwm:run-shell-command "xxkb")
+
