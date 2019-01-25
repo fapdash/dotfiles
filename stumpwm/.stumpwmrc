@@ -28,10 +28,11 @@
 (bind-shell-to-key "C-M-z" "goldendict" *top-map*)
 (bind-shell-to-key "T" "thunderbird")
 (bind-shell-to-key "N" "gnome-nettool")
+(bind-shell-to-key "n" "nm-connection-editor")
 (bind-shell-to-key "C-t" "bash") ;; new shell
 ;; (bind-shell-to-key "C" "xfce4-settings-manager")
 (bind-shell-to-key "M-m" "pavucontrol") ;; pulseaudio
-(bind-shell-to-key "l" "xscreensaver-command -lock; systemctl suspend")
+(bind-shell-to-key "l" "gnome-screensaver-command -l; systemctl suspend")
 
 (define-key *top-map* (kbd "C-M-l") "lock-screen")
 
