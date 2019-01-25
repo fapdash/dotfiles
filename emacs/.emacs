@@ -62,6 +62,12 @@ If REPOSITORY is specified, use that."
           (delq (current-buffer)
                 (remove-if-not 'buffer-file-name (buffer-list)))))
 
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using `load-theme'.")
+(defadvice load-theme (after run-after-load-theme-hook activate)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
+
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (sacha/package-install 'color-theme-modern)
 (sacha/package-install 'color-theme-sanityinc-solarized)
@@ -125,8 +131,7 @@ If REPOSITORY is specified, use that."
 (use-package multi-term
   :ensure t
   :config
-  (setq multi-term-program "/usr/bin/zsh")
-  (setq multi-term-program-switches "--login")
+  (setq multi-term-program "/bin/bash")
   (add-hook 'term-mode-hook
             (lambda ()
               (setq show-trailing-whitespace nil)
@@ -160,7 +165,7 @@ If REPOSITORY is specified, use that."
 (delete-selection-mode)
 
 ;; delete trailing whitespace before save
-(setq delete-trailing-lines t)
+(setq delete-trailing-lines nil)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; smooth scrolling, tried sublimity but it felt "jumpy" when scrolling fast
@@ -179,13 +184,14 @@ If REPOSITORY is specified, use that."
   ;; deactivate line limit for adoc-mode
   ;; can't be set to nil because it then uses fill-column
   ;; TODO: would be better to remove lines-tail and tail from whitespace-style
-  (add-hook 'adoc-mode-hook #'deactivate-line-max-highlight)
-  (add-hook 'org-mode-hook #'deactivate-line-max-highlight)
+  (add-hook 'adoc-mode-hook #'fap/deactivate-line-max-highlight)
+  (add-hook 'org-mode-hook #'fap/deactivate-line-max-highlight)
+  (add-hook 'adoc-mode-hook #'fap/deactivate-line-max-highlight)
   :init
   (global-whitespace-mode +1))
 
 
-(defun deactivate-line-max-highlight ()
+(defun fap/deactivate-line-max-highlight ()
   (and (boundp 'whitespace-mode)
        (set (make-local-variable 'whitespace-line-column) 999)))
 
@@ -499,9 +505,12 @@ If REPOSITORY is specified, use that."
      ("#3C3D37" . 100))))
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(magit-diff-use-overlays nil)
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (org-kanban poet-theme spacemacs-theme org-bullets org-pretty-table writeroom-mode writeroom hide-mode-line org-present deft mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -678,6 +687,106 @@ is nil, refile in the current file."
 (use-package org-brain
   :ensure t)
 
+(use-package org-bullets
+  :ensure t)
+
+;; https://github.com/Fuco1/org-pretty-table/blob/master/org-pretty-table.el
+
+(use-package deft
+  :ensure t
+  :bind ("C-c n" . deft)
+  :commands (deft)
+  :config
+  (setq deft-extension "org")
+  (setq deft-directory "~/repos/org")
+  (setq deft-text-mode 'org-mode)
+  (setq deft-default-extension "org")
+  (setq deft-recursive t)
+  (setq deft-use-filename-as-title t)
+  (setq deft-auto-save-interval 0))
+
+(use-package org-kanban
+  :ensure t)
+
+(use-package writeroom-mode
+  :ensure t)
+
+(use-package spacemacs-theme
+  :ensure t
+  :defer t
+  :config
+  (progn
+    (defun customize-spacemacs-light ()
+      "Customize spacemacs-light theme"
+      (if (member 'spacemacs-light custom-enabled-themes)
+          (let* ((bg-white           "#fbf8ef")
+                 (bg-light           "#222425")
+                 (bg-dark            "#1c1e1f")
+                 (bg-darker          "#1c1c1c")
+                 (fg-white           "#ffffff")
+                 (shade-white        "#efeae9")
+                 (fg-light           "#655370")
+                 (dark-cyan          "#008b8b")
+                 (region-dark        "#2d2e2e")
+                 (region             "#39393d")
+                 (slate              "#8FA1B3")
+                 (keyword            "#f92672")
+                 (comment            "#525254")
+                 (builtin            "#fd971f")
+                 (purple             "#9c91e4")
+                 (doc                "#727280")
+                 (type               "#66d9ef")
+                 (string             "#b6e63e")
+                 (gray-dark          "#999")
+                 (gray               "#bbb")
+                 (sans-font          "Source Sans Pro")
+                 (serif-font         "Merriweather")
+                 (et-font            "ETBembo")
+                 (sans-mono-font     "Souce Code Pro")
+                 (serif-mono-font    "Verily Serif Mono"))
+            (custom-theme-set-faces
+             'spacemacs-light
+             `(variable-pitch
+               ((t
+                 (:family ,et-font
+                          :background nil
+                          :foreground ,bg-dark
+                          :height 1.7))))))))
+    (add-hook 'after-load-theme-hook 'customize-spacemacs-light)))
+
+
+(defun fap/activate-presentation ()
+  (interactive)
+  (progn
+    (writeroom-mode t)
+    (rogue/org-tweaks)
+    (org-display-inline-images)
+    (load-theme 'spacemacs-light)))
+
+(defun rogue/org-tweaks ()
+    (setq org-startup-indented t
+          org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+          org-ellipsis "  " ;; folding symbol
+          org-pretty-entities t
+          org-hide-emphasis-markers t ;; show actually italicized text instead of /italicized text/
+          org-agenda-block-separator ""
+          org-fontify-whole-heading-line t
+          org-fontify-done-headline t
+          org-fontify-quote-and-verse-blocks t))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (use-package htmlize
   :ensure t)
 
@@ -768,6 +877,27 @@ is nil, refile in the current file."
   :ensure t)
 
 (use-package org-tree-slide
+  :ensure t)
+
+(use-package org-present
+  :ensure t
+  :config
+  (add-hook 'org-present-mode-hook
+            (lambda ()
+              (hide-mode-line-mode t)
+              (org-present-big)
+              (org-display-inline-images)
+              (org-present-hide-cursor)
+              (org-present-read-only)))
+  (add-hook 'org-present-mode-quit-hook
+            (lambda ()
+              (hide-mode-line-mode 0)
+              (org-present-small)
+              (org-remove-inline-images)
+              (org-present-show-cursor)
+              (org-present-read-write))))
+
+(use-package hide-mode-line
   :ensure t)
 
 ;; step through symbols with Meta + left/right
@@ -1003,6 +1133,7 @@ is nil, refile in the current file."
         '((swiper . ivy--regex-plus)
           (t . ivy--regex-fuzzy)))
   (setq ivy-initial-inputs-alist nil)
+  ;; https://oremacs.com/2017/08/04/ripgrep/
   (setq counsel-grep-base-command
         "rg -i -M 120 --no-heading --line-number --color never '%s' %s"))
 
@@ -1040,6 +1171,31 @@ is nil, refile in the current file."
   ;; use robe for smarter auto-complete-mode
   (add-hook 'robe-mode-hook 'ac-robe-setup))
 
+
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1))
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2))
+
+
 (use-package web-mode
   :ensure t
   :config
@@ -1053,16 +1209,26 @@ is nil, refile in the current file."
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   ;; activate web-mode for plain html
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
   (add-hook 'web-mode-hook
           (lambda ()
             (smartparens-mode -1)))
+  (add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "jsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
   :init
   (setq-default indent-tabs-mode nil)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2))
+
+;; configure jsx-tide checker to run after your default jsx checker
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+;; (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+
 
 (use-package rvm
   :ensure t
@@ -1090,6 +1256,10 @@ is nil, refile in the current file."
 (add-hook 'elixir-mode-hook
           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 
+(add-hook 'elixir-mode-hook 'auto-highlight-symbol-mode)
+
+;; TODO: this should  probably break at cursor point and offer the existing
+;;       behavior (jump to end of line, newline and then pipe) with S-return
 (fset 'elixir-pipe-operator-on-newline
    "\C-e\C-j|> ")
 (with-eval-after-load 'elixir-mode
