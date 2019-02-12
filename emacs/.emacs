@@ -510,7 +510,7 @@ If REPOSITORY is specified, use that."
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (org-kanban poet-theme spacemacs-theme org-bullets org-pretty-table writeroom-mode writeroom hide-mode-line org-present deft mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (calfw-ical calfw-org calfw tide hide-mode-line org-present spacemacs-theme writeroom-mode org-kanban deft org-bullets deadgrep racer rust-mode alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -682,7 +682,7 @@ is nil, refile in the current file."
   (setq org-pandoc-options-for-beamer-pdf '((latex-engine . "xelatex")))
   (setq org-pandoc-options-for-latex-pdf '((latex-engine . "xelatex"))))
 
-(setq org-agenda-files '("~/repos/org"))
+(setq org-agenda-files '("~/repos/org/todo"))
 
 (use-package org-brain
   :ensure t)
@@ -710,6 +710,27 @@ is nil, refile in the current file."
 
 (use-package writeroom-mode
   :ensure t)
+
+;; https://github.com/kiwanami/emacs-calfw
+(use-package calfw
+  :ensure t)
+(use-package calfw-org
+  :ensure t)
+(use-package calfw-ical
+  :ensure t)
+
+
+(defun my-open-calendar ()
+  (interactive)
+  (cfw:open-calendar-buffer
+   :contents-sources
+   (list
+    (cfw:org-create-source "Green")  ; orgmode source
+;;    (cfw:howm-create-source "Blue")  ; howm source
+;;    (cfw:cal-create-source "Orange") ; diary source
+;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
+    (cfw:ical-create-source "gcal" "~/repos/org/todo/fabian.pfaff@vogella.com.ics" "IndianRed") ; google calendar ICS
+   )))
 
 (use-package spacemacs-theme
   :ensure t
@@ -927,7 +948,7 @@ is nil, refile in the current file."
 ;; edit results inside grep result buffer
 ;; activate with C-c C-p, save with C-x C-s
 (use-package wgrep-ag
-:ensure t)
+  :ensure t)
 
 ;; basically rename refactoring with C-;
 (use-package iedit
@@ -962,14 +983,14 @@ is nil, refile in the current file."
   ;; deactivate company-mode so it can't interfe with ac completion
   (setq company-backends nil))
 
-(use-package ac-dabbrev
-  :ensure t
-  :config
-  (global-set-key "\M-/" 'ac-dabbrev-expand)
-  (defun ac-dabbrev-expand ()
-    (interactive)
-    (auto-complete '(ac-source-dabbrev)))
-  (setq ac-dabbrev-sort t))
+;; (use-package ac-dabbrev
+;;   :ensure t
+;;   :config
+;;   (global-set-key "\M-/" 'ac-dabbrev-expand)
+;;   (defun ac-dabbrev-expand ()
+;;     (interactive)
+;;     (auto-complete '(ac-source-dabbrev)))
+;;   (setq ac-dabbrev-sort t))
 
 (set-frame-parameter nil 'fullscreen 'maximized)
 
@@ -1409,6 +1430,10 @@ the mode, `toggle' toggles the state."
 
 (use-package projectile-ripgrep
   :ensure)
+
+;; also see https://github.com/Wilfred/deadgrep/blob/master/docs/ALTERNATIVES.md
+(use-package deadgrep
+  :ensure t)
 
 (use-package dumb-jump
   :bind (("M-g o" . dumb-jump-go-other-window)
