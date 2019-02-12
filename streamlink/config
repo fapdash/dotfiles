@@ -1,0 +1,3 @@
+player=mpv --cache 5012
+player-no-close
+default-stream=best
