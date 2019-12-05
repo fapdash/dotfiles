@@ -1,0 +1,24 @@
+Vagrant.configure("2") do |config|
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+
+  config.vm.define "test" do |test|
+    test.vm.box = "ubuntu/bionic64"
+    test.vm.provider :virtualbox do |v|
+      v.memory = 1024
+      v.cpus = 1
+      v.linked_clone = true
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--ioapic", "on"]
+    end
+
+    test.vm.hostname = "workstation.setup.test"
+    test.vm.synced_folder '.', '/setup'
+    test.ssh.username = 'vagrant'
+
+    test.vm.provision "shell" do |s|
+      s.inline = "/setup/scripts/setup.sh"
+      s.privileged = false
+    end
+  end
+end
