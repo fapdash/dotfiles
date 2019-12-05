@@ -32,6 +32,9 @@ If REPOSITORY is specified, use that."
 (sacha/package-install 'use-package)
 (require 'use-package)
 
+(use-package use-package-ensure-system-package
+  :ensure t)
+
 (use-package exec-path-from-shell
   :ensure t
   :config
@@ -355,7 +358,14 @@ If REPOSITORY is specified, use that."
   ;; TODO: this fixes keybinding conflicts with smartscan, find a better solution
   (global-set-key (kbd "C-M-p") 'git-rebase-move-line-up)
   (global-set-key (kbd "C-M-n") 'git-rebase-move-line-down)
-  (setq magit-completing-read-function 'ivy-completing-read))
+  (setq magit-completing-read-function 'ivy-completing-read)
+  (magit-define-popup-switch 'magit-log-popup ?f "first parent" "--first-parent"))
+
+(use-package magit-todos
+  :ensure t
+  :after magit
+  :config
+  (magit-todos-mode 1))
 
 (autoload 'org-read-date "org")
 
@@ -407,6 +417,7 @@ If REPOSITORY is specified, use that."
   :init
   (global-discover-mode 1))
 
+;; don't look for double spaces at the end to identify sentences
 (setq sentence-end-double-space nil)
 
 (setq tab-width 2)
@@ -510,7 +521,7 @@ If REPOSITORY is specified, use that."
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (calfw-ical calfw-org calfw tide hide-mode-line org-present spacemacs-theme writeroom-mode org-kanban deft org-bullets deadgrep racer rust-mode alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw tide hide-mode-line org-present spacemacs-theme writeroom-mode org-kanban deft org-bullets deadgrep racer rust-mode alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -569,6 +580,14 @@ If REPOSITORY is specified, use that."
            "* TODO %? \n%t")
           ))
   (setq org-refile-targets '((nil :level . 3))))
+
+(use-package org-tempo
+  ;; contains old template expansion syntax: <s
+  ;; https://orgmode.org/manual/Structure-Templates.html
+  :after org)
+
+(use-package org-web-tools
+  :ensure t)
 
 (defun org-refile-to-datetree (&optional file)
   "Refile a subtree to a datetree corresponding to it's timestamp.
@@ -720,7 +739,7 @@ is nil, refile in the current file."
   :ensure t)
 
 
-(defun my-open-calendar ()
+(defun fap/my-open-calendar ()
   (interactive)
   (cfw:open-calendar-buffer
    :contents-sources
@@ -730,6 +749,7 @@ is nil, refile in the current file."
 ;;    (cfw:cal-create-source "Orange") ; diary source
 ;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
     (cfw:ical-create-source "gcal" "~/repos/org/todo/fabian.pfaff@vogella.com.ics" "IndianRed") ; google calendar ICS
+    (cfw:ical-create-source "gcal" "~/repos/org/todo/socialhackspace.ics" "Blue") ; google calendar ICS
    )))
 
 (use-package spacemacs-theme
@@ -1143,8 +1163,8 @@ is nil, refile in the current file."
   (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
   (global-set-key (kbd "C-c g") 'counsel-git)
   (global-set-key (kbd "C-c j") 'counsel-git-grep)
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-c K") 'counsel-projectile-ag)
+  (global-set-key (kbd "C-c k") 'counsel-rg)
+  (global-set-key (kbd "C-c K") 'counsel-projectile-rg)
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
@@ -1153,10 +1173,9 @@ is nil, refile in the current file."
   (setq ivy-re-builders-alist
         '((swiper . ivy--regex-plus)
           (t . ivy--regex-fuzzy)))
-  (setq ivy-initial-inputs-alist nil)
   ;; https://oremacs.com/2017/08/04/ripgrep/
   (setq counsel-grep-base-command
-        "rg -i -M 120 --no-heading --line-number --color never '%s' %s"))
+        "rg -i -M 120 --no-heading --line-number --color never %s %s"))
 
 (use-package ivy-historian
   :ensure t)
@@ -1168,7 +1187,9 @@ is nil, refile in the current file."
   :ensure t)
 
 (use-package counsel
-  :ensure t)
+  :ensure t
+  :config
+  (setq ivy-initial-inputs-alist nil))
 
 (use-package counsel-projectile
   :ensure t
@@ -1231,6 +1252,7 @@ is nil, refile in the current file."
   ;; activate web-mode for plain html
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.gohtml\\'" . web-mode))
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
   (add-hook 'web-mode-hook
@@ -1250,6 +1272,35 @@ is nil, refile in the current file."
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 ;; (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
 
+(use-package dart-mode
+  :ensure-system-package (dart_language_server . "pub global activate dart_language_server")
+  :ensure t
+  :custom
+  (dart-format-on-save t)
+  (dart-sdk-path "/home/fap/flutter/bin/cache/dart-sdk/"))
+
+(use-package flutter
+  :after dart-mode
+  :ensure t
+  :bind (:map dart-mode-map
+              ("C-M-x" . #'flutter-run-or-hot-reload))
+  :custom
+  (flutter-sdk-path "/home/fap/flutter/"))
+
+(use-package flutter-l10n-flycheck
+  :after flutter
+  :ensure t
+  :config
+  (flutter-l10n-flycheck-setup))
+
+(defun fap/recode-region (start end &optional coding-system)
+  "Replace the region with a recoded text."
+  (interactive "r\n\zCoding System (utf-8): ")
+  (setq coding-system (or coding-system 'utf-8))
+  (let ((buffer-read-only nil)
+	    (text (buffer-substring start end)))
+    (delete-region start end)
+    (insert (decode-coding-string (string-make-unibyte text) coding-system))))
 
 (use-package rvm
   :ensure t
@@ -1429,8 +1480,9 @@ the mode, `toggle' toggles the state."
   :ensure)
 
 (use-package projectile-ripgrep
-  :ensure)
-
+  :ensure
+  :config
+  (defalias 'rg-project 'projectile-ripgrep))
 ;; also see https://github.com/Wilfred/deadgrep/blob/master/docs/ALTERNATIVES.md
 (use-package deadgrep
   :ensure t)
@@ -1602,6 +1654,9 @@ the mode, `toggle' toggles the state."
   :ensure t
   :config
   (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode))
+
+(use-package ansible
+  :ensure t)
 
 (use-package mastodon
   :ensure t)
