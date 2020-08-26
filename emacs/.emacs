@@ -209,7 +209,9 @@ If REPOSITORY is specified, use that."
 (use-package expand-region
   :ensure t
   :config
-  (global-set-key (kbd "M-+") 'er/expand-region))
+  (global-set-key (kbd "M-+") 'er/expand-region)
+;;  (global-set-key (kbd "M--") ‘er/contract-region)
+  )
 
 (use-package flycheck
   :ensure t
@@ -303,7 +305,6 @@ If REPOSITORY is specified, use that."
   :ensure t
   :config
   (global-set-key (kbd "C-c SPC") 'avy-goto-word-or-subword-1)
-  (global-set-key (kbd "C-c j") 'avy-goto-word-or-subword-1)
   (global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
   (global-set-key (kbd "s-,") 'avy-goto-char-2))
 
@@ -516,12 +517,15 @@ If REPOSITORY is specified, use that."
      ("#3C3D37" . 100))))
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(magit-diff-use-overlays nil)
+ '(org-agenda-files
+   (quote
+    ("/home/fap/repos/org/todo/36c3_todo.org" "/home/fap/repos/org/todo/calendar.org" "/home/fap/repos/org/todo/dating.org" "/home/fap/repos/org/todo/kanban.org" "/home/fap/repos/org/todo/kuefa.org" "/home/fap/repos/org/todo/nicotine_e_liquid.org" "/home/fap/repos/org/todo/notes.org" "/home/fap/repos/org/todo/spaced_repetition.org" "/home/fap/repos/org/todo/todo.org" "/home/fap/repos/org/todo/todo_archive.org" "/home/fap/repos/org/todo/week_overview.org" "/home/fap/repos/org/journal/20200826")))
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw tide hide-mode-line org-present spacemacs-theme writeroom-mode org-kanban deft org-bullets deadgrep racer rust-mode alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (org-roam-bibtex org-journal org-roam ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw tide hide-mode-line org-present spacemacs-theme writeroom-mode org-kanban deft org-bullets deadgrep racer rust-mode alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -559,6 +563,13 @@ If REPOSITORY is specified, use that."
 (setq debug-on-error t)
 
 (transient-mark-mode 1)
+
+(defun fap/copy-keep-highlight (beg end)
+  (interactive "r")
+  (prog1 (kill-ring-save beg end)
+    (setq deactivate-mark nil)))
+
+(global-set-key (kbd "M-s-w") 'fap/copy-keep-highlight)
 
 (defun newline-and-indent-anywhere ()
   "Insert a newline character, but from the end of the current line."
@@ -713,7 +724,8 @@ is nil, refile in the current file."
 
 (use-package deft
   :ensure t
-  :bind ("C-c n" . deft)
+  :bind (:map org-mode-map
+              (("C-c n n" . deft)))
   :commands (deft)
   :config
   (setq deft-extension "org")
@@ -723,6 +735,38 @@ is nil, refile in the current file."
   (setq deft-recursive t)
   (setq deft-use-filename-as-title t)
   (setq deft-auto-save-interval 0))
+
+(use-package org-journal
+  :ensure t
+  :init
+  ;; Change default prefix key; needs to be set before loading org-journal
+  (setq org-journal-prefix-key "C-c j")
+  :config
+  (setq org-journal-dir "~/repos/org/journal/"
+        org-journal-date-format "%A, %d %B %Y"
+        org-journal-enable-agenda-integration t))
+
+
+(use-package org-roam
+      :ensure t
+      :hook
+      (after-init . org-roam-mode)
+      :custom
+      (org-roam-directory "~/repos/org/roam")
+      :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n g" . org-roam-graph-show))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))
+              (("C-c n I" . org-roam-insert-immediate))))
+
+(use-package org-roam-bibtex
+  :ensure t
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :bind (:map org-mode-map
+         (("C-c n a" . orb-note-actions))))
 
 (use-package org-kanban
   :ensure t)
@@ -1162,7 +1206,7 @@ is nil, refile in the current file."
   (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
   (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
   (global-set-key (kbd "C-c g") 'counsel-git)
-  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c G") 'counsel-git-grep)
   (global-set-key (kbd "C-c k") 'counsel-rg)
   (global-set-key (kbd "C-c K") 'counsel-projectile-rg)
   (global-set-key (kbd "C-x l") 'counsel-locate)
@@ -1172,7 +1216,7 @@ is nil, refile in the current file."
   ;; https://github.com/abo-abo/swiper/issues/830#issuecomment-267330841
   (setq ivy-re-builders-alist
         '((swiper . ivy--regex-plus)
-          (t . ivy--regex-fuzzy)))
+          (t . ivy--regex-plus)))
   ;; https://oremacs.com/2017/08/04/ripgrep/
   (setq counsel-grep-base-command
         "rg -i -M 120 --no-heading --line-number --color never %s %s"))
