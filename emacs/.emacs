@@ -108,6 +108,22 @@ If REPOSITORY is specified, use that."
 										;   '(org-headline-done ((((class color) (min-colors 16) (background dark)) (:fo;reground "LightSalmon" :strike-through t))))
 										;   '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflow;er blue"))))))
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(erc-input-face ((t (:foreground "antique white"))) t)
+ '(ido-first-match ((t (:background "ForestGreen" :foreground "black"))))
+ '(ido-selection ((t (:background "ForestGreen" :foreground "black"))) t)
+ '(org-agenda-clocking ((t (:inherit secondary-selection :foreground "black"))))
+ '(org-agenda-done ((t (:foreground "dim gray" :strike-through nil))))
+ '(org-clock-overlay ((t (:background "SkyBlue4" :foreground "black"))))
+ '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
+ '(org-headline-done ((((class color) (min-colors 16) (background dark)) (:foreground "LightSalmon" :strike-through t))))
+ '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflower blue"))))
+ '(sp-show-pair-match-face ((t (:background "dark slate blue")))))
+
 (global-auto-revert-mode 1) ;; Always reload the file if it changed on disk
 (prefer-coding-system 'utf-8) ;; Prefer UTF-8 encoding
 
@@ -140,6 +156,14 @@ If REPOSITORY is specified, use that."
               (setq show-trailing-whitespace nil)
               (yas-minor-mode -1)
               (setq term-buffer-maximum-size 10000))))
+
+(use-package vterm
+  :ensure t
+  :init
+  (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no"))
+
+(use-package multi-vterm
+  :ensure t)
 
 (use-package goto-chg
   :ensure t
@@ -190,6 +214,7 @@ If REPOSITORY is specified, use that."
   (add-hook 'adoc-mode-hook #'fap/deactivate-line-max-highlight)
   (add-hook 'org-mode-hook #'fap/deactivate-line-max-highlight)
   (add-hook 'adoc-mode-hook #'fap/deactivate-line-max-highlight)
+  (add-hook 'vterm-mode-hook #'fap/deactivate-line-max-highlight)
   :init
   (global-whitespace-mode +1))
 
@@ -240,6 +265,8 @@ If REPOSITORY is specified, use that."
   :ensure t
   :init
   (global-smartscan-mode 1))
+
+(setq column-number-mode t)
 
 (use-package smart-mode-line
   :ensure t
@@ -519,13 +546,13 @@ If REPOSITORY is specified, use that."
  '(magit-diff-use-overlays nil)
  '(org-agenda-files
    (quote
-    ("/home/fap/repos/org/todo/36c3_todo.org" "/home/fap/repos/org/todo/calendar.org" "/home/fap/repos/org/todo/dating.org" "/home/fap/repos/org/todo/kanban.org" "/home/fap/repos/org/todo/kuefa.org" "/home/fap/repos/org/todo/nicotine_e_liquid.org" "/home/fap/repos/org/todo/notes.org" "/home/fap/repos/org/todo/spaced_repetition.org" "/home/fap/repos/org/todo/todo.org" "/home/fap/repos/org/todo/todo_archive.org" "/home/fap/repos/org/todo/week_overview.org" "/home/fap/repos/org/journal/20200826")))
+    ("/home/fap/repos/org/todo/calendar.org" "/home/fap/repos/org/todo/daily_habits.org" "/home/fap/repos/org/todo/dating.org" "/home/fap/repos/org/todo/kanban.org" "/home/fap/repos/org/todo/kuefa.org" "/home/fap/repos/org/todo/nicotine_e_liquid.org" "/home/fap/repos/org/todo/notes.org" "/home/fap/repos/org/todo/spaced_repetition.org" "/home/fap/repos/org/todo/todo.org" "/home/fap/repos/org/todo/week_overview.org" "/home/fap/repos/org/journal/20200908")))
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (org-roam-bibtex org-journal org-roam ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw tide hide-mode-line org-present spacemacs-theme writeroom-mode org-kanban deft org-bullets deadgrep racer rust-mode alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format yasnippet-snippets org-tree-slide epresent esprent smart-shift engine-mode itail vlf vfl htmlize org-download tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list org-brain ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel swiper ivy projectile-ripgrep ripgrep dumb-jump yari yaml-mode workgroups2 wgrep web-mode use-package undo-tree switch-window smartscan smartparens smart-mode-line rvm ruby-refactor ruby-compilation rubocop rspec-mode robe quickrun puml-mode projectile-rails pos-tip plantuml-mode nyan-mode neotree multi-term move-text monokai-theme minitest markdown-mode goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (org-agenda-property org-ql multi-vterm vterm org-noter ivy-bibtex org-ref company-org-roam org-roam-bibtex org-journal org-roam ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line org-present deft deadgrep racer alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format epresent esprent smart-shift engine-mode itail vlf vfl htmlize tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel ivy projectile-ripgrep ripgrep dumb-jump yari workgroups2 wgrep undo-tree switch-window smartscan smart-mode-line rvm ruby-refactor ruby-compilation rubocop quickrun puml-mode pos-tip plantuml-mode nyan-mode neotree move-text minitest goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -543,21 +570,7 @@ If REPOSITORY is specified, use that."
  '(undo-tree-visualizer-diff t)
  '(weechat-color-list
    (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(erc-input-face ((t (:foreground "antique white"))) t)
- '(ido-first-match ((t (:background "ForestGreen" :foreground "black"))))
- '(ido-selection ((t (:background "ForestGreen" :foreground "black"))) t)
- '(org-agenda-clocking ((t (:inherit secondary-selection :foreground "black"))))
- '(org-agenda-done ((t (:foreground "dim gray" :strike-through nil))))
- '(org-clock-overlay ((t (:background "SkyBlue4" :foreground "black"))))
- '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
- '(org-headline-done ((((class color) (min-colors 16) (background dark)) (:foreground "LightSalmon" :strike-through t))))
- '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflower blue"))))
- '(sp-show-pair-match-face ((t (:background "dark slate blue")))))
+
 
 
 (setq debug-on-error t)
@@ -580,17 +593,27 @@ If REPOSITORY is specified, use that."
 
 (global-set-key (kbd "s-j") 'newline-and-indent-anywhere)
 
+(setq
+   org_top (concat (getenv "HOME") "/repos/org")
+   org_roam (concat org_top "/roam")
+   org_bib (concat org_roam "/roam.bib") ;; https://github.com/JabRef/jabref
+   bib_notes_subdir "/bib_notes"
+   org_bib_notes (concat org_roam bib_notes_subdir)
+   org_journal (concat org_top "/journal")
+   org-directory org_top
+   deft-directory org_top
+   org-roam-directory org_roam
+   )
+
 (use-package org
   :ensure t
   :config
   (setq org-startup-with-inline-images t)
-  (setq org-capture-templates
-        '(
-          ("c" "Current file todo entry" entry
-           (file+datetree buffer-file-name)
-           "* TODO %? \n%t")
-          ))
-  (setq org-refile-targets '((nil :level . 3))))
+  (setq org-refile-targets '((nil :level . 3)))
+  ;; https://orgmode.org/manual/Tracking-TODO-state-changes.html
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n!)" "IDEA(i)" "GOAL(g)" "|" "DONE(d!)" "CANCELED(c@)")))
+  (setq org-comment-string "BACKBURNER"))
 
 (use-package org-tempo
   ;; contains old template expansion syntax: <s
@@ -712,7 +735,7 @@ is nil, refile in the current file."
   (setq org-pandoc-options-for-beamer-pdf '((latex-engine . "xelatex")))
   (setq org-pandoc-options-for-latex-pdf '((latex-engine . "xelatex"))))
 
-(setq org-agenda-files '("~/repos/org/todo"))
+(setq org-agenda-files '("~/repos/org/todo" "~/repos/org/journal"))
 
 (use-package org-brain
   :ensure t)
@@ -724,49 +747,319 @@ is nil, refile in the current file."
 
 (use-package deft
   :ensure t
-  :bind (:map org-mode-map
-              (("C-c n n" . deft)))
+  :bind (("C-c n n" . deft))
   :commands (deft)
   :config
   (setq deft-extension "org")
-  (setq deft-directory "~/repos/org")
+  (setq deft-directory org-directory)
   (setq deft-text-mode 'org-mode)
   (setq deft-default-extension "org")
   (setq deft-recursive t)
   (setq deft-use-filename-as-title t)
-  (setq deft-auto-save-interval 0))
+  (setq deft-auto-save-interval 0)
+  (add-to-list 'deft-extensions "tex")
+  ;; converts the filter string into a readable file-name using kebab-case:
+  (setq deft-file-naming-rules
+        '((noslash . "-")
+          (nospace . "-")
+          (case-fn . downcase)))
+  )
+
+(defun org-journal-find-location ()
+  ;; Open today's journal, but specify a non-nil prefix argument in order to
+  ;; inhibit inserting the heading; org-capture will insert the heading.
+  (org-journal-new-entry t)
+  ;; Position point on the journal's top-level heading so that org-capture
+  ;; will add the new entry as a child entry.
+  (goto-char (point-min)))
+
+
 
 (use-package org-journal
   :ensure t
   :init
   ;; Change default prefix key; needs to be set before loading org-journal
-  (setq org-journal-prefix-key "C-c j")
+  (setq org-journal-prefix-key "C-c j ")
   :config
-  (setq org-journal-dir "~/repos/org/journal/"
+  (setq org-journal-dir org_journal
         org-journal-date-format "%A, %d %B %Y"
-        org-journal-enable-agenda-integration t))
+        org-journal-enable-agenda-integration t
+        org-capture-templates '(("c" "Current file todo entry" entry
+                                 (file+datetree buffer-file-name)
+                                 "* TODO %? \n%t")
+                                ("j" "Journal entry" entry
+                                 (function org-journal-find-location)
+                                 "* %(format-time-string org-journal-time-format)%^{Title}\n\
+  %i%?")
+                                ("s" "Scheduled journal entry" entry
+                                 (function org-journal-find-location)
+                                 "* TODO %?\nSCHEDULED: %^t")
+                                ;; TODO(FAP): embed or link to image/pdf of feelings and needs for offline-use
+                                ("n" "Daily NVC practice" entry
+                                 (function org-journal-find-location)
+                                 "* Daily NVC practice :daily_nvc:\n\
+%i    | Thought / Judgment | Observation | Feeling | Need | Request |\n\
+%i    |--------------------+-------------+---------+------+---------|\n\
+%i    |%?                    |             |         |      |         |\n")
+                                ("m" "Morning journal entry" entry
+                                 (function org-journal-find-location)
+                                 "* Morning entry\n\
+** 5-minute journal :5min_journal:5min_journal_morning:\n\
+*** I am grateful for...\n\
+%i    1. %?\n\
+%i    2. \n\
+%i    3. \n\
+*** What would make today great?\n\
+%i    1. \n\
+%i    2. \n\
+%i    3. \n\
+*** Daily affirmations, I am...\n\
+%i    1. \n\
+** Day plan")
+                                ("e" "Evening journal entry" entry
+                                 (function org-journal-find-location)
+         "* Evening entry\n\
+** 5-minute journal :5min_journal:5min_journal_evening:\n\
+*** 3 amazing things that happened today...\n\
+%i    1. %?\n\
+%i    2. \n\
+%i    3. \n\
+*** How could I have made today better?
+%i    1. \n\
+"))))
 
+
+(use-package org-ql
+  :ensure t)
+
+(use-package org-agenda-property
+  :ensure t)
+
+(use-package org-super-agenda
+  :ensure t
+  :init
+  (setq org-agenda-custom-commands (list(quote("z" "Zuper agenda view" ;; from https://github.com/zaen323/.spacemacs.d/blob/de49a1882881198586f5e848d9281d48b030c598/config-org.el#L77
+                                               ((agenda "" ((org-agenda-span 'day)
+                                                            (org-agenda-property-list '("LOCATION"))
+                                                            (org-agenda-property-position 'where-it-fits)
+                                                            (org-agenda-property-separator "|" )
+                                                            (org-super-agenda-groups
+                                                             '((:name "Today"
+                                                                      :time-grid t
+                                                                      :date today
+                                                                      :todo "TODAY"
+                                                                      :scheduled today
+                                                                      :order 1)
+                                                               (:name "Due Today"
+                                                                      :deadline today
+                                                                      :order 2)
+                                                               (:name "Overdue"
+                                                                      :deadline past
+                                                                      :order 3)
+                                                               (:name "Due Soon"
+                                                                      :deadline future
+                                                                      :order 4)
+                                                               ))))
+                                                (alltodo "" ((org-agenda-overriding-header "")
+                                                             (org-agenda-property-list '("LOCATION"))
+                                                             (org-agenda-property-position 'where-it-fits)
+                                                             (org-agenda-property-separator "|" )
+                                                             (org-super-agenda-groups
+                                                              '((:name "WORKING ON"
+                                                                       :todo "WORKING"
+                                                                       :order 0)
+                                                                (:name "NEXT TO DO"
+                                                                       :todo "NEXT"
+                                                                       :order 1)
+                                                                (:name "GOALS"
+                                                                       :todo "GOAL"
+                                                                       :order 2)
+                                                                (:name "IDEAS"
+                                                                       :todo "IDEA"
+                                                                       :order 3)
+                                                                (:name "Important"
+                                                                       :tag "Important"
+                                                                       :priority "A"
+                                                                       :order 6)
+                                                                (:name "Waiting"
+                                                                       :todo "WAITING"
+                                                                       :order 9)
+                                                                (:name "Assignments"
+                                                                       :tag "Assignment"
+                                                                       :order 10)
+                                                                (:name "Pending"
+                                                                       :todo "PENDING"
+                                                                       :order 11)
+                                                                (:name "Issues"
+                                                                       :tag "Issue"
+                                                                       :order 12)
+                                                                (:name "Emacs"
+                                                                       :tag "Emacs"
+                                                                       :order 13)
+                                                                (:name "Linux"
+                                                                       :tag "Linux"
+                                                                       :order 14)
+                                                                (:name "Projects"
+                                                                       :tag "Project"
+                                                                       :order 91)
+                                                                (:name "Research"
+                                                                       :tag "Research"
+                                                                       :order 15)
+
+                                                                (:name "Piano"
+                                                                       :tag "Piano"
+                                                                       :order 25)
+                                                                (:name "Guitar"
+                                                                       :tag "Guitar"
+                                                                       :order 26)
+
+                                                                (:name "Kerbal Space Program"
+                                                                       :tag "KSP"
+                                                                       :order 29)
+
+                                                                (:name "To Remember"
+                                                                       :tag "Remember"
+                                                                       :order 30)
+                                                                (:name "To read"
+                                                                       :and (:tag ("Read" "Book")
+                                                                                  :not (:todo "SOMEDAY"))
+                                                                       :order 35
+                                                                       )
+
+                                                                (:name "Mathematics"
+                                                                       :tag "Maths"
+                                                                       :order 40)
+                                                                (:name "Science"
+                                                                       :tag ("Science" "Physics")
+                                                                       :order 41)
+
+                                                                (:name "trivial"
+                                                                       :priority<= "C"
+                                                                       :tag ("Trivial" "Unimportant")
+                                                                       :todo ("SOMEDAY" )
+                                                                       :order 90)
+                                                                (:discard (:tag ("Chore" "Routine" "Daily")))
+                                                                ))
+
+                                                             )))
+                                               ) ; Zuper agenda view
+                                              )))
+  :config
+  (org-super-agenda-mode t)
+  )
 
 (use-package org-roam
       :ensure t
       :hook
-      (after-init . org-roam-mode)
+      (org-load . org-roam-mode)
       :custom
-      (org-roam-directory "~/repos/org/roam")
+      (org-roam-directory org_roam)
       :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c n f" . org-roam-find-file)
-               ("C-c n g" . org-roam-graph-show))
+               ("C-c n g" . org-roam-graph-show)
+               ("C-c n d" . org-roam-dailies-today))
               :map org-mode-map
               (("C-c n i" . org-roam-insert))
-              (("C-c n I" . org-roam-insert-immediate))))
+              (("C-c n I" . org-roam-insert-immediate)))
+      :config
+      (setq org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
+            org-roam-verbose nil ; make org-roam quiet
+            org-roam-dailies-directory "dailies"  ;; roam-dailies not yet ready: https://github.com/org-roam/org-roam/pull/978
+            org-roam-dailies-captures-templates
+            '(("d" "daily" entry #'org-roam-capture--get-point
+               "* %?\n")) ;; https://www.youtube.com/watch?v=1q9x2aZCJJ4
+            )
+      (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
+
+;; Since the org module lazy loads org-protocol (waits until an org URL is
+;; detected), we can safely chain `org-roam-protocol' to it.
+(use-package org-roam-protocol
+  :after org-protocol)
+
+(use-package company-org-roam
+  :ensure t
+  :config
+  (push 'company-org-roam company-backends))
 
 (use-package org-roam-bibtex
   :ensure t
   :after org-roam
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :bind (:map org-mode-map
-         (("C-c n a" . orb-note-actions))))
+              (("C-c n a" . orb-note-actions)))
+  :config
+  (setq org-roam-bibtex-preformat-keywords
+        '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
+  (setq orb-templates
+        '(("r" "ref" plain (function org-roam-capture--get-point)
+           ""
+           :file-name "bib_notes/${slug}" ;; can't use a variable with concat here?
+           :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
+
+- tags ::
+- keywords :: ${keywords}
+
+\n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
+
+           :unnarrowed t))))
+
+(use-package org-ref
+  :ensure t
+  :config
+  (setq
+   org-ref-completion-library 'org-ref-ivy-cite
+   org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-ivy-bibtex
+   org-ref-default-bibliography (list org_bib)
+   org-ref-bibliography-notes (concat org_bib_notes "/bibnotes.org")
+   org-ref-note-title-format "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+   org-ref-notes-directory org_bib_notes
+   org-ref-notes-function 'orb-edit-notes
+   ))
+
+(use-package ivy-bibtex
+  :ensure t
+  :after org-ref
+  :bind ("C-c n b" . ivy-bibtex)
+  :config
+  (setq
+   bibtex-completion-notes-path org_bib_notes
+   bibtex-completion-bibliography org_bib
+;;   bibtex-completion-library-path (concat (getenv "HOME") "/Documents/ebooks")
+   bibtex-completion-pdf-field "file"
+   ivy-bibtex-default-action 'ivy-bibtex-edit-notes
+   bibtex-completion-notes-template-multiple-files
+   (concat
+    "#+TITLE: ${title}\n"
+    "#+ROAM_KEY: cite:${=key=}\n"
+    "* TODO Notes\n"
+    ":PROPERTIES:\n"
+    ":Custom_ID: ${=key=}\n"
+    ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+    ":AUTHOR: ${author-abbrev}\n"
+    ":JOURNAL: ${journaltitle}\n"
+    ":DATE: ${date}\n"
+    ":YEAR: ${year}\n"
+    ":DOI: ${doi}\n"
+    ":URL: ${url}\n"
+    ":END:\n\n"
+    )))
+
+(use-package org-noter
+  :ensure t
+  :after (:any org pdf-view)
+  :config
+  (setq
+   ;; The WM can handle splits
+   org-noter-notes-window-location 'other-frame
+   ;; Please stop opening frames
+   org-noter-always-create-frame nil
+   ;; I want to see the whole file
+   org-noter-hide-other nil
+   ;; Everything is relative to the main notes file
+   org-noter-notes-search-path (list org_bib_notes)
+   ))
+
 
 (use-package org-kanban
   :ensure t)
@@ -1216,10 +1509,22 @@ is nil, refile in the current file."
   ;; https://github.com/abo-abo/swiper/issues/830#issuecomment-267330841
   (setq ivy-re-builders-alist
         '((swiper . ivy--regex-plus)
+          (ivy-bibtex . ivy--regex-ignore-order)
           (t . ivy--regex-plus)))
   ;; https://oremacs.com/2017/08/04/ripgrep/
   (setq counsel-grep-base-command
         "rg -i -M 120 --no-heading --line-number --color never %s %s"))
+
+(defun vterm-counsel-yank-pop-action (orig-fun &rest args)
+  (if (equal major-mode 'vterm-mode)
+      (let ((inhibit-read-only t)
+            (yank-undo-function (lambda (_start _end) (vterm-undo))))
+        (cl-letf (((symbol-function 'insert-for-yank)
+               (lambda (str) (vterm-send-string str t))))
+            (apply orig-fun args)))
+    (apply orig-fun args)))
+
+(advice-add 'counsel-yank-pop-action :around #'vterm-counsel-yank-pop-action)
 
 (use-package ivy-historian
   :ensure t)
