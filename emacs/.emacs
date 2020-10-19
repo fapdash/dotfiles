@@ -428,10 +428,15 @@ Try the repeated popping up to 10 times."
 (use-package magit
   :ensure t
   :config
-  (global-set-key (kbd "C-c m") 'magit-status)
+  (define-prefix-command 'magit-map)
+  (global-set-key (kbd "C-c m") 'magit-map)
+  (define-key magit-map (kbd "m") 'magit-status)
+  (define-key magit-map (kbd "f") 'magit-find-file)
+  (define-key magit-map (kbd "l") 'magit-log-buffer-file)
+  (define-key magit-map (kbd "t") 'git-timemachine-toggle)
   ;; TODO: this fixes keybinding conflicts with smartscan, find a better solution
-  (global-set-key (kbd "C-M-p") 'git-rebase-move-line-up)
-  (global-set-key (kbd "C-M-n") 'git-rebase-move-line-down)
+  ;;(global-set-key (kbd "C-M-p") 'git-rebase-move-line-up)
+  ;;(global-set-key (kbd "C-M-n") 'git-rebase-move-line-down)
   (setq magit-completing-read-function 'ivy-completing-read)
   (magit-define-popup-switch 'magit-log-popup ?f "first parent" "--first-parent"))
 
