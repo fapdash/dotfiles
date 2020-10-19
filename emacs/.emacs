@@ -1281,11 +1281,12 @@ is nil, refile in the current file."
 ;; step through symbols with Meta + left/right
 (use-package auto-highlight-symbol
   :ensure t
-  :init
-  (global-auto-highlight-symbol-mode t)
   :config
+  (global-auto-highlight-symbol-mode t)
   (ahs-set-idle-interval 0.1)
-  (ahs-chrange-display))
+  (ahs-chrange-display)
+  (add-hook 'web-mode-hook 'auto-highlight-symbol-mode)
+  (add-hook 'elixir-mode-hook 'auto-highlight-symbol-mode))
 
 (use-package imenu-list
   :ensure t
@@ -1309,7 +1310,9 @@ is nil, refile in the current file."
 
 ;; basically rename refactoring with C-;
 (use-package iedit
-:ensure t)
+  :ensure t
+  :config
+  (defalias 'rename-variable 'iedit-mode))
 
 
 (use-package fuzzy
@@ -1600,7 +1603,8 @@ is nil, refile in the current file."
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   ;; activate web-mode for plain html
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.gohtml\\'" . web-mode))
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
@@ -1616,6 +1620,22 @@ is nil, refile in the current file."
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2))
+
+(setq js-indent-level 2)
+
+(defun enable-minor-mode (my-pair)
+  "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+  (if (buffer-file-name)
+      (if (string-match (car my-pair) buffer-file-name)
+      (funcall (cdr my-pair)))))
+
+(use-package prettier-js
+  :ensure t
+  :config
+  (add-hook 'web-mode-hook #'(lambda ()
+                               (enable-minor-mode
+                                '("\\.jsx?\\'" . prettier-js-mode))))
+  (add-hook 'js-mode-hook 'prettier-js-mode))
 
 ;; configure jsx-tide checker to run after your default jsx checker
 (flycheck-add-mode 'javascript-eslint 'web-mode)
@@ -1677,7 +1697,6 @@ is nil, refile in the current file."
 (add-hook 'elixir-mode-hook
           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 
-(add-hook 'elixir-mode-hook 'auto-highlight-symbol-mode)
 
 ;; TODO: this should  probably break at cursor point and offer the existing
 ;;       behavior (jump to end of line, newline and then pipe) with S-return
@@ -1838,11 +1857,31 @@ the mode, `toggle' toggles the state."
   :ensure t)
 
 (use-package dumb-jump
-  :bind (("M-g o" . dumb-jump-go-other-window)
-         ("M-g j" . dumb-jump-go)
-         ("M-g b" . dumb-jump-back))
-  :config (setq dumb-jump-selector 'ivy)
-  :ensure)
+  :ensure
+
+  :bind
+  ;; the dumb-jump commands are deprecated
+  ;; use xpath commands via  M-. and M-, instead
+  (("M-g o" . dumb-jump-go-other-window)
+   ("M-g j" . dumb-jump-go)
+   ("M-g b" . dumb-jump-back))
+  :config
+  (setq dumb-jump-selector 'ivy)
+  (setq dumb-jump-prefer-searcher 'rg)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  )
+
+(use-package ivy-xref
+  :ensure t
+  :init
+  ;; xref initialization is different in Emacs 27 - there are two different
+  ;; variables which can be set rather than just one
+  (when (>= emacs-major-version 27)
+    (setq xref-show-definitions-function #'ivy-xref-show-defs))
+  ;; Necessary in Emacs <27. In Emacs 27 it will affect all xref-based
+  ;; commands other than xref-find-definitions (e.g. project-find-regexp)
+  ;; as well
+  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
 ;;Fullframe saves your window configuration before displaying the next command in the entire Emacs window. When the command finishes, it restores your previous window configuration.
 (use-package fullframe
