@@ -48,6 +48,7 @@ If REPOSITORY is specified, use that."
 (setq backup-directory-alist      '((".*" . "~/.emacs.d/backups")))
 (setq auto-save-file-name-transforms
       `((".*" ,"~/.emacs.d/autosave" t)))
+(setq vc-make-backup-files t)
 
 ;; from github.com/purcell
 (if (fboundp 'with-eval-after-load)
