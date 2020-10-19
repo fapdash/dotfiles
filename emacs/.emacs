@@ -215,6 +215,26 @@ Try the repeated popping up to 10 times."
   (menu-bar-mode -1)
   (scroll-bar-mode -1))
 
+(use-package diminish
+  :ensure t
+  :config
+  (diminish 'WS)
+  (diminish 'undo-tree-mode)
+  (diminish 'highlight-indent-guides-mode)
+  (diminish 'git-gutter-mode)
+  (diminish 'yas/minor-mode)
+  (diminish 'yas-minor-mode)
+  (diminish 'google-this-mode)
+  (diminish 'auto-complete-mode)
+  (diminish 'workgroups-mode)
+  (diminish 'smartparens-mode)
+  (diminish 'auto-highlight-symbol-mode)
+  (diminish 'global-whitespace-mode)
+  (diminish 'global-activity-watch-mode)
+  (diminish 'org-roam-bibtex-mode)
+  (diminish 'ivy-mode)
+  (diminish 'org-roam-mode))
+
 (delete-selection-mode)
 
 ;; delete trailing whitespace before save
