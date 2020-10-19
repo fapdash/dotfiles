@@ -1089,6 +1089,11 @@ is nil, refile in the current file."
     (cfw:ical-create-source "gcal" "~/repos/org/todo/socialhackspace.ics" "Blue") ; google calendar ICS
    )))
 
+(use-package activity-watch-mode
+  :ensure t
+  :config
+  (global-activity-watch-mode t))
+
 (use-package spacemacs-theme
   :ensure t
   :defer t
