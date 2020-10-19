@@ -130,6 +130,31 @@ If REPOSITORY is specified, use that."
 
 (and window-system (set-fringe-mode '(10 . 0))) ;; Show a nice fringe
 
+(prefer-coding-system 'utf-8)
+(setq coding-system-for-read 'utf-8)
+(setq coding-system-for-write 'utf-8)
+
+(defun modi/multi-pop-to-mark (orig-fun &rest args)
+  "Call ORIG-FUN until the cursor moves.
+Try the repeated popping up to 10 times."
+  (let ((p (point)))
+    (dotimes (i 10)
+      (when (= p (point))
+        (apply orig-fun args)))))
+(advice-add 'pop-to-mark-command :around
+            #'modi/multi-pop-to-mark)
+
+;; couldn't decide on a good keybind for this so far
+(defun unpop-to-mark-command ()
+  "Unpop off mark ring. Does nothing if mark ring is empty."
+  (interactive)
+  (when mark-ring
+    (setq mark-ring (cons (copy-marker (mark-marker)) mark-ring))
+    (set-marker (mark-marker) (car (last mark-ring)) (current-buffer))
+    (when (null (mark t)) (ding))
+    (setq mark-ring (nbutlast mark-ring))
+    (goto-char (marker-position (car (last mark-ring))))))
+
 ;; invert electric-indent keybinds
 (global-set-key (kbd "C-j") 'newline)
 (global-set-key (kbd "RET") 'electric-newline-and-maybe-indent)
@@ -1987,17 +2012,6 @@ the mode, `toggle' toggles the state."
          ("\\.markdown\\'" . markdown-mode))
   ;; source for css: https://gist.github.com/Dashed/6714393
   :init (setq markdown-command (concat (concat "pandoc -c file:///" (getenv "HOME")) "/.emacs.d/github-pandoc.css --from markdown_github -t html5 --mathjax --highlight-style pygments --standalone")))
-
-;; couldn't decide on a good keybind for this so far
-(defun unpop-to-mark-command ()
-  "Unpop off mark ring. Does nothing if mark ring is empty."
-  (interactive)
-  (when mark-ring
-    (setq mark-ring (cons (copy-marker (mark-marker)) mark-ring))
-    (set-marker (mark-marker) (car (last mark-ring)) (current-buffer))
-    (when (null (mark t)) (ding))
-    (setq mark-ring (nbutlast mark-ring))
-    (goto-char (marker-position (car (last mark-ring))))))
 
 (use-package workgroups2
   :ensure t
