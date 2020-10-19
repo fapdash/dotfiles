@@ -1714,12 +1714,13 @@ is nil, refile in the current file."
 ;;     '(flycheck-credo-setup))
 ;;   (add-hook 'elixir-mode-hook 'flycheck-mode))
 
-(use-package elm-mode
-  :ensure t
-  :init
-  ;; needs elm oracle installed, doesn't come with elm install
-  (add-hook 'elm-mode-hook #'elm-oracle-setup-completion)
-  (add-hook 'elm-mode-hook #'elm-oracle-setup-ac))
+;; (use-package elm-mode
+;;   :ensure t
+;;   :init
+;;   ;; needs elm oracle installed, doesn't come with elm install
+;; ;;  (add-hook 'elm-mode-hook #'elm-oracle-setup-completion)
+;; ;;  (add-hook 'elm-mode-hook #'elm-oracle-setup-ac)
+;;   )
 
 (use-package rust-mode
   :ensure t)
