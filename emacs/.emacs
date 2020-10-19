@@ -640,31 +640,47 @@ Try the repeated popping up to 10 times."
 (global-set-key (kbd "s-j") 'newline-and-indent-anywhere)
 
 (setq
-   org_top (concat (getenv "HOME") "/repos/org")
-   org_roam (concat org_top "/roam")
-   org_bib (concat org_roam "/roam.bib") ;; https://github.com/JabRef/jabref
-   bib_notes_subdir "/bib_notes"
-   org_bib_notes (concat org_roam bib_notes_subdir)
-   org_journal (concat org_top "/journal")
-   org-directory org_top
-   deft-directory org_top
-   org-roam-directory org_roam
-   )
+ org_top (concat (getenv "HOME") "/repos/org")
+ org_todo (concat org_top "/todo")
+ org_gtd (concat org_todo "/gtd")
+ org_roam (concat org_top "/roam")
+ org_bib (concat org_roam "/roam.bib") ;; https://github.com/JabRef/jabref
+ bib_notes_subdir "/bib_notes"
+ org_bib_notes (concat org_roam bib_notes_subdir)
+ org_journal (concat org_top "/journal")
+ org-directory org_top
+ deft-directory org_top
+ org-roam-directory org_roam
+ )
 
 (use-package org
   :ensure t
+  :bind
+  (:map org-mode-map
+        ("C-j" . newline-and-indent))
   :config
   (setq org-startup-with-inline-images t)
-  (setq org-refile-targets '((nil :level . 3)))
+  (setq org-refile-targets `((nil :level . 3)
+                             (,(concat org_gtd "/gtd.org") :maxlevel . 3)
+                             (,(concat org_gtd "/someday.org") :level . 1)
+                             (,(concat org_todo "/calendar.org") :maxlevel . 2)))
   ;; https://orgmode.org/manual/Tracking-TODO-state-changes.html
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n!)" "IDEA(i)" "GOAL(g)" "|" "DONE(d!)" "CANCELED(c@)")))
   (setq org-comment-string "BACKBURNER"))
 
+(require 'org-columns-calc)
+
 (use-package org-tempo
   ;; contains old template expansion syntax: <s
   ;; https://orgmode.org/manual/Structure-Templates.html
   :after org)
+
+(use-package org-rich-yank
+  :ensure t
+  :demand t
+  :bind (:map org-mode-map
+              ("C-M-y" . org-rich-yank)))
 
 (use-package org-web-tools
   :ensure t)
@@ -718,6 +734,13 @@ is nil, refile in the current file."
 	(bookmark-set "org-refile-last-stored")))
     (message "Refiled to %s" journal))
   (setq this-command 'my/org-refile-to-journal)) ;; See http://emacs.stackexchange.com/q/21322/8494
+
+;; Insert org-mode links from clipboard
+(use-package org-cliplink
+  :ensure t
+  :bind ("C-x p i" . org-cliplink)
+  :config
+  (defalias 'org-insert-link-from-clipboard 'org-cliplink))
 
 (defun my/org-insert-link ()
   "Insert org link where default description is set to html title."
@@ -819,10 +842,16 @@ is nil, refile in the current file."
   ;; will add the new entry as a child entry.
   (goto-char (point-min)))
 
-
+;; (defun org-journal-find-location ()
+;;   ;; Open today's journal, but specify a non-nil prefix argument in order to
+;;   ;; inhibit inserting the heading; org-capture will insert the heading.
+;;   (org-journal-new-entry t)
+;;   (org-narrow-to-subtree)
+;;   (goto-char (point-max)))
 
 (use-package org-journal
   :ensure t
+  :defer t
   :init
   ;; Change default prefix key; needs to be set before loading org-journal
   (setq org-journal-prefix-key "C-c j ")
@@ -830,7 +859,13 @@ is nil, refile in the current file."
   (setq org-journal-dir org_journal
         org-journal-date-format "%A, %d %B %Y"
         org-journal-enable-agenda-integration t
-        org-capture-templates '(("c" "Current file todo entry" entry
+        org-capture-templates '(("t" "Todo [inbox]" entry
+                               (file+headline (lambda () (concat org_gtd "/inbox.org")) "Tasks")
+                               "* TODO %i%?")
+                              ("C" "Calendar" entry
+                               (file+headline (lambda () (concat org_todo "/calendar.org")) "Termine")
+                               "* TODO %?\nSCHEDULED: %^t")
+                                ("c" "Current file todo entry" entry
                                  (file+datetree buffer-file-name)
                                  "* TODO %? \n%t")
                                 ("j" "Journal entry" entry
@@ -839,7 +874,9 @@ is nil, refile in the current file."
   %i%?")
                                 ("s" "Scheduled journal entry" entry
                                  (function org-journal-find-location)
-                                 "* TODO %?\nSCHEDULED: %^t")
+                                 "* TODO %^{Title}\n\
+   SCHEDULED: %^t\n\
+  %i%?")
                                 ;; TODO(FAP): embed or link to image/pdf of feelings and needs for offline-use
                                 ("n" "Daily NVC practice" entry
                                  (function org-journal-find-location)
@@ -884,112 +921,119 @@ is nil, refile in the current file."
 (use-package org-super-agenda
   :ensure t
   :init
-  (setq org-agenda-custom-commands (list(quote("z" "Zuper agenda view" ;; from https://github.com/zaen323/.spacemacs.d/blob/de49a1882881198586f5e848d9281d48b030c598/config-org.el#L77
-                                               ((agenda "" ((org-agenda-span 'day)
-                                                            (org-agenda-property-list '("LOCATION"))
-                                                            (org-agenda-property-position 'where-it-fits)
-                                                            (org-agenda-property-separator "|" )
-                                                            (org-super-agenda-groups
-                                                             '((:name "Today"
-                                                                      :time-grid t
-                                                                      :date today
-                                                                      :todo "TODAY"
-                                                                      :scheduled today
-                                                                      :order 1)
-                                                               (:name "Due Today"
-                                                                      :deadline today
-                                                                      :order 2)
-                                                               (:name "Overdue"
-                                                                      :deadline past
-                                                                      :order 3)
-                                                               (:name "Due Soon"
-                                                                      :deadline future
-                                                                      :order 4)
-                                                               ))))
-                                                (alltodo "" ((org-agenda-overriding-header "")
-                                                             (org-agenda-property-list '("LOCATION"))
-                                                             (org-agenda-property-position 'where-it-fits)
-                                                             (org-agenda-property-separator "|" )
-                                                             (org-super-agenda-groups
-                                                              '((:name "WORKING ON"
-                                                                       :todo "WORKING"
-                                                                       :order 0)
-                                                                (:name "NEXT TO DO"
-                                                                       :todo "NEXT"
-                                                                       :order 1)
-                                                                (:name "GOALS"
-                                                                       :todo "GOAL"
-                                                                       :order 2)
-                                                                (:name "IDEAS"
-                                                                       :todo "IDEA"
-                                                                       :order 3)
-                                                                (:name "Important"
-                                                                       :tag "Important"
-                                                                       :priority "A"
-                                                                       :order 6)
-                                                                (:name "Waiting"
-                                                                       :todo "WAITING"
-                                                                       :order 9)
-                                                                (:name "Assignments"
-                                                                       :tag "Assignment"
-                                                                       :order 10)
-                                                                (:name "Pending"
-                                                                       :todo "PENDING"
-                                                                       :order 11)
-                                                                (:name "Issues"
-                                                                       :tag "Issue"
-                                                                       :order 12)
-                                                                (:name "Emacs"
-                                                                       :tag "Emacs"
-                                                                       :order 13)
-                                                                (:name "Linux"
-                                                                       :tag "Linux"
-                                                                       :order 14)
-                                                                (:name "Projects"
-                                                                       :tag "Project"
-                                                                       :order 91)
-                                                                (:name "Research"
-                                                                       :tag "Research"
-                                                                       :order 15)
+  (setq org-agenda-custom-commands (list
+                                    '("z" "Zuper agenda view" ;; from https://github.com/zaen323/.spacemacs.d/blob/de49a1882881198586f5e848d9281d48b030c598/config-org.el#L77
+                                      ((agenda "" ((org-agenda-span 'day)
+                                                   (org-agenda-property-list '("LOCATION"))
+                                                   (org-agenda-property-position 'where-it-fits)
+                                                   (org-agenda-property-separator "|" )
+                                                   (org-super-agenda-groups
+                                                    '((:discard (:tag "private"))
+                                                      (:name "Today"
+                                                             :time-grid t
+                                                             :date today
+                                                             :todo "TODAY"
+                                                             :scheduled today
+                                                             :order 1)
+                                                      (:name "Due Today"
+                                                             :deadline today
+                                                             :order 2)
+                                                      (:name "Overdue"
+                                                             :deadline past
+                                                             :order 3)
+                                                      (:name "Due Soon"
+                                                             :deadline future
+                                                             :order 4)
+                                                      ))))
+                                       (alltodo "" ((org-agenda-overriding-header "")
+                                                    (org-agenda-property-list '("LOCATION"))
+                                                    (org-agenda-property-position 'where-it-fits)
+                                                    (org-agenda-property-separator "|" )
+                                                    (org-super-agenda-groups
+                                                     '((:discard (:tag "private"))
+                                                       (:name "WORKING ON"
+                                                              :todo "WORKING"
+                                                              :order 0)
+                                                       (:name "NEXT TO DO"
+                                                              :todo "NEXT"
+                                                              :order 1)
+                                                       (:name "GOALS"
+                                                              :todo "GOAL"
+                                                              :order 2)
+                                                       (:name "IDEAS"
+                                                              :todo "IDEA"
+                                                              :order 3)
+                                                       (:name "Important"
+                                                              :tag "Important"
+                                                              :priority "A"
+                                                              :order 6)
+                                                       (:name "Waiting"
+                                                              :todo "WAITING"
+                                                              :order 9)
+                                                       (:name "Assignments"
+                                                              :tag "Assignment"
+                                                              :order 10)
+                                                       (:name "Pending"
+                                                              :todo "PENDING"
+                                                              :order 11)
+                                                       (:name "Issues"
+                                                              :tag "Issue"
+                                                              :order 12)
+                                                       (:name "Emacs"
+                                                              :tag "Emacs"
+                                                              :order 13)
+                                                       (:name "Linux"
+                                                              :tag "Linux"
+                                                              :order 14)
+                                                       (:name "Projects"
+                                                              :tag "Project"
+                                                              :order 91)
+                                                       (:name "Research"
+                                                              :tag "Research"
+                                                              :order 15)
 
-                                                                (:name "Piano"
-                                                                       :tag "Piano"
-                                                                       :order 25)
-                                                                (:name "Guitar"
-                                                                       :tag "Guitar"
-                                                                       :order 26)
+                                                       (:name "Piano"
+                                                              :tag "Piano"
+                                                              :order 25)
+                                                       (:name "Guitar"
+                                                              :tag "Guitar"
+                                                              :order 26)
 
-                                                                (:name "Kerbal Space Program"
-                                                                       :tag "KSP"
-                                                                       :order 29)
+                                                       (:name "Kerbal Space Program"
+                                                              :tag "KSP"
+                                                              :order 29)
 
-                                                                (:name "To Remember"
-                                                                       :tag "Remember"
-                                                                       :order 30)
-                                                                (:name "To read"
-                                                                       :and (:tag ("Read" "Book")
-                                                                                  :not (:todo "SOMEDAY"))
-                                                                       :order 35
-                                                                       )
+                                                       (:name "To Remember"
+                                                              :tag "Remember"
+                                                              :order 30)
+                                                       (:name "To read"
+                                                              :and (:tag ("Read" "Book")
+                                                                         :not (:todo "SOMEDAY"))
+                                                              :order 35
+                                                              )
 
-                                                                (:name "Mathematics"
-                                                                       :tag "Maths"
-                                                                       :order 40)
-                                                                (:name "Science"
-                                                                       :tag ("Science" "Physics")
-                                                                       :order 41)
+                                                       (:name "Mathematics"
+                                                              :tag "Maths"
+                                                              :order 40)
+                                                       (:name "Science"
+                                                              :tag ("Science" "Physics")
+                                                              :order 41)
 
-                                                                (:name "trivial"
-                                                                       :priority<= "C"
-                                                                       :tag ("Trivial" "Unimportant")
-                                                                       :todo ("SOMEDAY" )
-                                                                       :order 90)
-                                                                (:discard (:tag ("Chore" "Routine" "Daily")))
-                                                                ))
+                                                       (:name "trivial"
+                                                              :priority<= "C"
+                                                              :tag ("Trivial" "Unimportant")
+                                                              :todo ("SOMEDAY" )
+                                                              :order 90)
+                                                       (:discard (:tag ("Chore" "Routine" "Daily")))
+                                                       ))
 
-                                                             )))
-                                               ) ; Zuper agenda view
-                                              )))
+                                                    ))
+                                       )) ; Zuper agenda view
+                                    '("h" "Habits" ((agenda "" ((org-super-agenda-groups
+                                                                 '(
+                                                                   (:name "Habits" :habit t)
+                                                                   ))))))
+                                          ))
   :config
   (org-super-agenda-mode t)
   )
