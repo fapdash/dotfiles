@@ -603,7 +603,7 @@ Try the repeated popping up to 10 times."
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (ivy-xref prettier-js org-rich-yank diminish org-cliplink activity-watch-mode org-agenda-property org-ql multi-vterm vterm org-noter ivy-bibtex org-ref company-org-roam org-roam-bibtex org-journal org-roam ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line org-present deft deadgrep racer alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format epresent esprent smart-shift engine-mode itail vlf vfl htmlize tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel ivy projectile-ripgrep ripgrep dumb-jump yari workgroups2 wgrep undo-tree switch-window smartscan smart-mode-line rvm ruby-refactor ruby-compilation rubocop quickrun puml-mode pos-tip plantuml-mode nyan-mode neotree move-text minitest goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (org-superstar ivy-xref prettier-js org-rich-yank diminish org-cliplink activity-watch-mode org-agenda-property org-ql multi-vterm vterm org-noter ivy-bibtex org-ref company-org-roam org-roam-bibtex org-journal org-roam ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line org-present deft deadgrep racer alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format epresent esprent smart-shift engine-mode itail vlf vfl htmlize tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel ivy projectile-ripgrep ripgrep dumb-jump yari workgroups2 wgrep undo-tree switch-window smartscan smart-mode-line rvm ruby-refactor ruby-compilation rubocop quickrun puml-mode pos-tip plantuml-mode nyan-mode neotree move-text minitest goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -814,7 +814,7 @@ is nil, refile in the current file."
 (use-package org-brain
   :ensure t)
 
-(use-package org-bullets
+(use-package org-superstar
   :ensure t)
 
 ;; https://github.com/Fuco1/org-pretty-table/blob/master/org-pretty-table.el
@@ -1243,7 +1243,7 @@ is nil, refile in the current file."
 
 (defun rogue/org-tweaks ()
     (setq org-startup-indented t
-          org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+          org-superstar-headline-bullets-list '(" ") ;; no bullets, needs org-bullets package
           org-ellipsis "  " ;; folding symbol
           org-pretty-entities t
           org-hide-emphasis-markers t ;; show actually italicized text instead of /italicized text/
