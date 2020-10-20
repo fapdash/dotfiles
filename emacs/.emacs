@@ -667,7 +667,7 @@ Try the repeated popping up to 10 times."
   (setq org-startup-with-inline-images t)
   (setq org-refile-targets `((nil :level . 3)
                              (,(concat org_gtd "/gtd.org") :maxlevel . 3)
-                             (,(concat org_gtd "/someday.org") :level . 1)
+                             (,(concat org_gtd "/someday.org") :maxlevel . 2)
                              (,(concat org_todo "/calendar.org") :maxlevel . 2)))
   ;; https://orgmode.org/manual/Tracking-TODO-state-changes.html
   (setq org-todo-keywords
