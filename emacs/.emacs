@@ -6,9 +6,9 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
-(add-to-list 'package-archives
-             '("marmalade" .
-               "https://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives
+;;              '("marmalade" .
+;;                "https://marmalade-repo.org/packages/"))
 
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
@@ -597,13 +597,13 @@ Try the repeated popping up to 10 times."
  '(magit-diff-use-overlays nil)
  '(org-agenda-files
    (quote
-    ("/home/fap/repos/org/todo/calendar.org" "/home/fap/repos/org/todo/daily_habits.org" "/home/fap/repos/org/todo/dating.org" "/home/fap/repos/org/todo/habits.org" "/home/fap/repos/org/todo/kanban.org" "/home/fap/repos/org/todo/notes.org" "/home/fap/repos/org/todo/todo.org" "/home/fap/repos/org/todo/week_overview.org" "/home/fap/repos/org/todo/weekly_habits.org" "/home/fap/repos/org/journal/20201019")))
+    ("/home/fap/repos/org/todo/calendar.org" "/home/fap/repos/org/todo/daily_habits.org" "/home/fap/repos/org/todo/dating.org" "/home/fap/repos/org/todo/habits.org" "/home/fap/repos/org/todo/kanban.org" "/home/fap/repos/org/todo/notes.org" "/home/fap/repos/org/todo/todo.org" "/home/fap/repos/org/todo/week_overview.org" "/home/fap/repos/org/todo/weekly_habits.org" "/home/fap/repos/org/journal/20201228")))
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (org-superstar ivy-xref prettier-js org-rich-yank diminish org-cliplink activity-watch-mode org-agenda-property org-ql multi-vterm vterm org-noter ivy-bibtex org-ref company-org-roam org-roam-bibtex org-journal org-roam ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line org-present deft deadgrep racer alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format epresent esprent smart-shift engine-mode itail vlf vfl htmlize tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel ivy projectile-ripgrep ripgrep dumb-jump yari workgroups2 wgrep undo-tree switch-window smartscan smart-mode-line rvm ruby-refactor ruby-compilation rubocop quickrun puml-mode pos-tip plantuml-mode nyan-mode neotree move-text minitest goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window ac-racer ac-alchemist)))
+    (company-quickhelp counsel-etags ox-hugo emacs-w3m org-superstar ivy-xref prettier-js org-rich-yank diminish org-cliplink activity-watch-mode org-agenda-property org-ql multi-vterm vterm org-noter ivy-bibtex org-ref company-org-roam org-roam-bibtex org-journal org-roam ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line org-present deft deadgrep racer alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format epresent esprent smart-shift engine-mode itail vlf vfl htmlize tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel ivy projectile-ripgrep ripgrep dumb-jump yari workgroups2 wgrep undo-tree switch-window smartscan smart-mode-line rvm ruby-refactor ruby-compilation rubocop quickrun puml-mode pos-tip plantuml-mode nyan-mode neotree move-text minitest goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
@@ -809,10 +809,14 @@ is nil, refile in the current file."
   (setq org-pandoc-options-for-beamer-pdf '((latex-engine . "xelatex")))
   (setq org-pandoc-options-for-latex-pdf '((latex-engine . "xelatex"))))
 
+(use-package ox-hugo
+  :ensure t
+  :after ox)
+
 (setq org-agenda-files '("~/repos/org/todo" "~/repos/org/journal"))
 
-(use-package org-brain
-  :ensure t)
+;; (use-package org-brain
+;;   :ensure t)
 
 (use-package org-superstar
   :ensure t)
@@ -1053,17 +1057,14 @@ is nil, refile in the current file."
               (("C-c n l" . org-roam)
                ("C-c n f" . org-roam-find-file)
                ("C-c n g" . org-roam-graph-show)
-               ("C-c n d" . org-roam-dailies-today))
+               ("C-c n d" . org-roam-dailies-find-today))
               :map org-mode-map
               (("C-c n i" . org-roam-insert))
               (("C-c n I" . org-roam-insert-immediate)))
       :config
       (setq org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
             org-roam-verbose nil ; make org-roam quiet
-            org-roam-dailies-directory "dailies"  ;; roam-dailies not yet ready: https://github.com/org-roam/org-roam/pull/978
-            org-roam-dailies-captures-templates
-            '(("d" "daily" entry #'org-roam-capture--get-point
-               "* %?\n")) ;; https://www.youtube.com/watch?v=1q9x2aZCJJ4
+             ;; https://www.youtube.com/watch?v=1q9x2aZCJJ4
             )
       (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
 
@@ -1418,30 +1419,52 @@ is nil, refile in the current file."
 (use-package fuzzy
   :ensure t)
 
-(use-package auto-complete
+(use-package company-quickhelp          ; Documentation popups for Company
   :ensure t
-  :init
-  (require 'auto-complete-config)
-  (global-auto-complete-mode +1)
+  :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
+
+(use-package company
+  :ensure t
+  :defer t
+  :after (company-quickhelp)
+  :init (global-company-mode)
   :config
-  (setq ac-auto-show-menu t
-		ac-quick-help-delay 0.2
-        ac-auto-start 0
-		ac-use-fuzzy t
-        ac-show-menu-immediately-on-auto-complete t)
-  (define-key ac-complete-mode-map (kbd "M-x") 'execute-extended-command)
-  (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
-  (define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
-  (define-key ac-complete-mode-map (kbd "C-g") 'ac-stop)
-  ;; trigger auto-complete on delete
-  (define-key ac-complete-mode-map (kbd "DEL")
-    (lambda ()
-      (interactive)
-      (backward-delete-char-untabify 1)
-      (ac-start)))
-  (provide 'auto-complete-config)
-  ;; deactivate company-mode so it can't interfe with ac completion
-  (setq company-backends nil))
+  (progn
+    ;; Use Company for completion
+    (bind-key [remap completion-at-point] #'company-complete company-mode-map)
+
+    (setq company-tooltip-align-annotations t
+          ;; Easy navigation to candidates with M-<n>
+          company-show-numbers t)
+    (setq company-dabbrev-downcase nil))
+  :diminish company-mode)
+
+
+
+;; (use-package auto-complete
+;;   :ensure t
+;;   :init
+;;   (require 'auto-complete-config)
+;;   (global-auto-complete-mode +1)
+;;   :config
+;;   (setq ac-auto-show-menu t
+;; 		ac-quick-help-delay 0.2
+;;         ac-auto-start 0
+;; 		ac-use-fuzzy t
+;;         ac-show-menu-immediately-on-auto-complete t)
+;;   (define-key ac-complete-mode-map (kbd "M-x") 'execute-extended-command)
+;;   (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
+;;   (define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
+;;   (define-key ac-complete-mode-map (kbd "C-g") 'ac-stop)
+;;   ;; trigger auto-complete on delete
+;;   (define-key ac-complete-mode-map (kbd "DEL")
+;;     (lambda ()
+;;       (interactive)
+;;       (backward-delete-char-untabify 1)
+;;       (ac-start)))
+;;   (provide 'auto-complete-config)
+;;   ;; deactivate company-mode so it can't interfe with ac completion
+;;   (setq company-backends nil))
 
 ;; (use-package ac-dabbrev
 ;;   :ensure t
@@ -1706,11 +1729,11 @@ is nil, refile in the current file."
   (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.gohtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
-  (add-hook 'web-mode-hook
-          (lambda ()
-            (smartparens-mode -1)))
+  (setq web-mode-enable-auto-pairing nil)
   (add-hook 'web-mode-hook
           (lambda ()
             (when (string-equal "jsx" (file-name-extension buffer-file-name))
@@ -1729,13 +1752,13 @@ is nil, refile in the current file."
       (if (string-match (car my-pair) buffer-file-name)
       (funcall (cdr my-pair)))))
 
-(use-package prettier-js
-  :ensure t
-  :config
-  (add-hook 'web-mode-hook #'(lambda ()
-                               (enable-minor-mode
-                                '("\\.jsx?\\'" . prettier-js-mode))))
-  (add-hook 'js-mode-hook 'prettier-js-mode))
+;; (use-package prettier-js
+;;   :ensure t
+;;   :config
+;;   (add-hook 'web-mode-hook #'(lambda ()
+;;                                (enable-minor-mode
+;;                                 '("\\.jsx?\\'" . prettier-js-mode))))
+;;   (add-hook 'js-mode-hook 'prettier-js-mode))
 
 ;; configure jsx-tide checker to run after your default jsx checker
 (flycheck-add-mode 'javascript-eslint 'web-mode)
@@ -1787,11 +1810,6 @@ is nil, refile in the current file."
 ;; elixir integration
 (use-package alchemist
   :ensure t)
-
-(use-package ac-alchemist
-  :ensure t
-  :config
-  (add-hook 'elixir-mode-hook 'ac-alchemist-setup))
 
 ;; Create a buffer-local hook to run elixir-format on save, only when we enable elixir-mode.
 (add-hook 'elixir-mode-hook
@@ -1853,13 +1871,6 @@ is nil, refile in the current file."
   (setq racer-cmd (concat (getenv "HOME") "/.cargo/bin/racer"))
   (setq racer-rust-src-path (concat (getenv "HOME") "/src/rust/src")))
 
-(use-package ac-racer
-  :ensure t
-  :init
-  (defun my/racer-mode-hook ()
-    (ac-racer-setup))
-  (add-hook 'racer-mode-hook 'my/racer-mode-hook))
-
 (use-package flycheck-rust
   :ensure t
   :init
@@ -1868,6 +1879,22 @@ is nil, refile in the current file."
                                         ;(global-company-mode t)
                                         ;(push 'company-robe company-backends)
 
+
+;; had to remove /usr/bin/ctags (which was actually etags bundled from Emacs
+;; from the path so it would pick up the ctags from snap
+(use-package counsel-etags
+  :ensure t
+  :bind
+  ("C-c ." . counsel-etags-find-tag-at-point)
+  ("C-c ," . pop-tag-mark)
+  :init
+  (add-hook 'prog-mode-hook
+        (lambda ()
+          (add-hook 'after-save-hook
+            'counsel-etags-virtual-update-tags 'append 'local)))
+  :config
+  (setq counsel-etags-update-interval 60)
+  (push "build" counsel-etags-ignore-directories))
 
 (define-minor-mode my/pair-programming-mode
   "Toggle visualizations for pair programming.
@@ -2139,6 +2166,8 @@ the mode, `toggle' toggles the state."
 (use-package mastodon
   :ensure t)
 
+(use-package w3m
+  :ensure t)
 
 (and window-system (server-start))
 
