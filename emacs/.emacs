@@ -381,15 +381,6 @@ Try the repeated popping up to 10 times."
   (global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
   (global-set-key (kbd "s-,") 'avy-goto-char-2))
 
-(use-package iy-go-to-char
-  :ensure t
-  :config
-  (global-set-key (kbd "C-c f") 'iy-go-to-char)
-  (global-set-key (kbd "C-c F") 'iy-go-to-char-backward)
-  ;; (global-set-key (kbd "C-c ;") 'iy-go-to-or-up-to-continue)
-  ;; (global-set-key (kbd "C-c ,") 'iy-go-to-or-up-to-continue-backward)
-  )
-
 (use-package copy-as-format
   :ensure t)
 
