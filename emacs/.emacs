@@ -1064,11 +1064,6 @@ is nil, refile in the current file."
 (use-package org-roam-protocol
   :after org-protocol)
 
-(use-package company-org-roam
-  :ensure t
-  :config
-  (push 'company-org-roam company-backends))
-
 (use-package org-roam-bibtex
   :ensure t
   :after org-roam
