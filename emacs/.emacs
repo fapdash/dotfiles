@@ -858,8 +858,10 @@ is nil, refile in the current file."
   :config
   (setq org-journal-dir org_journal
         org-journal-date-format "%A, %d %B %Y"
-        org-journal-enable-agenda-integration t
-        org-capture-templates '(("t" "Todo [inbox]" entry
+        org-journal-enable-agenda-integration t))
+
+
+(setq org-capture-templates '(("t" "Todo [inbox]" entry
                                (file+headline (lambda () (concat org_gtd "/inbox.org")) "Tasks")
                                "* TODO %i%?")
                               ("C" "Calendar" entry
@@ -909,8 +911,7 @@ is nil, refile in the current file."
 %i    3. \n\
 *** How could I have made today better?
 %i    1. \n\
-"))))
-
+")))
 
 (use-package org-ql
   :ensure t)
