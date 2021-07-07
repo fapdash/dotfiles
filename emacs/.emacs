@@ -1065,27 +1065,28 @@ is nil, refile in the current file."
 (use-package org-roam-protocol
   :after org-protocol)
 
-(use-package org-roam-bibtex
-  :ensure t
-  :after org-roam
-  :hook (org-roam-mode . org-roam-bibtex-mode)
-  :bind (:map org-mode-map
-              (("C-c n a" . orb-note-actions)))
-  :config
-  (setq org-roam-bibtex-preformat-keywords
-        '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
-  (setq orb-templates
-        '(("r" "ref" plain (function org-roam-capture--get-point)
-           ""
-           :file-name "bib_notes/${slug}" ;; can't use a variable with concat here?
-           :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
+;; Requires 27.2, which is not on the PPA as of now: https://github.com/org-roam/org-roam-bibtex/commit/f7b5be2ce0b43dd4d842484fc0ec37fdc8526907
+;; (use-package org-roam-bibtex
+;;   :ensure t
+;;   :after org-roam
+;;   :hook (org-roam-mode . org-roam-bibtex-mode)
+;;   :bind (:map org-mode-map
+;;               (("C-c n a" . orb-note-actions)))
+;;   :config
+;;   (setq org-roam-bibtex-preformat-keywords
+;;         '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
+;;   (setq orb-templates
+;;         '(("r" "ref" plain (function org-roam-capture--get-point)
+;;            ""
+;;            :file-name "bib_notes/${slug}" ;; can't use a variable with concat here?
+;;            :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
 
-- tags ::
-- keywords :: ${keywords}
+;; - tags ::
+;; - keywords :: ${keywords}
 
-\n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
+;; \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
 
-           :unnarrowed t))))
+;;            :unnarrowed t))))
 
 (use-package org-ref
   :ensure t
