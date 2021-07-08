@@ -2168,6 +2168,9 @@ the mode, `toggle' toggles the state."
 (use-package w3m
   :ensure t)
 
+;; open links through firefox
+(setq browse-url-browser-function 'browse-url-firefox)
+
 (and window-system (server-start))
 
 (provide '.emacs)
