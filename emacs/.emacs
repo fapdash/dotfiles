@@ -1151,6 +1151,17 @@ is nil, refile in the current file."
 (use-package writeroom-mode
   :ensure t)
 
+;; https://www.youtube.com/watch?v=vO_RF2dK7M0 <- still out of date but shows google setup
+;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
+;; https://github.com/kidd/org-gcal.el#Installation
+(use-package org-gcal
+  :ensure t
+  :config
+  (setq org-gcal-file-alist `(("fabian.pfaff@vogella.com" .  ,(concat org_todo "/vogella_gcal.org"))))
+  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-fetch)
+;;  https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
+  (load-library "~/repos/dotfiles/emacs/org-gcal-secrets.el.gpg"))))
+
 ;; https://github.com/kiwanami/emacs-calfw
 (use-package calfw
   :ensure t)
@@ -1169,7 +1180,7 @@ is nil, refile in the current file."
 ;;    (cfw:howm-create-source "Blue")  ; howm source
 ;;    (cfw:cal-create-source "Orange") ; diary source
 ;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
-    (cfw:ical-create-source "gcal" "~/repos/org/todo/fabian.pfaff@vogella.com.ics" "IndianRed") ; google calendar ICS
+;;    (cfw:ical-create-source "gcal" "~/repos/org/todo/fabian.pfaff@vogella.com.ics" "IndianRed") ; google calendar ICS
     (cfw:ical-create-source "gcal" "~/repos/org/todo/socialhackspace.ics" "Blue") ; google calendar ICS
    )))
 
