@@ -1694,6 +1694,15 @@ is nil, refile in the current file."
 (use-package ivy-historian
   :ensure t)
 
+(use-package ivy-rich
+  :ensure t
+  :config
+  (ivy-rich-mode 1)
+  (setq ivy-rich-path-style 'abbrev))
+
+(use-package ivy-hydra
+  :ensure t)
+
 (use-package flx
   :ensure t)
 
