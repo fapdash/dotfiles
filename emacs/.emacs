@@ -1724,8 +1724,9 @@ is nil, refile in the current file."
   :ensure t
   :config
   (add-hook 'ruby-mode-hook 'robe-mode)
-  ;; use robe for smarter auto-complete-mode
-  (add-hook 'robe-mode-hook 'ac-robe-setup))
+  ;; use robe for smarter company-mode
+  (eval-after-load 'company
+    '(push 'company-robe company-backends)))
 
 
 
