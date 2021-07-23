@@ -20,3 +20,9 @@ ln -s ~/repos/dotfiles/streamlink ~/.config/streamlink
 ################################
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
+
+################################
+######### Ruby #################
+################################
+ln -s ~/repos/dotfiles/ruby/.pryrc ~/.pryrc
+ln -s ~/repos/dotfiles/ruby/.irbrc ~/.irbrc
