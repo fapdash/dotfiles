@@ -1590,21 +1590,43 @@ is nil, refile in the current file."
 (use-package yasnippet-snippets
   :ensure t)
 
+(use-package rvm
+  :ensure t
+  :init
+  (rvm-activate-corresponding-ruby)
+  :config
+  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+    (rvm-activate-corresponding-ruby)))
+
+(use-package rbenv
+  :ensure t
+  :init
+  (global-rbenv-mode))
+
 (use-package rspec-mode
   :ensure t
   :init
     (eval-after-load 'rspec-mode
     '(rspec-install-snippets)))
 
-(use-package minitest
+(use-package ruby-test-mode
   :ensure t
-  :init
-  (add-hook 'ruby-mode-hook 'minitest-mode)
+  :after ruby-mode
+  :diminish ruby-test-mode
   :config
-  (eval-after-load 'minitest
-  '(minitest-install-snippets)))
-
-
+  (defun amk-ruby-test-pretty-error-diffs (old-func &rest args)
+    "Make error diffs prettier."
+    (let ((exit-status (cadr args)))
+      (apply old-func args)
+      (when (> exit-status 0)
+        (diff-mode)
+        ;; Remove self
+        (advice-remove #'compilation-handle-exit #'amk-ruby-test-pretty-error-diffs))))
+  (defun amk-ruby-test-pretty-error-diffs-setup (old-func &rest args)
+    "Set up advice to enable pretty diffs when tests fail."
+    (advice-add #'compilation-handle-exit :around #'amk-ruby-test-pretty-error-diffs)
+    (apply old-func args))
+  (advice-add #'ruby-test-run-command :around #'amk-ruby-test-pretty-error-diffs-setup))
 
 (use-package rubocop
   :ensure t
@@ -1730,6 +1752,8 @@ is nil, refile in the current file."
   ;; When running ‘projectile-switch-project’ (C-c p p), ‘neotree’ will change root automatically.
   (setq projectile-switch-project-action 'neotree-projectile-action))
 
+;; special setup needed after Ruby 2.7: https://ict4g.net/adolfo/notes/admin/inf-ruby-in-emacs-tips-and-tricks.html
+;; https://github.com/nonsequitur/inf-ruby/issues/129
 (use-package robe
   :ensure t
   :config
@@ -1843,19 +1867,6 @@ is nil, refile in the current file."
 	    (text (buffer-substring start end)))
     (delete-region start end)
     (insert (decode-coding-string (string-make-unibyte text) coding-system))))
-
-(use-package rvm
-  :ensure t
-  :init
-  (rvm-activate-corresponding-ruby)
-  :config
-  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
-    (rvm-activate-corresponding-ruby)))
-
-(use-package rbenv
-  :ensure t
-  :init
-  (global-rbenv-mode))
 
 ;; elixir integration
 (use-package alchemist
