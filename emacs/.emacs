@@ -1458,10 +1458,6 @@ is nil, refile in the current file."
 (use-package fuzzy
   :ensure t)
 
-(use-package company-quickhelp          ; Documentation popups for Company
-  :ensure t
-  :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
-
 (use-package company
   :ensure t
   :defer t
@@ -1474,11 +1470,16 @@ is nil, refile in the current file."
 
     (setq company-tooltip-align-annotations t
           ;; Easy navigation to candidates with M-<n>
-          company-show-numbers t)
+          company-show-numbers t
+          company-minimum-prefix-length 1)
     (setq company-dabbrev-downcase nil))
   :diminish company-mode)
 
-
+(use-package company-box
+  :ensure t
+  :custom-face
+  (company-tooltip-selection ((t (:inherit highlight))))
+  :hook (company-mode . company-box-mode))
 
 ;; (use-package auto-complete
 ;;   :ensure t
