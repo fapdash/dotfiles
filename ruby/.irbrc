@@ -1,3 +1,4 @@
+# see https://ict4g.net/adolfo/notes/admin/inf-ruby-in-emacs-tips-and-tricks.html
 if ENV["INSIDE_EMACS"] then
    puts "Inside Emacs we are.  Simple prompt we need."
 
