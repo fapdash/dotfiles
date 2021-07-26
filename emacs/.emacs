@@ -1833,6 +1833,7 @@ With a prefix ARG, remove start location."
 
 ;; special setup needed after Ruby 2.7: https://ict4g.net/adolfo/notes/admin/inf-ruby-in-emacs-tips-and-tricks.html
 ;; https://github.com/nonsequitur/inf-ruby/issues/129
+;; need to add pry, pry-doc (optional) and webrick to the GEMFILE for robe to work
 (use-package robe
   :ensure t
   :config
