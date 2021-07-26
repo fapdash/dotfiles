@@ -1539,7 +1539,6 @@ With a prefix ARG, remove start location."
 (use-package company
   :ensure t
   :defer t
-  :after (company-quickhelp)
   :init (global-company-mode)
   :config
   (progn
