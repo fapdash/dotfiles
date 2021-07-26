@@ -643,6 +643,7 @@ Try the repeated popping up to 10 times."
  org_bib (concat org_roam "/roam.bib") ;; https://github.com/JabRef/jabref
  bib_notes_subdir "/bib_notes"
  org_bib_notes (concat org_roam bib_notes_subdir)
+ org_bib_library (concat org_bib_notes "/pdf")
  org_journal (concat org_top "/journal")
  org-directory org_top
  deft-directory org_top
@@ -653,7 +654,9 @@ Try the repeated popping up to 10 times."
   :ensure t
   :bind
   (:map org-mode-map
-        ("C-j" . newline-and-indent))
+        ("C-j" . newline-and-indent)
+        ("C-c SPC" . nil) ;; bound to ~org-table-blank-field~, block the avy keybind
+        )
   :config
   (setq org-startup-with-inline-images t)
   (setq org-refile-targets `((nil :level . 3)
@@ -1040,66 +1043,134 @@ is nil, refile in the current file."
   )
 
 (use-package org-roam
-      :ensure t
-      :hook
-      (org-load . org-roam-mode)
-      :custom
-      (org-roam-directory org_roam)
-      :bind (:map org-roam-mode-map
+  :ensure t
+  :after org
+  :hook
+  (org-load . org-roam-mode)
+  :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
-               ("C-c n f" . org-roam-find-file)
-               ("C-c n g" . org-roam-graph-show)
-               ("C-c n d" . org-roam-dailies-find-today))
+               ("C-c n f" . org-roam-node-find)
+               ("C-c n g" . org-roam-graph)
+               ("C-c n d" . org-roam-dailies-goto-today))
               :map org-mode-map
-              (("C-c n i" . org-roam-insert))
-              (("C-c n I" . org-roam-insert-immediate)))
-      :config
-      (setq org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
-            org-roam-verbose nil ; make org-roam quiet
-             ;; https://www.youtube.com/watch?v=1q9x2aZCJJ4
-            )
-      (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode))
+              (("C-c n i" . org-roam-node-insert)))
+  :config
+  (setq org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
+        org-roam-verbose nil ; make org-roam quiet
+        ;; https://www.youtube.com/watch?v=1q9x2aZCJJ4
+        org-roam-directory org_roam
+        )
+  (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
+  (setq org-roam-completion-everywhere t)
+  (org-roam-setup))
 
 ;; Since the org module lazy loads org-protocol (waits until an org URL is
 ;; detected), we can safely chain `org-roam-protocol' to it.
 (use-package org-roam-protocol
   :after org-protocol)
 
-;; Requires 27.2, which is not on the PPA as of now: https://github.com/org-roam/org-roam-bibtex/commit/f7b5be2ce0b43dd4d842484fc0ec37fdc8526907
-;; (use-package org-roam-bibtex
-;;   :ensure t
-;;   :after org-roam
-;;   :hook (org-roam-mode . org-roam-bibtex-mode)
-;;   :bind (:map org-mode-map
-;;               (("C-c n a" . orb-note-actions)))
-;;   :config
-;;   (setq org-roam-bibtex-preformat-keywords
-;;         '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
-;;   (setq orb-templates
-;;         '(("r" "ref" plain (function org-roam-capture--get-point)
-;;            ""
-;;            :file-name "bib_notes/${slug}" ;; can't use a variable with concat here?
-;;            :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
+(use-package org-pdftools
+  :after org
+  :ensure t
+  :config
+  (pdf-tools-install) ;; see https://github.com/politza/pdf-tools/issues/288
+  ;; see https://github.com/stardiviner/emacs.d/blob/d149a4cb0f4520c92b4f3f9564db1e542d571d2c/init/Emacs/init-emacs-pdf.el#L58-L60
+  (add-hook 'pdf-view-mode-hook #'pdf-annot-minor-mode)
+  (add-hook 'pdf-view-mode-hook (lambda () (read-only-mode 0)))
+  ;; save after adding annotation comment
+  (advice-add 'pdf-annot-edit-contents-commit :after 'save-buffer)
+  (org-pdftools-setup-link) ;; make pdf:/ links work for annotations
+  )
 
-;; - tags ::
-;; - keywords :: ${keywords}
+(use-package pdfgrep
+  :ensure t
+  :defer t
+  :after pdf-tools
+  :commands (pdfgrep pdfgrep-mode)
+  :hook (pdf-view-mode . pdfgrep-mode)
+  :config
+  (defun insert-current-buffer-file (cmd)
+    "Add current buffer file name as PATTERN."
+    (cond ((and (equal major-mode 'pdf-view-mode) (listp cmd) (numberp (cdr cmd))) ;; pdfgrep-ignore-errors is t
+           (cons (concat (car cmd) " " buffer-file-name) (cdr cmd)))
+          ((equal major-mode 'pdf-view-mode)
+           (cons (concat cmd " " buffer-file-name) (1+ (length cmd))))
+          (t cmd)))
+  (advice-add 'pdfgrep-default-command :filter-return 'insert-current-buffer-file))
 
-;; \n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
+(use-package org-noter
+  :ensure t
+  :after (:any org pdf-view)
+  :config
+  (setq
+   ;; The WM can handle splits
+   ;; org-noter-notes-window-location 'other-frame
+   ;; Please stop opening frames
+   org-noter-always-create-frame nil
+   ;; I want to see the whole file
+   org-noter-hide-other nil
+   ;; Everything is relative to the main notes file
+   org-noter-notes-search-path (list org_bib_notes)
+   org-noter-auto-save-last-location t
+   ))
 
-;;            :unnarrowed t))))
+(use-package org-noter-pdftools
+  :ensure t
+  :after org-noter
+  :config
+  ;; Add a function to ensure precise note is inserted
+  (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
+    (interactive "P")
+    (org-noter--with-valid-session
+     (let ((org-noter-insert-note-no-questions (if toggle-no-questions
+                                                   (not org-noter-insert-note-no-questions)
+                                                 org-noter-insert-note-no-questions))
+           (org-pdftools-use-isearch-link t)
+           (org-pdftools-use-freestyle-annot t))
+       (org-noter-insert-note (org-noter--get-precise-info)))))
+  ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
+  (defun org-noter-set-start-location (&optional arg)
+    "When opening a session with this document, go to the current location.
+With a prefix ARG, remove start location."
+    (interactive "P")
+    (org-noter--with-valid-session
+     (let ((inhibit-read-only t)
+           (ast (org-noter--parse-root))
+           (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
+       (with-current-buffer (org-noter--session-notes-buffer session)
+         (org-with-wide-buffer
+          (goto-char (org-element-property :begin ast))
+          (if arg
+              (org-entry-delete nil org-noter-property-note-location)
+            (org-entry-put nil org-noter-property-note-location
+                           (org-noter--pretty-print-location location))))))))
+  (with-eval-after-load 'pdf-annot
+    (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
 
 (use-package org-ref
   :ensure t
+  :after org-roam
   :config
   (setq
    org-ref-completion-library 'org-ref-ivy-cite
-   org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-ivy-bibtex
+   ;;   org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-ivy-bibtex
    org-ref-default-bibliography (list org_bib)
+   org-ref-pdf-directory org_bib_library
    org-ref-bibliography-notes (concat org_bib_notes "/bibnotes.org")
    org-ref-note-title-format "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
-   org-ref-notes-directory org_bib_notes
-   org-ref-notes-function 'orb-edit-notes
-   ))
+   org-ref-notes-directory org_bib_notes)
+  (defun my/org-ref-open-pdf-at-point ()
+    "Open the pdf for bibtex key under point if it exists."
+    (interactive)
+    (let* ((results (org-ref-get-bibtex-key-and-file))
+           (key (car results))
+	       (pdf-file (car (bibtex-completion-find-pdf key))))
+      (if (file-exists-p pdf-file)
+	      (org-open-file pdf-file)
+        (message "No PDF found for %s" key))))
+
+  (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
+  (org-ref-ivy-cite-completion))
 
 (use-package ivy-bibtex
   :ensure t
@@ -1109,13 +1180,14 @@ is nil, refile in the current file."
   (setq
    bibtex-completion-notes-path org_bib_notes
    bibtex-completion-bibliography org_bib
+   bibtex-completion-library-path org_bib_library
 ;;   bibtex-completion-library-path (concat (getenv "HOME") "/Documents/ebooks")
    bibtex-completion-pdf-field "file"
    ivy-bibtex-default-action 'ivy-bibtex-edit-notes
    bibtex-completion-notes-template-multiple-files
    (concat
     "#+TITLE: ${title}\n"
-    "#+ROAM_KEY: cite:${=key=}\n"
+    "#+ROAM_REFS: cite:${=key=}\n"
     "* TODO Notes\n"
     ":PROPERTIES:\n"
     ":Custom_ID: ${=key=}\n"
@@ -1129,21 +1201,27 @@ is nil, refile in the current file."
     ":END:\n\n"
     )))
 
-(use-package org-noter
+(use-package org-roam-bibtex
   :ensure t
-  :after (:any org pdf-view)
+  :after (org-roam ivy-bibtex)
+  :bind (:map org-mode-map
+              (("C-c n a" . orb-note-actions)))
   :config
-  (setq
-   ;; The WM can handle splits
-   org-noter-notes-window-location 'other-frame
-   ;; Please stop opening frames
-   org-noter-always-create-frame nil
-   ;; I want to see the whole file
-   org-noter-hide-other nil
-   ;; Everything is relative to the main notes file
-   org-noter-notes-search-path (list org_bib_notes)
-   ))
+  (setq orb-preformat-keywords
+        '("citekey" "title" "url" "author-or-editor" "keywords" "file")
+        orb-process-file-keyword t
+        orb-file-field-extensions '("pdf"))
 
+  (setq org-roam-capture-templates
+        `(("r" "bibliography reference" plain
+           (file ,(concat org_bib_notes "/bib_ref_template.org"))
+           :if-new
+           (file+head ,(concat org_bib_notes "/${citekey}.org") "#+title: ${title}\n"))
+          ("d" "default" plain "%?" :if-new
+           (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+")
+           :unnarrowed t)))
+  (org-roam-bibtex-mode))
 
 (use-package org-kanban
   :ensure t)
