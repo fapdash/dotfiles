@@ -1550,7 +1550,8 @@ With a prefix ARG, remove start location."
           ;; Easy navigation to candidates with M-<n>
           company-show-numbers t
           company-minimum-prefix-length 1)
-    (setq company-dabbrev-downcase nil))
+    (setq company-dabbrev-downcase nil)
+    (add-to-list 'company-backends 'company-capf))
   :diminish company-mode)
 
 (use-package company-box
