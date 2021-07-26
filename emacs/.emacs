@@ -1802,7 +1802,8 @@ With a prefix ARG, remove start location."
   (setq ivy-rich-path-style 'abbrev))
 
 (use-package ivy-hydra
-  :ensure t)
+  :ensure t
+  :after (ivy hydra))
 
 (use-package flx
   :ensure t)
