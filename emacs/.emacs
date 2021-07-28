@@ -279,10 +279,11 @@ Try the repeated popping up to 10 times."
 
 (use-package expand-region
   :ensure t
+  :after auto-highlight-symbol
   :config
   (global-set-key (kbd "M-+") 'er/expand-region)
-;;  (global-set-key (kbd "M--") ‘er/contract-region)
-  )
+  (global-set-key (kbd "M--") 'nil)
+  (global-set-key (kbd "M--") 'er/contract-region))
 
 (use-package flycheck
   :ensure t
@@ -1500,6 +1501,7 @@ With a prefix ARG, remove start location."
 (use-package auto-highlight-symbol
   :ensure t
   :config
+  (define-key auto-highlight-symbol-mode-map (kbd "M--") 'nil)
   (global-auto-highlight-symbol-mode t)
   (ahs-set-idle-interval 0.1)
   (ahs-chrange-display)
