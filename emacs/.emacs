@@ -293,11 +293,17 @@ Try the repeated popping up to 10 times."
 (use-package ag
   :ensure t)
 
-(use-package anzu
+(use-package smartscan
   :ensure t
   :init
-  (global-anzu-mode +1)
+  (define-key smartscan-map (kbd "M-'") nil)
+  (global-smartscan-mode 1))
+
+(use-package anzu
+  :ensure t
+  :after smartscan
   :config
+  (global-set-key (kbd "M-'") 'anzu-query-replace-at-cursor)
   (global-set-key (kbd "M-%") 'anzu-query-replace)
   (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
   (set-face-attribute 'anzu-mode-line nil
@@ -306,12 +312,8 @@ Try the repeated popping up to 10 times."
    '(anzu-mode-lighter "")
    '(anzu-deactivate-region t)
    '(anzu-search-threshold 1000)
-   '(anzu-replace-to-string-separator " => ")))
-
-(use-package smartscan
-  :ensure t
-  :init
-  (global-smartscan-mode 1))
+   '(anzu-replace-to-string-separator " => "))
+  (global-anzu-mode +1))
 
 (setq column-number-mode t)
 
