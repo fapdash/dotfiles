@@ -2039,6 +2039,17 @@ With a prefix ARG, remove start location."
   (setq counsel-etags-update-interval 60)
   (push "build" counsel-etags-ignore-directories))
 
+(use-package paredit
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
+  ;; enable in the *scratch* buffer
+  (add-hook 'lisp-interaction-mode-hook #'paredit-mode)
+  (add-hook 'ielm-mode-hook #'paredit-mode)
+  (add-hook 'lisp-mode-hook #'paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
+  :diminish paredit-mode)
+
 (define-minor-mode my/pair-programming-mode
   "Toggle visualizations for pair programming.
 
