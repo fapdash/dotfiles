@@ -1053,7 +1053,7 @@ is nil, refile in the current file."
   :hook
   (org-load . org-roam-mode)
   :bind (:map org-roam-mode-map
-              (("C-c n l" . org-roam)
+              (("C-c n l" . org-roam-buffer-toggle)
                ("C-c n f" . org-roam-node-find)
                ("C-c n g" . org-roam-graph)
                ("C-c n d" . org-roam-dailies-goto-today))
