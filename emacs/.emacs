@@ -183,7 +183,31 @@ Try the repeated popping up to 10 times."
 (use-package vterm
   :ensure t
   :init
-  (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no"))
+  (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
+  :config
+  ;; https://old.reddit.com/r/emacs/comments/op4fcm/send_command_to_vterm_and_execute_it/h63i4f3/
+  (defun my/vterm-execute-current-line ()
+    "Insert text of current line in vterm and execute."
+    (interactive)
+    (require 'vterm)
+    (let ((command (buffer-substring
+                    (save-excursion
+                      (beginning-of-line)
+                      (point))
+                    (save-excursion
+                      (end-of-line)
+                      (point)))))
+      (let ((buf (current-buffer)))
+        (unless (get-buffer vterm-buffer-name)
+          (vterm))
+        (display-buffer vterm-buffer-name t)
+        (switch-to-buffer-other-window vterm-buffer-name)
+        (vterm--goto-line -1)
+        (message command)
+        (vterm-send-string command)
+        (vterm-send-return)
+        (switch-to-buffer-other-window buf)
+        ))))
 
 (use-package multi-vterm
   :ensure t)
