@@ -318,11 +318,13 @@ Try the repeated popping up to 10 times."
   :ensure t
   :defer t)
 
+;; view large files
 (use-package vlf
   :ensure t
   :config
   (require 'vlf-setup))
 
+;; tail a file, possible to tail a remote log file through TRAMP
 (use-package itail
   :ensure t)
 
