@@ -431,6 +431,9 @@ Try the repeated popping up to 10 times."
   (setq magit-completing-read-function 'ivy-completing-read)
   (magit-define-popup-switch 'magit-log-popup ?f "first parent" "--first-parent"))
 
+(use-package magit-popup
+  :ensure t)
+
 (use-package magit-todos
   :ensure t
   :after magit
