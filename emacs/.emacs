@@ -292,7 +292,7 @@ Try the repeated popping up to 10 times."
 
 (use-package smartscan
   :ensure t
-  :init
+  :config
   (define-key smartscan-map (kbd "M-'") nil)
   (global-smartscan-mode 1))
 
