@@ -1542,6 +1542,7 @@ With a prefix ARG, remove start location."
 (use-package fuzzy
   :ensure t)
 
+;; trigger completion with C-M-i (traditional completion-at-point binding)
 (use-package company
   :ensure t
   :defer t
