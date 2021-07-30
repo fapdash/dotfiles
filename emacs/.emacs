@@ -1978,6 +1978,15 @@ With a prefix ARG, remove start location."
 
 (setq js-indent-level 2)
 
+;; powerful html and css snippet expand
+;; https://github.com/smihica/emmet-mode#html-abbreviations
+;; https://github.com/smihica/emmet-mode#css-abbreviations
+(use-package emmet-mode
+  :ensure t
+  :config
+  (add-hook 'css-mode-hook  'emmet-mode)
+  (add-hook 'web-mode-hook  'emmet-mode))
+
 (defun enable-minor-mode (my-pair)
   "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
   (if (buffer-file-name)
