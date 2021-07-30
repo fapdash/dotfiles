@@ -1832,6 +1832,8 @@ With a prefix ARG, remove start location."
   (global-set-key (kbd "C-c G") 'counsel-git-grep)
   (global-set-key (kbd "C-c k") 'counsel-rg)
   (global-set-key (kbd "C-c K") 'counsel-projectile-rg)
+  (global-set-key (kbd "C-c p") 'counsel-projectile-switch-to-buffer)
+  (global-set-key (kbd "C-c P") 'counsel-projectile-switch-project)
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
