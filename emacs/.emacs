@@ -362,8 +362,19 @@ Try the repeated popping up to 10 times."
 
 (use-package adoc-mode
   :ensure t
+  :bind (("M-<left>" . adoc-demote)
+         ("M-<right>" . adoc-promote))
   :config
+  ;; https://github.com/dakra/moe-theme.el/blob/85d3d84f22096cf181f1494a99864515e76a1047/moe-dark-theme.el#L177-L183
+  (custom-set-faces
+   `(markup-title-0-face ((t (:inherit markup-gen-face :height 1.8))))
+   `(markup-title-1-face ((t (:inherit markup-gen-face :height 1.7))))
+   `(markup-title-2-face ((t (:inherit markup-gen-face :height 1.6))))
+   `(markup-title-3-face ((t (:inherit markup-gen-face :height 1.5))))
+   `(markup-title-4-face ((t (:inherit markup-gen-face :height 1.4))))
+   `(markup-title-5-face ((t (:inherit markup-gen-face :height 1.3)))))
   (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode)))
+
 										;(use-package edts
 										;  :ensure t
 										;  :init (require 'edts-start))
