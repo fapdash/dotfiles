@@ -1716,7 +1716,9 @@ With a prefix ARG, remove start location."
 
 ;; provides functions to convert string to symbol etc.
 (use-package ruby-tools
-  :ensure t)
+  :ensure t
+  :config
+  (define-key ruby-tools-mode-map (kbd "C-;") nil))
 
 ;; you need to have the rcodetools gem installed to use this
 (use-package rcodetools
