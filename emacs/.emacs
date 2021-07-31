@@ -222,7 +222,9 @@ Try the repeated popping up to 10 times."
 ;; pops up a window with all possible keystroke completions
 ;; alternative: https://github.com/kai2nenobu/guide-key
 (use-package which-key
-   :ensure t)
+  :ensure t
+  :config
+  (which-key-mode 1))
 
 (use-package nyan-mode
   :ensure t
