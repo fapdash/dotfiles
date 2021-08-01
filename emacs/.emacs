@@ -368,7 +368,9 @@ Try the repeated popping up to 10 times."
 
 (use-package smart-mode-line
   :ensure t
-  :defer t)
+  :config
+  (setq sml/no-confirm-load-theme t)
+  (sml/setup))
 
 ;; view large files
 (use-package vlf
