@@ -775,6 +775,7 @@ Try the repeated popping up to 10 times."
   ;; https://orgmode.org/manual/Structure-Templates.html
   :after org)
 
+;; if you yank something coming from a programming major-mode: surround yank with source block, language is automatically specified
 (use-package org-rich-yank
   :ensure t
   :demand t
