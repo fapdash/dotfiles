@@ -784,6 +784,14 @@ Try the repeated popping up to 10 times."
 (use-package org-web-tools
   :ensure t)
 
+;; https://colekillian.com/posts/org-pomodoro-and-polybar/
+(use-package org-pomodoro
+  :ensure t
+  :config
+  (setq
+   alert-user-configuration (quote ((((:category . "org-pomodoro")) libnotify nil)))
+   ))
+
 (defun org-refile-to-datetree (&optional file)
   "Refile a subtree to a datetree corresponding to it's timestamp.
 
