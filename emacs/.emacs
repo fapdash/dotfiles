@@ -1652,6 +1652,7 @@ With a prefix ARG, remove start location."
     (setq company-tooltip-align-annotations t
           ;; Easy navigation to candidates with M-<n>
           company-show-numbers t
+          ;; show completion candidates after typing one Character
           company-minimum-prefix-length 1)
     (setq company-dabbrev-downcase nil)
     (add-to-list 'company-backends 'company-capf))
