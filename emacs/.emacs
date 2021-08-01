@@ -1852,13 +1852,44 @@ With a prefix ARG, remove start location."
 (use-package smex
   :ensure t)
 
+(use-package ace-isearch
+  :ensure t
+  :after swiper
+  :config
+  (global-ace-isearch-mode +1)
+
+  (defun my/ace-isearch-swiper-from-isearch ()
+    "Invoke `swiper' from ace-isearch."
+    (interactive)
+    (let (($query (if isearch-regexp
+                      isearch-string
+                    (regexp-quote isearch-string))))
+      (isearch-update-ring isearch-string isearch-regexp)
+      (let (search-nonincremental-instead)
+        (ignore-errors (isearch-done t t)))
+      (counsel-grep-or-swiper $query)))
+
+  (custom-set-variables
+   '(ace-isearch-input-length 2)
+   '(ace-isearch-jump-delay 0.2)
+   '(ace-isearch-function 'avy-goto-word-1)
+   '(ace-isearch-use-jump 'printing-char)
+   '(ace-isearch-function-from-isearch 'my/ace-isearch-swiper-from-isearch))
+  (defun ace-isearch/jump-back-to-point ()
+    (setq ace-isearch--opoint (point)))
+
+
+  (add-hook 'isearch-mode-hook 'ace-isearch/jump-back-to-point)
+  (add-hook 'isearch-mode-end-hook (lambda () (unless isearch-mode-end-hook-quit (goto-char ace-isearch--opoint)))))
+
 (use-package ivy
   :ensure t
   :after helpful
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
-  (global-set-key "\C-s" 'counsel-grep-or-swiper)
+  ;; (global-set-key "\C-s" 'counsel-grep-or-swiper)
+  (global-set-key "\C-s" 'isearch-forward)
   (global-set-key (kbd "C-S-s") 'swiper-all)
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
   (global-set-key (kbd "<f6>") 'ivy-resume)
