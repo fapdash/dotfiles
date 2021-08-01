@@ -280,9 +280,13 @@ Try the repeated popping up to 10 times."
   (diminish 'auto-highlight-symbol-mode)
   (diminish 'global-whitespace-mode)
   (diminish 'global-activity-watch-mode)
-  (diminish 'org-roam-bibtex-mode)
   (diminish 'ivy-mode)
-  (diminish 'org-roam-mode))
+  (diminish 'org-roam-mode)
+  (diminish 'git-gutter-mode)
+  (diminish 'org-roam-bibtex-mode)
+  (diminish 'ace-isearch-mode)
+  (diminish 'company-box-mode)
+  (diminish 'activity-watch-mode))
 
 (delete-selection-mode)
 
@@ -549,7 +553,8 @@ Try the repeated popping up to 10 times."
 (use-package git-gutter
   :ensure t
   :config
-  (global-git-gutter-mode +1))
+  (global-git-gutter-mode +1)
+  :diminish 'git-gutter-mode)
 
 ;; use ibuffer groups to garbage collect temp buffers
 (use-package ibuffer
@@ -594,7 +599,8 @@ Try the repeated popping up to 10 times."
   :ensure t
   :config
   (setq highlight-indent-guides-method 'character)
-  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  :diminish highlight-indent-guides-mode)
 
 (use-package highlight-indentation
 :ensure t)
@@ -1348,7 +1354,8 @@ With a prefix ARG, remove start location."
            (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 ")
            :unnarrowed t)))
-  (org-roam-bibtex-mode))
+  (org-roam-bibtex-mode)
+  :diminish org-roam-bibtex-mode)
 
 (use-package org-kanban
   :ensure t)
@@ -1432,7 +1439,8 @@ With a prefix ARG, remove start location."
 (use-package activity-watch-mode
   :ensure t
   :config
-  (global-activity-watch-mode t))
+  (global-activity-watch-mode t)
+  :diminish activity-watch-mode)
 
 (use-package spacemacs-theme
   :ensure t
@@ -1632,7 +1640,8 @@ With a prefix ARG, remove start location."
   (ahs-set-idle-interval 0.1)
   (ahs-chrange-display)
   (add-hook 'web-mode-hook 'auto-highlight-symbol-mode)
-  (add-hook 'elixir-mode-hook 'auto-highlight-symbol-mode))
+  (add-hook 'elixir-mode-hook 'auto-highlight-symbol-mode)
+  :diminish 'auto-highlight-symbol-mode)
 
 (use-package imenu-list
   :ensure t
@@ -1687,7 +1696,8 @@ With a prefix ARG, remove start location."
   :ensure t
   :custom-face
   (company-tooltip-selection ((t (:inherit highlight))))
-  :hook (company-mode . company-box-mode))
+  :hook (company-mode . company-box-mode)
+  :diminish company-box-mode)
 
 ;; (use-package auto-complete
 ;;   :ensure t
@@ -1921,7 +1931,8 @@ With a prefix ARG, remove start location."
 
 
   (add-hook 'isearch-mode-hook 'ace-isearch/jump-back-to-point)
-  (add-hook 'isearch-mode-end-hook (lambda () (unless isearch-mode-end-hook-quit (goto-char ace-isearch--opoint)))))
+  (add-hook 'isearch-mode-end-hook (lambda () (unless isearch-mode-end-hook-quit (goto-char ace-isearch--opoint))))
+  :diminish ace-isearch-mode)
 
 (use-package ivy
   :ensure t
@@ -2421,7 +2432,8 @@ the mode, `toggle' toggles the state."
   :init
   (google-this-mode 1)
   :config
-  (global-set-key (kbd "C-x g") 'google-this-mode-submap))
+  (global-set-key (kbd "C-x g") 'google-this-mode-submap)
+  :diminish 'google-this-mode)
 
 (use-package google-translate
   :ensure t
