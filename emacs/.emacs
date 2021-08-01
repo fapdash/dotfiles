@@ -1762,6 +1762,7 @@ With a prefix ARG, remove start location."
 
 (use-package yasnippet
   :ensure t
+  :after company
   :config
   (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"                 ;; personal snippets
@@ -1773,7 +1774,7 @@ With a prefix ARG, remove start location."
 
 (use-package yasnippet-snippets
   :ensure t
-  :after company
+  :after (yasnippet company)
   :config
   ;; Add yasnippet support for all company backends
   ;; https://github.com/syl20bnr/spacemacs/pull/179
@@ -1784,9 +1785,9 @@ With a prefix ARG, remove start location."
     (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
         backend
       (append (if (consp backend) backend (list backend))
-              '(:with company-yasnippet)))))
+              '(:with company-yasnippet))))
 
-(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
 
 (use-package rvm
   :ensure t
