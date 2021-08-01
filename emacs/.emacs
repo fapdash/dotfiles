@@ -1686,8 +1686,8 @@ With a prefix ARG, remove start location."
     (setq company-tooltip-align-annotations t
           ;; Easy navigation to candidates with M-<n>
           company-show-numbers t
-          ;; show completion candidates after typing one Character
-          company-minimum-prefix-length 1)
+          ;; after typing of how many characters are we auto suggesting completions
+          company-minimum-prefix-length 3)
     (setq company-dabbrev-downcase nil)
     (add-to-list 'company-backends 'company-capf))
   :diminish company-mode)
@@ -1696,6 +1696,8 @@ With a prefix ARG, remove start location."
   :ensure t
   :custom-face
   (company-tooltip-selection ((t (:inherit highlight))))
+  :config
+  (setq company-box-doc-delay 0.1)
   :hook (company-mode . company-box-mode)
   :diminish company-box-mode)
 
