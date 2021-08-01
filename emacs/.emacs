@@ -366,11 +366,34 @@ Try the repeated popping up to 10 times."
 
 (setq column-number-mode t)
 
+(use-package dired
+  :bind  (:map dired-mode-map ("°" . (lambda () (interactive) (find-alternate-file ".."))))
+  :config
+  ;; allow dired to delete or copy dir
+  (setq dired-recursive-copies (quote always)) ; “always” means no asking
+  (setq dired-recursive-deletes (quote top)) ; “top” means ask once
+  (put 'dired-find-alternate-file 'disabled nil))
+
 (use-package smart-mode-line
   :ensure t
   :config
   (setq sml/no-confirm-load-theme t)
   (sml/setup))
+
+(use-package all-the-icons
+  :ensure t
+  ;; have to run all-the-icons-install-fonts once
+  )
+
+(use-package all-the-icons-dired
+  :ensure t
+  :after (all-the-icons dired)
+  :config
+  :hook (dired-mode . (lambda ()
+                        (interactive)
+                        (unless (file-remote-p default-directory)
+                          (all-the-icons-dired-mode))))
+  :diminish 'all-the-icons-dired-mode)
 
 ;; view large files
 (use-package vlf
