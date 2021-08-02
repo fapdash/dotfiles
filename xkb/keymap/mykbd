@@ -1,0 +1,7 @@
+xkb_keymap {
+	xkb_keycodes  { include "evdev+aliases(qwertz)"	};
+	xkb_types     { include "complete"	};
+	xkb_compat    { include "complete"	};
+	xkb_symbols   { include "pc+de+us:2+us:3+inet(evdev)+myswap(my_ms_ergo_4000_ctrl_alt_win)"	};
+	xkb_geometry  { include "pc(pc105)"	};
+};

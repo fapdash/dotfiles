@@ -1,0 +1,16 @@
+// Ctrl is mapped to the Alt, Alt_L to the Super_L, Alt_R to the MENU, LWin to the LCtrl, and MENU to the RCtrl keys.
+partial modifier_keys
+xkb_symbols "my_ms_ergo_4000_ctrl_alt_win" {
+    key <LALT> { [ Control_L, Control_L  ] };
+    key <RALT> { type[Group1] = "TWO_LEVEL",
+                 symbols[Group1] = [ Control_R, Control_R ] };
+    key <LWIN> { [ Alt_L, Meta_L ] };
+//  key <RWIN> { [ Alt_R, Meta_R ] }; // keyboard doesn't have RWIN
+//    include "level3(menu_switch)" // would be needed for german keyboard layout, comment next line if you want to use that
+    key <MENU> { [ Alt_R, Meta_R ] };  // for en
+    key <LCTL> { [ Super_L ] };
+    key <RCTL> { [ Menu ] };
+    modifier_map Control { <RALT>, <LALT> }; // map Alt keys to Control modifier
+    modifier_map Mod1 { <LWIN>, <MENU> }; // Mod1 is Meta, which is mapped to LWIN and MENU
+    modifier_map Mod4 { <LCTL> }; // Mod4 is Windows and is mapped to LCTRL
+};

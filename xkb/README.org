@@ -1,0 +1,21 @@
+* README
+** Resources
+ see https://unix.stackexchange.com/a/65600/274368
+** Switch back to default keyboard layout
+   #+begin_quote
+xkbcomp -I/home/fap/repos/dotfiles/xkb ~/repos/dotfiles/xkb/keymap/default $DISPLAY
+   #+end_quote
+
+   or with our .bashrc:
+   #+begin_quote
+key_layout_default
+   #+end_quote
+** Switch to modified keyboard layout
+   #+begin_quote
+xkbcomp -I/home/fap/repos/dotfiles/xkb ~/repos/dotfiles/xkb/keymap/mykbd $DISPLAY
+   #+end_quote
+
+   or with our .bashrc:
+   #+begin_quote
+key_layout_default
+   #+end_quote
