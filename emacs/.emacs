@@ -2316,6 +2316,12 @@ the mode, `toggle' toggles the state."
 
 (global-set-key (kbd "C-x C-r") 'rename-file-and-buffer)
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1)
+  :diminish editorconfig-mode)
+
 (use-package discover
   :ensure t
   :init
