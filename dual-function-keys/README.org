@@ -1,0 +1,26 @@
+* Dual-function-keys
+
+** Installation
+   - https://emacsredux.com/blog/2020/07/05/remap-enter-to-control-in-gnu-linux-2020-edition/
+   - emacs redux was missing a dependency: https://stackoverflow.com/a/64941794/4266296
+   - https://askubuntu.com/questions/446778/left-alt-key-should-work-as-right-alt-key-alt-gr
+   - setup
+     #+begin_quote
+ sudo ln -s ~/repos/dotfiles/dual-function-keys/udevmon.yaml /etc
+ sudo ln -s ~/repos/dotfiles/dual-function-keys/udevmon.service /etc/systemd/system
+ gsettings set org.gnome.desktop.input-sources xkb-options "['grp_led:scroll','altwin:meta_alt']"
+   #+end_quote
+
+** Important
+   - CAUTION: since we bind LCTRL as HOLD key for space we can't use LCTRL for the LCTRL+SPACE key combination.
+     We have to use RCTRL+SPACE.
+     see https://gitlab.com/interception/linux/plugins/dual-function-keys/-/issues/15
+   - CAUTION2: I'm using my own fork right now as mainline is not really suitable for touch typists with my configuration: https://gitlab.com/fap/dual-function-keys/-/tree/4-hold-delayed
+
+** Resources
+   - https://wiki.archlinux.org/title/Xorg/Keyboard_configuration
+   - check
+     #+begin_quote
+ grep -E "alt" /usr/share/X11/xkb/rules/evdev.lst
+ grep -E "(win|ctrl):" /usr/share/X11/xkb/rules/evdev.lst
+     #+end_quote

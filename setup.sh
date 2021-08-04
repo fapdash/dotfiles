@@ -51,8 +51,3 @@ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-b
 ################################
 curl -s "https://get.sdkman.io?rcupdate=false" | bash
 
-################################
-######### kbdx #################
-################################
-mkdir -p ~/.config/autostart
-ln -s ~/repos/dotfiles/kbd/autostart/xkb_swap_autostart.desktop mkdir ~/.config/autostart
