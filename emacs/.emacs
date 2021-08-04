@@ -791,7 +791,7 @@ Try the repeated popping up to 10 times."
   :config
   (setq
    alert-user-configuration (quote ((((:category . "org-pomodoro")) libnotify nil)))
-   ))
+   org-pomodoro-clock-break t))
 
 (defun org-refile-to-datetree (&optional file)
   "Refile a subtree to a datetree corresponding to it's timestamp.
