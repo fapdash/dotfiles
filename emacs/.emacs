@@ -2548,6 +2548,13 @@ the mode, `toggle' toggles the state."
 ;; open links through firefox
 (setq browse-url-browser-function 'browse-url-firefox)
 
+;; replaces M-< and M-> (or any key bound to beginning-of-buffer or end-of-buffer) with smarter functions in certain modes
+(use-package beginend
+  :ensure t
+  :diminish beginend-global-mode
+  :config
+  (beginend-global-mode))
+
 (use-package kbd-mode
   :load-path "~/.emacs.d/lisp/")
 
