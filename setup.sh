@@ -51,3 +51,10 @@ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-b
 ################################
 curl -s "https://get.sdkman.io?rcupdate=false" | bash
 
+################################
+######### ledger ###############
+################################
+sudo apt install ledger -y
+pip3 install ledger-autosync --user
+mkdir -p ~/.config/ledger-autosync/plugins
+ln -s ~/repos/dotfiles/ledger-autosync/plugins/teo.py ~/.config/ledger-autosync/plugins/teo.py

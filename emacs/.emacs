@@ -2548,6 +2548,15 @@ the mode, `toggle' toggles the state."
 ;; open links through firefox
 (setq browse-url-browser-function 'browse-url-firefox)
 
+(use-package ledger-mode
+  :ensure t)
+
+(use-package flycheck-ledger
+  :ensure t
+  :config
+  (eval-after-load 'flycheck
+    '(require 'flycheck-ledger)))
+
 (and window-system (server-start))
 
 (provide '.emacs)
