@@ -2560,6 +2560,12 @@ the mode, `toggle' toggles the state."
   (eval-after-load 'flycheck
     '(require 'flycheck-ledger)))
 
+(use-package keyfreq
+  :ensure t
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
+
 (and window-system (server-start))
 
 (provide '.emacs)
