@@ -6,8 +6,8 @@
    - https://askubuntu.com/questions/446778/left-alt-key-should-work-as-right-alt-key-alt-gr
    - setup
      #+begin_quote
- sudo ln -s ~/repos/dotfiles/dual-function-keys/udevmon.yaml /etc
- sudo ln -s ~/repos/dotfiles/dual-function-keys/udevmon.service /etc/systemd/system
+ sudo ln -s ~/repos/dotfiles/dual-function-keys/udevmon.yaml /etc/udevmon.yaml
+ sudo ln -s /home/fap/repos/dotfiles/dual-function-keys/udevmon.service /etc/systemd/system/udevmon.service
  gsettings set org.gnome.desktop.input-sources xkb-options "['grp_led:scroll','altwin:meta_alt']"
    #+end_quote
 
