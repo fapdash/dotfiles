@@ -1,0 +1,7 @@
+* Setup
+  - download kmonad binary and place it in ~/usr/local/bin~ (the config was written for v0.4.1)
+  - ~sudo cp ~/repos/dotfiles/kmonad/kmonad.service /etc/systemd/system/kmonad.service~
+  - ~sudo systemctl daemon-reload~
+  - ~sudo systemctl enable kmonad.service~
+  - ~sudo systemctl run kmonad.service~
+

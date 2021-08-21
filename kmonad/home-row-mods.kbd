@@ -1,0 +1,85 @@
+(defcfg
+  ;; For Linux
+  input  (device-file "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-event-kbd")
+  output (uinput-sink "My KMonad output")
+
+  allow-cmd true
+  ;; This option tells KMonad to let non-configured keys act normal
+  fallthrough true)
+
+
+;; https://github.com/kmonad/kmonad/tree/master/keymap/template
+#| --------------------------------------------------------------------------
+
+                          KMonad: US ansi 60% template
+
+  This file contains the `defsrc` configuration for a standard US-ansi 60%
+  keyboard. Modelled on a standard DAS-keyboard 100% with the numpad, function
+  keys, arrows, and home-cluster removed. Copy out the 'defsrc' layer to start
+  your own keyboard configuration. Copy out the `deflayer` template to easily
+  start a new layer with matching `transparent` buttons.
+
+(deflayer name
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _    _
+)
+
+  -------------------------------------------------------------------------- |#
+
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet cmp  rctl
+)
+
+(defalias
+    met_a (tap-hold-next-release 200 a lmet) ;; this is super
+    alt_s (tap-hold-next-release 200 s lalt) ;; this is meta
+    sft_d (tap-hold-next-release 200 d lsft)
+    ctl_f (tap-hold-next-release 200 f lctl)
+
+    ctl_j (tap-hold-next-release 200 j rctl)
+    sft_k (tap-hold-next-release 200 k rsft)
+    alt_l (tap-hold-next-release 200 l lalt) ;; this is meta
+    met_; (tap-hold-next-release 200 ; rmet) ;; this is super
+
+;; here be dragons
+;; https://unix.stackexchange.com/questions/75386/clearing-modifying-previous-libnotify-notifications
+;; https://stackoverflow.com/questions/28195805/running-notify-send-as-root
+;; https://specifications.freedesktop.org/notification-spec/latest/ar01s09.html
+;; https://wiki.archlinux.org/title/Desktop_notifications
+    qwerty (around (cmd-button "[ -f /tmp/kmonad_notify_last_id ] && display=\":$(ls /tmp/.X11-unix/* | sed 's#/tmp/.X11-unix/X##' | head -n 1)\"; user=$(who | grep '('$display')' | awk '{print $1}'); uid=$(id -u $user); sudo -u $user DISPLAY=$display DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$uid/bus gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.CloseNotification $(cat /tmp/kmonad_notify_last_id); display=\":$(ls /tmp/.X11-unix/* | sed 's#/tmp/.X11-unix/X##' | head -n 1)\"; user=$(who | grep '('$display')' | awk '{print $1}'); uid=$(id -u $user); sudo -u $user DISPLAY=$display DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$uid/bus gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.Notify kmonad 42 preferences-desktop-keyboard \"KMonad\" \"switched to qwerty\" [] {} 20  | sed 's/[^ ]* //; s/,.//' > /tmp/kmonad_notify_last_id") (layer-switch qwerty))
+    hrm (around (cmd-button "[ -f /tmp/kmonad_notify_last_id ] && display=\":$(ls /tmp/.X11-unix/* | sed 's#/tmp/.X11-unix/X##' | head -n 1)\"; user=$(who | grep '('$display')' | awk '{print $1}'); uid=$(id -u $user); sudo -u $user DISPLAY=$display DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$uid/bus gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.CloseNotification $(cat /tmp/kmonad_notify_last_id); display=\":$(ls /tmp/.X11-unix/* | sed 's#/tmp/.X11-unix/X##' | head -n 1)\"; user=$(who | grep '('$display')' | awk '{print $1}'); uid=$(id -u $user); sudo -u $user DISPLAY=$display DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$uid/bus gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.Notify kmonad 42 preferences-desktop-keyboard \"KMonad\" \"Switched to home-row-mods\" [] {} 20  | sed 's/[^ ]* //; s/,.//' > /tmp/kmonad_notify_last_id") (layer-switch homerowmods))
+)
+
+;; https://github.com/kmonad/kmonad/blob/master/src/KMonad/Keyboard/Keycode.hs
+
+(deflayer qwerty
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  @hrm _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _    _
+)
+
+
+;; (deflayer qwerty
+;;   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+;;   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+;;   @hrm a    s    d    f    g    h    j    k    l    ;    '    ret
+;;   lsft z    x    c    v    b    n    m    ,    .    /    rsft
+;;   lctl lmet lalt           spc            ralt rmet cmp  rctrl
+;; )
+
+(deflayer homerowmods
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  @qwerty @met_a   @alt_s   @sft_d   @ctl_f   g   h   @ctl_j   @sft_k   @alt_l   @met_;  _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _    _
+)

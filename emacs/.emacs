@@ -2548,6 +2548,9 @@ the mode, `toggle' toggles the state."
 ;; open links through firefox
 (setq browse-url-browser-function 'browse-url-firefox)
 
+(use-package kbd-mode
+  :load-path "~/.emacs.d/lisp/")
+
 (use-package ledger-mode
   :ensure t)
 

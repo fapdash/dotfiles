@@ -1,0 +1,11 @@
+[Unit]
+Description=kmonad keyboard config
+
+[Service]
+Restart=always
+RestartSec=3
+ExecStart=/usr/local/bin/kmonad /home/fap/repos/dotfiles/kmonad/home-row-mods.kbd
+Nice=-20
+
+[Install]
+WantedBy=default.target
