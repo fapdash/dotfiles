@@ -184,6 +184,11 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
 fi
 
 
+# https://superuser.com/a/1356803/669906
+snap_delete_old_versions() {
+    snap list --all | while read snapname ver rev trk pub notes; do if [[ $notes = *disabled* ]]; then snap remove "$snapname" --revision="$rev"; fi; done
+}
+
 
 # exercism.io
 if [ -f ~/.config/exercism/exercism_completion.bash ]; then

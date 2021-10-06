@@ -58,3 +58,10 @@ sudo apt install ledger -y
 pip3 install ledger-autosync --user
 mkdir -p ~/.config/ledger-autosync/plugins
 ln -s ~/repos/dotfiles/ledger-autosync/plugins/teo.py ~/.config/ledger-autosync/plugins/teo.py
+
+################################
+######### snap #################
+################################
+# only retain 1 old version of installed snaps
+# https://superuser.com/a/1361201/669906
+sudo snap set system refresh.retain=2
