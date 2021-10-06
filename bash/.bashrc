@@ -193,6 +193,7 @@ fi
 PATH=$PATH:~/dart-sass
 PATH=$PATH:/usr/lib/dart/bin:$HOME/.pub-cache/bin:$HOME/flutter/.pub-cache/bin
 PATH=$PATH:~/.local/bin
+PATH=$PATH:~/.gem/ruby/3.0.0/bin
 PATH=$PATH:~/.yarn/bin
 PATH=~/.cache/rebar3/bin:$PATH
 PATH=~/Android/Sdk/platform-tools:$PATH
