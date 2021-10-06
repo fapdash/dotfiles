@@ -127,6 +127,9 @@ function ec() {
     emacsclient -nw $1
 }
 
+alias eledger="gpg --batch -d -q $LEDGER_FILE | ledger -f - "
+
+
 function key_layout_switched() {
     xkbcomp -I/home/fap/repos/dotfiles/xkb ~/repos/dotfiles/xkb/keymap/mykbd $DISPLAY 2> /dev/null
 }
