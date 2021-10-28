@@ -186,7 +186,7 @@ fi
 
 # https://superuser.com/a/1356803/669906
 snap_delete_old_versions() {
-    snap list --all | while read snapname ver rev trk pub notes; do if [[ $notes = *disabled* ]]; then snap remove "$snapname" --revision="$rev"; fi; done
+    snap list --all | while read snapname ver rev trk pub notes; do if [[ $notes = *disabled* ]]; then sudo snap remove "$snapname" --revision="$rev"; fi; done
 }
 
 
