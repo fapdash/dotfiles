@@ -2113,7 +2113,10 @@ With a prefix ARG, remove start location."
   :ensure t
   :config
   (add-hook 'css-mode-hook  'emmet-mode)
-  (add-hook 'web-mode-hook  'emmet-mode))
+  (add-hook 'web-mode-hook  'emmet-mode)
+  ;; emmet-expand-line overwrites newline,
+  ;; C-Return is also mapped to this
+  (define-key emmet-mode-keymap "\C-j" nil))
 
 (defun enable-minor-mode (my-pair)
   "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
