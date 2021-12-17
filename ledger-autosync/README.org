@@ -7,3 +7,7 @@ sed -i '1,9d' teo.csv && ledger-autosync teo.csv -a Assets:Bank:Checking -y "%Y-
     #+end_src
   4. Edit the review file (review file) and file the expenses properly, do budgeting etc.
   5. Paste teo.ledger content to fap.ledger (main ledger)
+** Using reckon
+   #+begin_quote
+reckon -f teo_reckon.csv -a Assets:Bank:Checking -o teo_reckon.ledger --contains-header 10 --csv-separator ';' --comma-separates-cents --currency '€' --ignore-columns 1,7 --date-column 1 --money-column 5 --unattended
+   #+end_quote
