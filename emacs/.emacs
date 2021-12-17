@@ -2569,7 +2569,15 @@ the mode, `toggle' toggles the state."
   :load-path "~/.emacs.d/lisp/")
 
 (use-package ledger-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq ledger-reports
+        '(("bal budget"     "%(binary) --empty -S -T -f %(ledger-file) bal ^assets:budget")
+          ("bal"            "%(binary) -f %(ledger-file) bal --real")
+          ("bal this month" "%(binary) -f %(ledger-file) bal -p %(month) -S amount --real")
+          ("bal this year"  "%(binary) -f %(ledger-file) bal -p 'this year' --real")
+          ("net worth"      "%(binary) -f %(ledger-file) bal Assets Liabilities --real")
+          ("account"        "%(binary) -f %(ledger-file) reg %(account) --real"))))
 
 (use-package flycheck-ledger
   :ensure t
