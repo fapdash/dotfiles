@@ -1667,6 +1667,13 @@ With a prefix ARG, remove start location."
   (require 'smartparens-config)
   (setq sp-show-pair-delay "0.075"))
 
+(use-package smart-semicolon
+  :ensure t
+  :config
+  (add-hook 'web-mode-hook  'smart-semicolon-mode)
+  (add-hook 'c-mode-hook  'smart-semicolon-mode)
+  (add-hook 'java-mode-hook 'smart-semicolon-mode))
+
 ;; edit results inside grep result buffer
 ;; activate with C-c C-p, save with C-x C-s
 (use-package wgrep-ag
