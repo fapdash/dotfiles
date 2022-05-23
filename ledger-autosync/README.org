@@ -14,13 +14,13 @@ sed -i '1,9d' teo.csv && ledger-autosync teo.csv -a Assets:Bank:Checking -y "%Y-
   5. Paste teo.ledger content to fap.ledger (main ledger)
   6. File the expenses properly, do budgeting etc..
 
-
 ** Using reckon
    #+begin_quote
 reckon -f teo_reckon.csv -a Assets:Bank:Checking -o teo_reckon.ledger --contains-header 10 --csv-separator ';' --comma-separates-cents --currency '€' --ignore-columns 1,7 --date-column 1 --money-column 5 --unattended
    #+end_quote
 
 ** Envelope Budgeting
-- https://frdmtoplay.com/envelope-budgeting-with-ledger/
+- I highly recommend at least skim reading the [[https://www.youneedabudget.com/ynab-the-book/][YNAB Book]], it's a short read.
+- https://frqdmtoplay.com/envelope-budgeting-with-ledger/
 - https://emacs.cafe/ledger/emacs/ynab/budgeting/2018/06/12/elbank-ynab.html
 
