@@ -1372,6 +1372,35 @@ With a prefix ARG, remove start location."
 (use-package writeroom-mode
   :ensure t)
 
+;; Source: https://github.com/novoid/dot-emacs/blob/d189ee0ff415fc1fdca5b0f3f3519d755011c656/config.org#thunderbird
+(setq thunderlink-program (concat (getenv "HOME") "/cb_thunderlink/cb_thunderlink"))
+
+(defun my-open-message-id-in-thunderbird (message-id)
+  "open an email with a given message-ID in Thunderbird"
+  (interactive)
+  (start-process
+   (concat "cbthunderlink: " message-id)
+   nil
+   thunderlink-program
+   (concat "cbthunderlink:" message-id)
+   )
+  )
+
+(defun org-message-thunderlink-open (slash-message-id)
+  "Handler for org-link-set-parameters that converts a standard message:// link into
+   a thunderlink and then invokes thunderbird."
+  ;; remove any / at the start of slash-message-id to create real message-id
+  ;; FAP: this doesn't do anything? Input is "//<messageid>", nothing get's cut off
+  (let ((message-id
+         (replace-regexp-in-string (rx bos (* ":"))
+                                   ""
+                                   slash-message-id)))
+    (my-open-message-id-in-thunderbird message-id)
+    ))
+
+;; on message://aoeu link, this will call handler with //aoeu
+(org-link-set-parameters "cbthunkderlink" :follow #'org-message-thunderlink-open)
+
 ;; https://www.youtube.com/watch?v=vO_RF2dK7M0 <- still out of date but shows google setup
 ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
 ;; https://github.com/kidd/org-gcal.el#Installation
