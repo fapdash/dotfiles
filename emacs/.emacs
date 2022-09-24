@@ -1703,6 +1703,9 @@ With a prefix ARG, remove start location."
   (add-hook 'c-mode-hook  'smart-semicolon-mode)
   (add-hook 'java-mode-hook 'smart-semicolon-mode))
 
+(use-package embrace
+  :ensure t)
+
 ;; edit results inside grep result buffer
 ;; activate with C-c C-p, save with C-x C-s
 (use-package wgrep-ag
