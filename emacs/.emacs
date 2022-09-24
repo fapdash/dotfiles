@@ -2449,7 +2449,8 @@ the mode, `toggle' toggles the state."
   :init
   (add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
   (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
-  (setq plantuml-jar-path (concat (getenv "HOME") "/plantUML/plantuml.jar"))
+  (setq plantuml-default-exec-mode 'jar)
+  (setq plantuml-jar-path (concat (getenv "HOME") "/plantuml/plantuml.jar"))
   :config
   ;; puml doesn't support auto-indent
   (add-hook 'plantuml-mode-hook (lambda () (aggressive-indent-mode -1))))
