@@ -1734,7 +1734,9 @@ Notes:
 			             (y (nth 5 pt))
 			             (date (list m d y))
 			             entry)
-		            (and (setq date date) (eval func))))
+		            (calendar-dlet ((date date)
+                                    (entry entry))
+                      (eval func))))
 		         (if (> i 1000)
 		             (message "No satisfied in 1000 days")
 		           (funcall
@@ -1757,8 +1759,8 @@ Notes:
 	       (org-entry-get nil "NEXT-SPEC-SCHEDULED")
 	       (org-entry-get nil "NEXT-SPEC-DEADLINE"))
 	      (org-entry-put nil "TODO" (car org-todo-heads))))
-      (setq next-spec-day-runningp nil
-            date nil)))
+    (setq next-spec-day-runningp nil)))
+
 (add-hook 'org-after-todo-state-change-hook 'next-spec-day)
 
 (use-package epresent
