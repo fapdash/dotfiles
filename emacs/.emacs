@@ -918,7 +918,7 @@ is nil, refile in the current file."
   :ensure t
   :after ox)
 
-(setq org-agenda-files '("~/repos/org/todo" "~/repos/org/journal"))
+(setq org-agenda-files '("~/repos/org/todo" "~/repos/org/todo/gtd" "~/repos/org/journal"))
 
 ;; (use-package org-brain
 ;;   :ensure t)
