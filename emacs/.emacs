@@ -769,6 +769,9 @@ Try the repeated popping up to 10 times."
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAITING(w!)" "NEXT(n!)" "IDEA(i)" "GOAL(g)" "|" "DONE(d!)" "CANCELED(c@)")))
   (setq org-comment-string "BACKBURNER")
+(use-package org-contrib
+  :after org
+  :ensure t)
 
 (require 'org-columns-calc)
 
