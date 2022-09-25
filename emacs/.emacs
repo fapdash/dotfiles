@@ -1784,6 +1784,11 @@ Notes:
 
 (add-hook 'org-after-todo-state-change-hook 'next-spec-day)
 
+;; TODO(FAP): Write function that works like org-clone-subtree-with-time-shift but for diary-float
+;;            Interactively takes a number of copies, creates the copy and
+;;            applies next-spec-day n-times to the nth copy
+
+
 (use-package epresent
   :ensure t)
 
