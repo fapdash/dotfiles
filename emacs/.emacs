@@ -1213,7 +1213,7 @@ is nil, refile in the current file."
                 (when arg
                   (-map #'org-roam-backlink-target-node (org-roam-backlinks-get (org-roam-node-from-id (or (ignore-errors (org-roam-node-id node))
                                                                                                            (org-id-get-create))))))))
-           (all-notes (org-roam-node--completions))
+           (all-notes (org-roam-node-read--completions))
            (completions
             (or (--filter (-contains-p choices (cdr it)) all-notes) all-notes))
            (next-node
