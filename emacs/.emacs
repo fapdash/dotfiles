@@ -757,6 +757,8 @@ Try the repeated popping up to 10 times."
         ("C-j" . newline-and-indent)
         ("C-c SPC" . nil) ;; bound to ~org-table-blank-field~, block the avy keybind
         )
+  :init
+  (setq org-startup-indented t)
   :config
   (setq org-startup-with-inline-images t)
   (setq org-refile-targets `((nil :level . 3)
