@@ -1721,6 +1721,9 @@ Notes:
       (dolist (type '("NEXT-SPEC-TIMESTAMP" "NEXT-SPEC-DEADLINE" "NEXT-SPEC-SCHEDULED"))
 	    (when (stringp (org-entry-get nil type))
 	      (let* ((time (org-entry-get nil (substring type (length "NEXT-SPEC-"))))
+                 (repeater (and time
+			                    (string-match "\\([.+-]+[0-9]+[hdwmy] ?\\)+" time)
+			                    (match-string 0 time)))
 		         (pt (if time (org-parse-time-string time) (decode-time (current-time))))
 		         (func (ignore-errors (read-from-whole-string (org-entry-get nil type)))))
 	        (unless func (message "Sexp is wrong") (throw 'exit nil))
@@ -1756,7 +1759,6 @@ Notes:
 			                 (cdr org-time-stamp-formats)
 		                   (car org-time-stamp-formats))
 		                 (apply 'encode-time pt)))
-                     ;; TODO(FAP): Preserve warning period for TIMESTAMP type
                      (and
                       (org-back-to-heading)
                       (when (re-search-forward
@@ -1773,7 +1775,10 @@ Notes:
 			                                    time))
 			                                  (cdr org-time-stamp-formats)
 		                                    (car org-time-stamp-formats))
-		                                  (apply 'encode-time pt))))))))))
+		                                  (apply 'encode-time pt))))
+                          (when repeater
+                            (backward-char)
+                            (insert " " repeater))))))))
 	          (cl-incf (nth 3 pt))
 	          (setf pt (decode-time (apply 'encode-time pt)))))))
       (if (or
