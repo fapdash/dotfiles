@@ -1171,7 +1171,7 @@ is nil, refile in the current file."
         )
   (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
   (setq org-roam-completion-everywhere t)
-  (org-roam-setup)
+  (org-roam-db-autosync-enable)
   ;; https://ag91.github.io/blog/2021/03/12/find-org-roam-notes-via-their-relations/
   (defun my/navigate-note (arg &optional node choices)
     "Navigate notes by link. With universal ARG tries to use only to navigate the tags of the current note. Optionally takes a selected NOTE and filepaths CHOICES."
@@ -1214,8 +1214,9 @@ is nil, refile in the current file."
 (use-package org-pdftools
   :after org
   :ensure t
-  :config
+  :init
   (pdf-tools-install) ;; see https://github.com/politza/pdf-tools/issues/288
+  :config
   ;; see https://github.com/stardiviner/emacs.d/blob/d149a4cb0f4520c92b4f3f9564db1e542d571d2c/init/Emacs/init-emacs-pdf.el#L58-L60
   (add-hook 'pdf-view-mode-hook #'pdf-annot-minor-mode)
   (add-hook 'pdf-view-mode-hook (lambda () (read-only-mode 0)))
@@ -1312,7 +1313,8 @@ With a prefix ARG, remove start location."
         (message "No PDF found for %s" key))))
 
   (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
-  (org-ref-ivy-cite-completion))
+  ;; (org-ref-ivy-cite-completion) void-function since v3 of org-ref
+  )
 
 (use-package ivy-bibtex
   :ensure t
@@ -1333,7 +1335,8 @@ With a prefix ARG, remove start location."
     "* TODO Notes\n"
     ":PROPERTIES:\n"
     ":Custom_ID: ${=key=}\n"
-    ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+    ;; this fails instead of leaving the property empty if no file is associated
+    ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n" ;; always add "pdf:" prefix?
     ":AUTHOR: ${author-abbrev}\n"
     ":JOURNAL: ${journaltitle}\n"
     ":DATE: ${date}\n"
