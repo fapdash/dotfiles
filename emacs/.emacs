@@ -1676,7 +1676,7 @@ With a prefix ARG, remove start location."
      (org-next-visible-heading 1)
      (narrow-to-region (point-min) (point))))
 
-;; Source: https://github.com/chenfengyuan/elisp/blob/1e3d37b168f3ee95c0608a8c300bce79b6d0ef77/next-spec-day.el
+;; Original Source: https://github.com/chenfengyuan/elisp/blob/1e3d37b168f3ee95c0608a8c300bce79b6d0ef77/next-spec-day.el
 (defvar next-spec-day-runingp)
 (setq next-spec-day-runningp nil)
 (defvar next-spec-day-alist
@@ -1695,19 +1695,21 @@ With a prefix ARG, remove start location."
 (defun next-spec-day ()
   "Function to automagically generate the next date for a given diary sexp expression.
 How to use:
-1. add `(load \"/path/to/next-spec-day\")` to your dot emacs file.
-2. set `NEXT-SPEC-DEADLINE` and/or `NEXT-SPEC-SCHEDULED` property of a TODO task,like this:
+1. add code to your dot Emacs file.
+2. set `NEXT-SPEC-TIMESTAMP`, `NEXT-SPEC-DEADLINE` and/or `NEXT-SPEC-SCHEDULED` property of a TODO task,like this:
         * TODO test
           SCHEDULED: <2013-06-16 Sun> DEADLINE: <2012-12-31 Mon -3d>
           :PROPERTIES:
+          :NEXT-SPEC-TIMESTAMP: (diary-float t 4 2)
           :NEXT-SPEC-DEADLINE: (= (calendar-extract-day date) (calendar-last-day-of-month (calendar-extract-month date) (calendar-extract-year date)))
           :NEXT-SPEC-SCHEDULED: (diary-float 6 0 3)
           :END:
+          TIMESTAMP: <2022-09-25 Sun 13:07>
     The value of NEXT-SPEC-DEADLINE will return `non-nil` if `date` is last day of month,and the value of NEXT-SPEC-SCHEDULED will return `non-nil` if `date` is the fathers' day(the third Sunday of June).
-3. Then,when you change the TODO state of that tasks,the timestamp will be changed automatically(include lead time of warnings settings).
+3. Then, when you change the TODO state of that task, the timestamp will be changed automatically (including lead time of warnings settings).
 Notes:
 1. Execute `(setq next-spec-day-runningp nil)' after your sexp signal some erros,
-2. You can also use some useful sexp from next-spec-day-alist,like:
+2. You can also use some useful sexp from next-spec-day-alist, like:
 * TODO test
   SCHEDULED: <2013-03-29 Fri>
   :PROPERTIES:
@@ -1716,7 +1718,7 @@ Notes:
   (unless next-spec-day-runningp
     (setq next-spec-day-runningp t)
     (catch 'exit
-      (dolist (type '("NEXT-SPEC-DEADLINE" "NEXT-SPEC-SCHEDULED"))
+      (dolist (type '("NEXT-SPEC-TIMESTAMP" "NEXT-SPEC-DEADLINE" "NEXT-SPEC-SCHEDULED"))
 	    (when (stringp (org-entry-get nil type))
 	      (let* ((time (org-entry-get nil (substring type (length "NEXT-SPEC-"))))
 		         (pt (if time (org-parse-time-string time) (decode-time (current-time))))
@@ -1739,20 +1741,39 @@ Notes:
                       (eval func))))
 		         (if (> i 1000)
 		             (message "No satisfied in 1000 days")
-		           (funcall
-		            (if (string= "NEXT-SPEC-DEADLINE" type)
-			            'org-deadline
-		              'org-schedule)
-		            nil
-		            (format-time-string
-		             (if (and
-			              time
-			              (string-match
-			               "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}"
-			               time))
-			             (cdr org-time-stamp-formats)
-		               (car org-time-stamp-formats))
-		             (apply 'encode-time pt)))))
+                   (if (or (string= "NEXT-SPEC-DEADLINE" type) (string= "NEXT-SPEC-SCHEDULED" type))
+		               (funcall
+		                (if (string= "NEXT-SPEC-DEADLINE" type)
+			                'org-deadline
+		                  'org-schedule)
+		                nil
+		                (format-time-string
+		                 (if (and
+			                  time
+			                  (string-match
+			                   "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}"
+			                   time))
+			                 (cdr org-time-stamp-formats)
+		                   (car org-time-stamp-formats))
+		                 (apply 'encode-time pt)))
+                     ;; TODO(FAP): Preserve warning period for TIMESTAMP type
+                     (and
+                      (org-back-to-heading)
+                      (when (re-search-forward
+                             "^\s*TIMESTAMP:"
+                             (point-max)
+                             'noerror)
+                        (when
+                            (re-search-forward org-element--timestamp-regexp (point-at-eol) 'noerror)
+                          (replace-match (save-match-data (format-time-string
+		                                  (if (and
+			                                   time
+			                                   (string-match
+			                                    "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}"
+			                                    time))
+			                                  (cdr org-time-stamp-formats)
+		                                    (car org-time-stamp-formats))
+		                                  (apply 'encode-time pt))))))))))
 	          (cl-incf (nth 3 pt))
 	          (setf pt (decode-time (apply 'encode-time pt)))))))
       (if (or
