@@ -767,8 +767,8 @@ Try the repeated popping up to 10 times."
                              (,(concat org_todo "/calendar.org") :maxlevel . 2)))
   ;; https://orgmode.org/manual/Tracking-TODO-state-changes.html
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n!)" "IDEA(i)" "GOAL(g)" "|" "DONE(d!)" "CANCELED(c@)")))
-  (setq org-comment-string "BACKBURNER"))
+        '((sequence "TODO(t)" "WAITING(w!)" "NEXT(n!)" "IDEA(i)" "GOAL(g)" "|" "DONE(d!)" "CANCELED(c@)")))
+  (setq org-comment-string "BACKBURNER")
 
 (require 'org-columns-calc)
 
@@ -1148,8 +1148,30 @@ is nil, refile in the current file."
                                                                  '(
                                                                    (:name "Habits" :habit t)
                                                                    ))))))
-                                          ))
+                                    '("w" "Next tasks at work " tags-todo "@work"
+                                      ((org-agenda-overriding-header "Work")
+                                       (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+                                    '("W" "All tasks at work" tags-todo "@work"
+                                      ((org-agenda-overriding-header "Work")
+                                       ))
+                                    ))
   :config
+  (defun my-org-agenda-skip-all-siblings-but-first ()
+    "Skip all but the first non-done entry."
+    (let (should-skip-entry)
+      (unless (org-current-is-todo)
+        (setq should-skip-entry t))
+      (save-excursion
+        (while (and (not should-skip-entry) (org-goto-sibling t))
+          (when (org-current-is-todo)
+            (setq should-skip-entry t))))
+      (when should-skip-entry
+        (or (outline-next-heading)
+            (goto-char (point-max))))))
+
+  (defun org-current-is-todo ()
+    (string= "TODO" (org-get-todo-state)))
+
   (org-super-agenda-mode t)
   )
 
