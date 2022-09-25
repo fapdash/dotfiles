@@ -8,7 +8,6 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
-(add-to-list 'package-archives '("org-elpa" . "https://orgmode.org/elpa/") t)
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
@@ -103,7 +102,7 @@ If REPOSITORY is specified, use that."
 										;   '(org-agenda-done ((t (:foreground "dim gray" :strike-through nil))))
 										;   '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
 										;   '(org-clock-overlay ((t (:background "SkyBlue4" :foreground "black"))))
-										;   '(org-headline-done ((((class color) (min-colors 16) (background dark)) (:fo;reground "LightSalmon" :strike-through t))))
+										;   '(org-headline-done ((((t color) (min-colors 16) (background dark)) (:fo;reground "LightSalmon" :strike-through t))))
 										;   '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflow;er blue"))))))
 
 (custom-set-faces
@@ -111,14 +110,20 @@ If REPOSITORY is specified, use that."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-tooltip-selection ((t (:inherit highlight))))
  '(erc-input-face ((t (:foreground "antique white"))) t)
  '(ido-first-match ((t (:background "ForestGreen" :foreground "black"))))
  '(ido-selection ((t (:background "ForestGreen" :foreground "black"))) t)
+ '(markup-title-0-face ((t (:inherit markup-gen-face :height 1.8))))
+ '(markup-title-1-face ((t (:inherit markup-gen-face :height 1.7))))
+ '(markup-title-2-face ((t (:inherit markup-gen-face :height 1.6))))
+ '(markup-title-3-face ((t (:inherit markup-gen-face :height 1.5))))
+ '(markup-title-4-face ((t (:inherit markup-gen-face :height 1.4))))
+ '(markup-title-5-face ((t (:inherit markup-gen-face :height 1.3))))
  '(org-agenda-clocking ((t (:inherit secondary-selection :foreground "black"))))
  '(org-agenda-done ((t (:foreground "dim gray" :strike-through nil))))
  '(org-clock-overlay ((t (:background "SkyBlue4" :foreground "black"))))
  '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
- '(org-headline-done ((((class color) (min-colors 16) (background dark)) (:foreground "LightSalmon" :strike-through t))))
  '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflower blue"))))
  '(sp-show-pair-match-face ((t (:background "dark slate blue")))))
 
@@ -130,6 +135,9 @@ If REPOSITORY is specified, use that."
 (prefer-coding-system 'utf-8)
 (setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
+
+;; https://karthinks.com/software/batteries-included-with-emacs/#view-mode--m-x-view-mode
+(setq view-read-only t)
 
 (defun modi/multi-pop-to-mark (orig-fun &rest args)
   "Call ORIG-FUN until the cursor moves.
@@ -224,6 +232,7 @@ Try the repeated popping up to 10 times."
 (use-package which-key
   :ensure t
   :config
+  (setq which-key-idle-delay 0.5)
   (which-key-mode 1))
 
 (use-package helpful
@@ -268,6 +277,7 @@ Try the repeated popping up to 10 times."
   :ensure t
   :config
   (diminish 'WS)
+  (diminish 'which-key-mode)
   (diminish 'undo-tree-mode)
   (diminish 'highlight-indent-guides-mode)
   (diminish 'git-gutter-mode)
@@ -665,46 +675,49 @@ Try the repeated popping up to 10 times."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ace-isearch-function 'avy-goto-word-1)
+ '(ace-isearch-function-from-isearch 'my/ace-isearch-swiper-from-isearch)
+ '(ace-isearch-input-length 2)
+ '(ace-isearch-jump-delay 0.2)
+ '(ace-isearch-use-jump 'printing-char)
  '(anzu-deactivate-region t)
  '(anzu-mode-lighter "")
  '(anzu-replace-to-string-separator " => ")
  '(anzu-search-threshold 1000)
- '(compilation-message-face (quote default))
+ '(compilation-message-face 'default)
  '(custom-safe-themes
-   (quote
-    ("6df30cfb75df80e5808ac1557d5cc728746c8dbc9bc726de35b15180fa6e0ad9" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "64581032564feda2b5f2cf389018b4b9906d98293d84d84142d90d7986032d33" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default)))
- '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
+   '("6df30cfb75df80e5808ac1557d5cc728746c8dbc9bc726de35b15180fa6e0ad9" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "64581032564feda2b5f2cf389018b4b9906d98293d84d84142d90d7986032d33" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default))
+ '(highlight-changes-colors '("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
-   (quote
-    (("#3C3D37" . 0)
+   '(("#3C3D37" . 0)
      ("#679A01" . 20)
      ("#4BBEAE" . 30)
      ("#1DB4D0" . 50)
      ("#9A8F21" . 60)
      ("#A75B00" . 70)
      ("#F309DF" . 85)
-     ("#3C3D37" . 100))))
- '(initial-frame-alist (quote ((fullscreen . maximized))))
+     ("#3C3D37" . 100)))
+ '(initial-frame-alist '((fullscreen . maximized)))
  '(magit-diff-use-overlays nil)
  '(org-agenda-files
-   (quote
-    ("/home/fap/repos/org/todo/calendar.org" "/home/fap/repos/org/todo/daily_habits.org" "/home/fap/repos/org/todo/dating.org" "/home/fap/repos/org/todo/habits.org" "/home/fap/repos/org/todo/kanban.org" "/home/fap/repos/org/todo/notes.org" "/home/fap/repos/org/todo/todo.org" "/home/fap/repos/org/todo/week_overview.org" "/home/fap/repos/org/todo/weekly_habits.org" "/home/fap/repos/org/journal/20201228")))
+   '("/home/fap/repos/org/todo/calendar.org" "/home/fap/repos/org/todo/daily_habits.org" "/home/fap/repos/org/todo/dating.org" "/home/fap/repos/org/todo/habits.org" "/home/fap/repos/org/todo/kanban.org" "/home/fap/repos/org/todo/notes.org" "/home/fap/repos/org/todo/todo.org" "/home/fap/repos/org/todo/week_overview.org" "/home/fap/repos/org/todo/weekly_habits.org" "/home/fap/repos/org/journal/20201228"))
  '(org-modules
-   (quote
-    (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
+   '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
  '(package-selected-packages
-   (quote
-    (company-quickhelp counsel-etags ox-hugo emacs-w3m org-superstar ivy-xref prettier-js org-rich-yank diminish org-cliplink activity-watch-mode org-agenda-property org-ql multi-vterm vterm org-noter ivy-bibtex org-ref company-org-roam org-roam-bibtex org-journal org-roam ansible org-web-tools magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line org-present deft deadgrep racer alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format epresent esprent smart-shift engine-mode itail vlf vfl htmlize tangotango-theme org-mode terminal-here discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list ruby-tools ox-pandoc org-preview-html rbenv counsel-projectile fzf smex counsel ivy projectile-ripgrep ripgrep dumb-jump yari workgroups2 wgrep undo-tree switch-window smartscan smart-mode-line rvm ruby-refactor ruby-compilation rubocop quickrun puml-mode pos-tip plantuml-mode nyan-mode neotree move-text minitest goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window)))
+   '(quickrun org-superstar org-preview-html w3m yaml-mode web-mode tide robe yasnippet-snippets smartparens org-tree-slide spacemacs-theme writeroom-mode org-ref embrace smart-semicolon ox-hugo ox-pandoc projectile-rails smart-mode-line org-contrib org-gcal terminal-here workgroups2 racer rubocop rspec-mode yasnippet org-present org-kanban org-download org-web-tools flycheck-ledger ledger-mode beginend keyfreq editorconfig org-pomodoro all-the-icons-dired mode-icons doom-modeline spaceline ace-isearch helpful emmet-mode paredit pdfgrep org-noter-pdftools org-pdftools markdown-mode company-box ruby-test-mode ivy-hydra ivy-rich company-quickhelp counsel-etags emacs-w3m ivy-xref prettier-js org-rich-yank diminish org-cliplink activity-watch-mode org-agenda-property org-ql multi-vterm org-noter ivy-bibtex company-org-roam org-roam-bibtex org-journal ansible magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line deft deadgrep alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format epresent esprent smart-shift engine-mode itail vlf vfl htmlize tangotango-theme org-mode discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list ruby-tools rbenv counsel-projectile fzf smex counsel ivy projectile-ripgrep ripgrep dumb-jump yari undo-tree switch-window smartscan rvm ruby-refactor ruby-compilation puml-mode pos-tip plantuml-mode nyan-mode neotree move-text minitest goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
-   (quote
-    ((encoding . utf-8)
+   '((magit-todos-exclude-globs "*.js.map")
+     (magit-todos-exclude-globs . "*.js.map")
+     (magit-todos-exclude-globs . *\.js\.map)
+     (encoding . utf-8)
      (ruby-compilation-executable . "ruby")
      (ruby-compilation-executable . "ruby1.8")
      (ruby-compilation-executable . "ruby1.9")
      (ruby-compilation-executable . "rbx")
-     (ruby-compilation-executable . "jruby"))))
+     (ruby-compilation-executable . "jruby")))
+ '(send-mail-function 'mailclient-send-it)
  '(sml/name-width 35)
  '(sml/shorten-directory t)
  '(sml/shorten-modes t)
