@@ -138,6 +138,10 @@ function key_layout_default() {
     xkbcomp -I/home/fap/repos/dotfiles/xkb ~/repos/dotfiles/xkb/keymap/default $DISPLAY 2> /dev/null
 }
 
+function ert-run() {
+    emacs -batch -l ert -l $1 -f ert-run-tests-batch-and-exit
+}
+
 # Some of the most useful features in emacs-libvterm require shell-side
 # configurations. The main goal of these additional functions is to enable the
 # shell to send information to `vterm` via properly escaped sequences. A
