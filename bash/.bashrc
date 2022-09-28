@@ -199,6 +199,8 @@ if [ -f ~/.config/exercism/exercism_completion.bash ]; then
   source ~/.config/exercism/exercism_completion.bash
 fi
 
+alias google-java-format='/home/fap/repos/gerrit/tools/format/google-java-format-1.7'
+
 PATH=$PATH:~/dart-sass
 PATH=$PATH:/usr/lib/dart/bin:$HOME/.pub-cache/bin:$HOME/flutter/.pub-cache/bin
 PATH=$PATH:~/.local/bin
