@@ -8,7 +8,7 @@
   2. Remove the first 9 lines so ledger-autoscript can properly detect the csv type (included in the comment in ~3.~)
   3. Convert to ledger, filtering out duplicates (comparing with ~fap.ledger~), saving to a review file:
     #+begin_src bash
-sed -i '1,9d' teo.csv && ledger-autosync teo.csv -a Assets:Bank:Checking -y "%Y-%m-%d" -l fap.ledger > teo.ledger
+iconv -f $(chardetect teo.csv | awk '{print $2}') -t utf-8 -o teo.csv teo.csv && sed -i '1,9d' teo.csv && ledger-autosync teo.csv -l fap.ledger -a Assets:Bank:Checking -y "%Y-%m-%d" > teo.ledger
     #+end_src
   4. Check review file (~teo.ledger~)
   5. Paste teo.ledger content to fap.ledger (main ledger)
