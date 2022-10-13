@@ -2740,6 +2740,14 @@ Notes:
   (setq counsel-etags-update-interval 60)
   (push "build" counsel-etags-ignore-directories))
 
+;; Make emacs regexp more readable
+(use-package easy-escape
+  :ensure t
+  ;; :config
+  ;; (add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
+  ;; (add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode)
+  )
+
 (use-package paredit
   :ensure t
   :config
