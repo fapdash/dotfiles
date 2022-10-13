@@ -3037,6 +3037,38 @@ the mode, `toggle' toggles the state."
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
+;; Common Lisp repl integration
+(use-package sly
+  :ensure t
+  :custom
+  (inferior-lisp-program "sbcl")
+  (sly-complete-symbol-function 'sly-flex-completions))
+
+(use-package sly-quicklisp
+  :ensure t)
+
+;; https://www.nongnu.org/geiser/
+;; Scheme repl integration
+;; also has an integration for Racket, Guile, ...
+;; https://gitlab.com/emacs-geiser/geiser
+(use-package geiser-chez
+  :ensure t)
+
+(use-package macrostep-geiser
+  :ensure t
+  :after geiser-mode
+  :config (add-hook 'geiser-mode-hook #'macrostep-geiser-setup))
+
+(use-package macrostep-geiser
+  :ensure t
+  :after geiser-repl
+  :config (add-hook 'geiser-repl-mode-hook #'macrostep-geiser-setup))
+
+(use-package macrostep-geiser
+  :ensure t
+  :after cider-mode
+  :config (add-hook 'cider-mode-hook #'macrostep-geiser-setup))
+
 (and window-system (server-start))
 
 (provide '.emacs)
