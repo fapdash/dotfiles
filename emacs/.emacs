@@ -525,6 +525,9 @@ Try the repeated popping up to 10 times."
 
 (global-set-key (kbd "C-c v") 'halve-other-window-height)
 
+(use-package project
+  :ensure t)
+
 (use-package magit
   :ensure t
   :config
