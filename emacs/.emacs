@@ -1053,7 +1053,29 @@ is nil, refile in the current file."
 %i    3. \n\
 *** How could I have made today better?
 %i    1. \n\
-")))
+")
+                                ("E" "Encrypted File" plain (file my-org-capture-ask-for-filename)
+                                 "-*- undo-tree-auto-save-history: nil; epa-file-encrypt-to: nil; -*-
+
+* %i%?
+
+# run (normal-mode) to set file local variables after initial save!")
+                                ("T" "Todo [inbox] (org-protocol-capture)" entry
+                                 (file+headline (lambda () (concat org_gtd "/inbox.org")) "Tasks")
+                                 "* TODO [[%:link][%:description]]\n\n" :immediate-finish t)))
+
+(defun my-org-capture-ask-for-filename ()
+  "Read file name to capture to."
+  (interactive)
+  (concat org_top "/" (read-string "Enter filename (without extension): ") ".org.gpg"))
+
+
+(setq org-capture-templates
+      '(("E" "Encrypted File" entry (file my-org-capture-ask-for-filename)
+                                 "-*- undo-tree-auto-save-history: nil; epa-file-encrypt-to: nil; -*-
+
+* %i%?")))
+
 
 (use-package org-ql
   :ensure t)
