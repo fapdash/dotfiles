@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=cb_thunderlink_cbthunderlink
+Exec=/home/fap/cb_thunderlink/cb_thunderlink %u
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=thunderbird
+Categories=Application;Network;Email;
+MimeType=x-scheme-handler/cbthunderlink;
+StartupNotify=true
+Actions=Compose;Contacts
+NoDisplay=true
