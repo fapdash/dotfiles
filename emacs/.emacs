@@ -1020,13 +1020,12 @@ is nil, refile in the current file."
         org-journal-date-format "%A, %d %B %Y"
         org-journal-enable-agenda-integration t))
 
-
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
                                (file+headline (lambda () (concat org_gtd "/inbox.org")) "Tasks")
                                "* TODO %i%?")
                               ("C" "Calendar" entry
                                (file+headline (lambda () (concat org_todo "/calendar.org")) "Termine")
-                               "* TODO %?\nSCHEDULED: %^t")
+                               "* TODO %?\n- %^t")
                                 ("c" "Current file todo entry" entry
                                  (file+datetree buffer-file-name)
                                  "* TODO %? \n%t")
