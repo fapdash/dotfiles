@@ -2170,19 +2170,22 @@ Notes:
 (use-package company
   :ensure t
   :defer t
-  :init (global-company-mode)
   :config
-  (progn
-    ;; Use Company for completion
-    (bind-key [remap completion-at-point] #'company-complete company-mode-map)
+  (global-company-mode)
+  ;; Use Company for completion
+  (bind-key [remap completion-at-point] #'company-complete company-mode-map)
+  (setq company-tooltip-align-annotations t
+        ;; Easy navigation to candidates with M-<n>
+        company-show-numbers t
+        ;; after typing of how many characters are we auto suggesting completions
+        company-minimum-prefix-length 3
+        company-transformers '())
+  (setq company-dabbrev-downcase nil)
+  (setq company-tooltip-limit 20)
+  (setq company-idle-delay 0)
+  (setq company-echo-delay 0)
 
-    (setq company-tooltip-align-annotations t
-          ;; Easy navigation to candidates with M-<n>
-          company-show-numbers t
-          ;; after typing of how many characters are we auto suggesting completions
-          company-minimum-prefix-length 3)
-    (setq company-dabbrev-downcase nil)
-    (add-to-list 'company-backends 'company-capf))
+    (add-to-list 'company-backends 'company-capf)
   :diminish company-mode)
 
 (use-package company-box
@@ -2191,8 +2194,16 @@ Notes:
   (company-tooltip-selection ((t (:inherit highlight))))
   :config
   (setq company-box-doc-delay 0.1)
+  (company-box-mode)
   :hook (company-mode . company-box-mode)
   :diminish company-box-mode)
+
+
+(use-package company-statistics
+  :ensure t
+  :after company
+  :config
+  (company-statistics-mode))
 
 ;; (use-package auto-complete
 ;;   :ensure t
