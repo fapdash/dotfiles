@@ -3087,6 +3087,9 @@ the mode, `toggle' toggles the state."
           ("net worth"      "%(binary) -f %(ledger-file) bal Assets Liabilities --real")
           ("account"        "%(binary) -f %(ledger-file) reg %(account) --real"))))
 
+(use-package exercism
+  :ensure t)
+
 (use-package flycheck-ledger
   :ensure t
   :config
