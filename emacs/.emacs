@@ -1220,45 +1220,281 @@ is nil, refile in the current file."
         )
   (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
   (setq org-roam-completion-everywhere t)
-  (org-roam-db-autosync-enable)
-  ;; https://ag91.github.io/blog/2021/03/12/find-org-roam-notes-via-their-relations/
-  (defun my/navigate-note (arg &optional node choices)
-    "Navigate notes by link. With universal ARG tries to use only to navigate the tags of the current note. Optionally takes a selected NOTE and filepaths CHOICES."
-    (interactive "P")
-    (let* ((depth (if (numberp arg) arg 1))
-           (choices
-            (or choices
-                (when arg
-                  (-map #'org-roam-backlink-target-node (org-roam-backlinks-get (org-roam-node-from-id (or (ignore-errors (org-roam-node-id node))
-                                                                                                           (org-id-get-create))))))))
-           (all-notes (org-roam-node-read--completions))
-           (completions
-            (or (--filter (-contains-p choices (cdr it)) all-notes) all-notes))
-           (next-node
-            ;; taken from org-roam-node-read
-            (let* ((nodes completions)
-                   (node (completing-read
-                          "Node: "
-                          (lambda (string pred action)
-                            (if (eq action 'metadata)
-                                '(metadata
-                                  (annotation-function . (lambda (title)
-                                                           (funcall org-roam-node-annotation-function
-                                                                    (get-text-property 0 'node title))))
-                                  (category . org-roam-node))
-                              (complete-with-action action nodes string pred))))))
-              (or (cdr (assoc node nodes))
-                  (org-roam-node-create :title node)))
-            )
-           )
-      (if (equal node next-node)
-          (org-roam-node-visit node)
-        (my/navigate-note nil next-node (cons next-node (-map #'org-roam-backlink-source-node (org-roam-backlinks-get next-node))))))))
+  (org-roam-db-autosync-enable))
+
+(defun gsgx/org-roam-create-note-from-headline ()
+  "Create an Org-roam note from the current headline if it doesn't
+exist without jumping to it"
+  (let* ((title (nth 4 (org-heading-components)))
+         ;; Read in the name of the node, with the title filled in
+         ;; TODO: How can I just use the title without user input?
+         (node (org-roam-node-read title)))
+    ;; Skip the node if it already exists
+    (if (org-roam-node-file node)
+        (message "Skipping %s, node already exists" title)
+      ;; Without this the subsequent kills seem to be grouped together, not
+      ;; sure why
+      (kill-new "")
+      ;; Cut the subtree from the original file
+      (org-cut-subtree)
+      ;; Create the new capture file
+      (org-roam-capture- :node node)
+      ;; Paste in the subtree
+      (org-paste-subtree)
+      ;; Removing the heading from new node
+      (kill-whole-line)
+      ;; Finalizing the capture will save and close the capture buffer
+      (org-capture-finalize nil)
+      ;; Because we've deleted a subtree, we need the following line to make the
+      ;; `org-map-entries' call continue from the right place
+      (setq org-map-continue-from
+            (org-element-property :begin (org-element-at-point))))))
+
+(defun gsgx/org-roam-create-note-from-headlines ()
+  (interactive)
+  (if (region-active-p)
+      ;; `region-start-level' means we'll map over only headlines that are at
+      ;; the same level as the first headline in the region. This may or may not
+      ;; be what you want
+      (org-map-entries
+       'gsgx/org-roam-create-note-from-headline t 'region-start-level)
+    ;; If no region was selected, just create the note from the current headline
+    (gsgx/org-roam-create-note-from-headline)))
+
+(defun my/navigate-note (arg &optional note choices)
+  (interactive "P")
+  (let* ((completions (org-roam-node-read--completions))
+         (next-note (if (and (null note) (org-roam-node-at-point))
+                        (org-roam-node-title (org-roam-node-at-point))
+                      (completing-read "File: " (or choices completions))))
+         (candidates
+          (--> next-note
+               (assoc it completions)
+               cdr
+               org-roam-backlinks-get
+               (--map
+                (org-roam-node-title
+                 (org-roam-backlink-source-node it))
+                it))))
+    (if (string= note next-note)
+        (org-roam-node-open (assoc note completions))
+      (my/navigate-note nil next-note (or candidates (list next-note))))))
+
+
+;; https://ag91.github.io/blog/2021/03/12/find-org-roam-notes-via-their-relations/
+;; (defun my/navigate-note (arg &optional node choices)
+;;   "Navigate notes by link. With universal ARG tries to use only to navigate the tags of the current note. Optionally takes a selected NOTE and filepaths CHOICES."
+;;   (interactive "P")
+;;   (let* ((depth (if (numberp arg) arg 1))
+;;          (choices
+;;           (or choices
+;;               (when arg
+;;                 (-map #'org-roam-backlink-target-node (org-roam-backlinks-get (org-roam-node-from-id (or (ignore-errors (org-roam-node-id node))
+;;                                                                                                          (org-id-get-create))))))))
+;;          (all-notes (org-roam-node-read--completions))
+;;          (completions
+;;           (or (--filter (-contains-p choices (cdr it)) all-notes) all-notes))
+;;          (next-node
+;;           ;; taken from org-roam-node-read
+;;           (let* ((nodes completions)
+;;                  (node (completing-read
+;;                         "Node: "
+;;                         (lambda (string pred action)
+;;                           (if (eq action 'metadata)
+;;                               '(metadata
+;;                                 (annotation-function . (lambda (title)
+;;                                                          (funcall org-roam-node-annotation-function
+;;                                                                   (get-text-property 0 'node title))))
+;;                                 (category . org-roam-node))
+;;                             (complete-with-action action nodes string pred))))))
+;;             (or (cdr (assoc node nodes))
+;;                 (org-roam-node-create :title node)))
+;;           )
+;;          )
+;;     (if (equal node next-node)
+;;         (org-roam-node-visit node)
+;;       (my/navigate-note nil next-node (cons next-node (-map #'org-roam-backlink-source-node (org-roam-backlinks-get next-node))))))))
+
+;; https://github.com/Vidianos-Giannitsis/Dotfiles/blob/313b563595e133901b7443783642c64e9e2434b2/emacs/.emacs.d/libs/zettelkasten.org#org-roam-backlinks-search
+(defcustom org-roam-backlinks-choices '("View Backlinks" "Go to Node" "Add to Zetteldesk" "Quit")
+  "List of choices for `org-roam-backlinks-node-read'.
+ Check that function's docstring for more info about these.")
+
+ (defun org-roam-backlinks-query* (NODE)
+   "Gets the backlinks of NODE with `org-roam-db-query'."
+   (org-roam-db-query
+	  [:select [source dest]
+		   :from links
+		   :where (= dest $s1)
+		   :and (= type "id")]
+	  (org-roam-node-id NODE)))
+
+ (defun org-roam-backlinks-p (SOURCE NODE)
+   "Predicate function that checks if NODE is a backlink of SOURCE."
+   (let* ((source-id (org-roam-node-id SOURCE))
+	   (backlinks (org-roam-backlinks-query* SOURCE))
+	   (id (org-roam-node-id NODE))
+	   (id-list (list id source-id)))
+     (member id-list backlinks)))
+
+ (defun org-roam-backlinks-poi-or-moc-p (NODE)
+   "Check if NODE has the tag POI or the tag MOC.  Return t if it does."
+   (or (string-equal (car (org-roam-node-tags NODE)) "POI")
+	(string-equal (car (org-roam-node-tags NODE)) "MOC")))
+
+ (defun org-roam-backlinks--read-node-backlinks (source)
+   "Runs `org-roam-node-read' on the backlinks of SOURCE.
+ The predicate used as `org-roam-node-read''s filter-fn is
+ `org-roam-backlinks-p'."
+   (org-roam-node-read nil (apply-partially #'org-roam-backlinks-p source)))
+
+ (defun org-roam-backlinks-node-read (node)
+   "Read a NODE and run `org-roam-backlinks--read-node-backlinks'.
+ Upon selecting a backlink, prompt the user for what to do with
+ the backlink. The prompt is created with `completing-read' with
+ valid options being everything in the list
+ `org-roam-backlinks-choices'.
+
+ If the user decides to view the selected node's backlinks, the
+ function recursively runs itself with the selection as its
+ argument. If they decide they want to go to the selected node,
+ the function runs `find-file' and the file associated to that
+ node. Lastly, if they choose to quit, the function exits
+ silently.
+
+ There is however also the option to add the node to the current
+ `zetteldesk-desktop'. `zetteldesk.el' is a package I have written
+ to extend org-roam and naturally I wanted to include some
+ interaction with it in this function."
+   (let* ((backlink (org-roam-backlinks--read-node-backlinks node))
+	   (choice (completing-read "What to do with NODE: "
+				    org-roam-backlinks-choices)))
+     (cond
+      ((string-equal
+	 choice
+	 (car org-roam-backlinks-choices))
+	(org-roam-backlinks-node-read backlink))
+      ((string-equal
+	 choice
+	 (cadr org-roam-backlinks-choices))
+	(find-file (org-roam-node-file backlink)))
+      ((string-equal
+	 choice
+	 (caddr org-roam-backlinks-choices))
+	(zetteldesk-add-node-to-desktop backlink))
+      ((string-equal
+	 choice
+	 (cadddr org-roam-backlinks-choices))))))
+
+ (defun org-roam-backlinks-search ()
+   "Select an `org-roam-node' and recursively search its backlinks.
+
+ This function is a starter function for
+ `org-roam-backlinks-node-read' which gets the initial node
+ selection from `org-roam-node-list'. For more information about
+ this function, check `org-roam-backlinks-node-read'."
+   (interactive)
+   (let ((node (org-roam-node-read)))
+     (org-roam-backlinks-node-read node)))
+
+ (defun org-roam-backlinks-search-from-moc-or-poi ()
+   "`org-roam-backlinks-search' with an initial selection filter.
+
+ Since nodes tagged as \"MOC\" or \"POI\" are the entry points to
+ my personal zettelkasten, I have this helper function which is
+ identical to `org-roam-backlinks-search' but filters initial
+ selection to only those notes. That way, they initial selection
+ has a point as it will be on a node that has a decent amount of
+ backlinks."
+   (interactive)
+   (let ((node (org-roam-node-read nil #'org-roam-backlinks-poi-or-moc-p)))
+     (org-roam-backlinks-node-read node)))
+
+;; https://www.reddit.com/r/emacs/comments/veesun/orgroam_is_absolutely_fantastic/
+;; TODO(FAP): this regexp is for journal files, not dailies?
+(setq my-date-regexp "^[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} [A-Za-z]+")
+
+;;;;; Define filter functions to be used in `org-roam-node-find' function.
+(defun ugt-filter-org-roam-node-file-p (node)
+  "Filter nodes that represent files.
+So exclude nodes that are outline items in org files.
+
+Usage example:
+(org-roam-node-read nil #'ugt-filter-org-roam-node-file-p)
+"
+  (and
+   (= (org-roam-node-level node) 0)
+   (not (string-match my-date-regexp (org-roam-node-title node)))))
+
+(defun ugt-filter-org-roam-node-exclude-dates (node)
+  "Exclude journal files like `2022-05-17' from nodes list."
+  (not (string-match my-date-regexp (org-roam-node-title node))))
+
+(defun ugt-filter-org-roam-node-exclude-archived-and-journal-files (node)
+  "Exclude these files / nodes
+- tagged `archive'
+- in folder `archive'
+- journal files."
+  (and
+   ;; no journal files
+   (not (string-match my-date-regexp (org-roam-node-title node)))
+   ;; not tagged `archive'
+   (not (member "archive" (org-roam-node-tags node)))
+   ;; not in any folder named `archive'
+   (not (string-match-p "archive/" (org-roam-node-file node)))))
+
+;;;;; Define custom `org-roam-node-find' functions with filters.
+(defun ugt-org-roam-node-find-filtered nil
+  "Refined search for org-roam nodes.
+Exclude elements tagged `archive'."
+  (interactive)
+  ;; nb: can add initial search string like "^"
+  (org-roam-node-find :other-window nil #'ugt-filter-org-roam-node-exclude-archived-and-journal-files))
+
+
+(defun ugt-org-roam-node-find-document-nodes nil
+  "Refined search for org-roam nodes.
+Search for only document level nodes. Exclude dates."
+  (interactive)
+  ;;(org-roam-node-find :other-window)
+  (org-roam-node-find :other-window nil #'ugt-filter-org-roam-node-file-p))
+
+(require 'org-protocol)
 
 ;; Since the org module lazy loads org-protocol (waits until an org URL is
 ;; detected), we can safely chain `org-roam-protocol' to it.
 (use-package org-roam-protocol
   :after org-protocol)
+
+(use-package websocket
+  :ensure t
+  :after org-roam)
+
+(use-package org-roam-ui
+  :ensure t
+  :after org-roam ;; or :after org
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+  ;;  :hook (after-init . org-roam-ui-mode)
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
+
+;; epub reader
+(use-package nov
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+
+;; (use-package nov-xwidget
+;;   :ensure t
+;;   :after nov
+;;   :config
+;;   (define-key nov-mode-map (kbd "o") 'nov-xwidget-view)
+;;   (add-hook 'nov-mode-hook 'nov-xwidget-inject-all-files))
 
 (use-package org-pdftools
   :after org
@@ -1417,6 +1653,42 @@ With a prefix ARG, remove start location."
            :unnarrowed t)))
   (org-roam-bibtex-mode)
   :diminish org-roam-bibtex-mode)
+
+;; support org-cite/oc
+(use-package citar
+  :ensure t
+  :no-require
+  :custom
+  (org-cite-global-bibliography (list org_bib))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography)
+  ;; optional: org-cite-insert is also bound to C-c C-x C-@
+  :bind
+  (:map org-mode-map :package org ("C-c b" . #'org-cite-insert)))
+
+;; https://github.com/emacs-citar/citar-org-roam
+;; https://github.com/emacs-citar/citar/wiki/Notes-configuration#org-roam-bibtex
+(use-package citar-org-roam
+  :ensure t
+  :after (org-roam-bibtex)
+  :config
+  (citar-register-notes-source
+   'orb-citar-source (list :name "Org-Roam Notes"
+                           :category 'org-roam-node
+                           :items #'citar-org-roam--get-candidates
+                           :hasitems #'citar-org-roam-has-notes
+                           :open #'citar-org-roam-open-note
+                           :create #'orb-citar-edit-note
+                           :annotate #'citar-org-roam--annotate))
+
+  (setq citar-notes-source 'orb-citar-source)
+  (citar-org-roam-mode))
+
+(use-package org-transclusion
+  :ensure t
+  :after org)
 
 (use-package org-kanban
   :ensure t)
