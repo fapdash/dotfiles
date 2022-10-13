@@ -382,11 +382,16 @@ Try the repeated popping up to 10 times."
 
 (use-package dired
   :bind  (:map dired-mode-map ("°" . (lambda () (interactive) (find-alternate-file ".."))))
+  :custom ((dired-listing-switches "-alh --group-directories-first")) ;; commands passed to ~ls~
   :config
   ;; allow dired to delete or copy dir
   (setq dired-recursive-copies (quote always)) ; “always” means no asking
   (setq dired-recursive-deletes (quote top)) ; “top” means ask once
   (put 'dired-find-alternate-file 'disabled nil))
+
+;; more colors in dired
+(use-package diredfl
+  :ensure t)
 
 (use-package smart-mode-line
   :ensure t
