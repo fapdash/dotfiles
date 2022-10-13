@@ -2830,8 +2830,11 @@ the mode, `toggle' toggles the state."
   :ensure t
   :init
   (global-undo-tree-mode)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t))
+  :custom
+  (undo-tree-visualizer-timestamps t)
+  (undo-tree-visualizer-diff t)
+  (undo-tree-enable-undo-in-region t)
+  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree"))))
 
 (use-package ripgrep
   :ensure)
