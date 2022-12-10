@@ -2,13 +2,18 @@
 ** Using ledger-autosync
 *** Installation
 1. ~pip3 install ledger-autosync~
-2. Copy ~teo.py~ from the ~/plugins~ folder to ~~/.config/ledger-autosync/plugins/teo.py~
+2. Copy the python source files from the ~/plugins~ folder to ~~/.config/ledger-autosync/plugins/teo.py~
 *** Workflow
-  1. Download csv from https://web.goteo.de
+  1. Download csv from https://web.goteo.de or https://www.dkb.de/
   2. Remove the first 9 lines so ledger-autoscript can properly detect the csv type (included in the comment in ~3.~)
-  3. Convert to ledger, filtering out duplicates (comparing with ~fap.ledger~), saving to a review file:
+  3. Convert to ledger, filtering out duplicates (comparing with ~fap.ledger~), saving to a review file.
+     goteo.de:
     #+begin_src bash
 iconv -f $(chardetect teo.csv | awk '{print $2}') -t utf-8 -o teo.csv teo.csv && sed -i '1,9d' teo.csv && ledger-autosync teo.csv -l fap.ledger -a Assets:Bank:Checking -y "%Y-%m-%d" > teo.ledger
+    #+end_src
+    DKB:
+    #+begin_src bash
+iconv -f $(chardetect dkb.csv | awk '{print $2}') -t utf-8 -o dkb.csv dkb.csv && sed -i '1,6d' dkb.csv && ledger-autosync dkb.csv -l fap.ledger -a Assets:Bank:Checking -y "%Y-%m-%d" > dkb.ledger
     #+end_src
   4. Check review file (~teo.ledger~)
   5. Paste teo.ledger content to fap.ledger (main ledger)
