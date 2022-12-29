@@ -1401,6 +1401,7 @@ exist without jumping to it"
     ;; If no region was selected, just create the note from the current headline
     (gsgx/org-roam-create-note-from-headline)))
 
+;; https://ag91.github.io/blog/2021/03/12/find-org-roam-notes-via-their-relations/
 (defun my/navigate-note (arg &optional note choices)
   (interactive "P")
   (let* ((completions (org-roam-node-read--completions))
@@ -1417,43 +1418,8 @@ exist without jumping to it"
                  (org-roam-backlink-source-node it))
                 it))))
     (if (string= note next-note)
-        (org-roam-node-open (assoc note completions))
+        (org-roam-node-open (org-roam-node-from-title-or-alias note))
       (my/navigate-note nil next-note (or candidates (list next-note))))))
-
-
-;; https://ag91.github.io/blog/2021/03/12/find-org-roam-notes-via-their-relations/
-;; (defun my/navigate-note (arg &optional node choices)
-;;   "Navigate notes by link. With universal ARG tries to use only to navigate the tags of the current note. Optionally takes a selected NOTE and filepaths CHOICES."
-;;   (interactive "P")
-;;   (let* ((depth (if (numberp arg) arg 1))
-;;          (choices
-;;           (or choices
-;;               (when arg
-;;                 (-map #'org-roam-backlink-target-node (org-roam-backlinks-get (org-roam-node-from-id (or (ignore-errors (org-roam-node-id node))
-;;                                                                                                          (org-id-get-create))))))))
-;;          (all-notes (org-roam-node-read--completions))
-;;          (completions
-;;           (or (--filter (-contains-p choices (cdr it)) all-notes) all-notes))
-;;          (next-node
-;;           ;; taken from org-roam-node-read
-;;           (let* ((nodes completions)
-;;                  (node (completing-read
-;;                         "Node: "
-;;                         (lambda (string pred action)
-;;                           (if (eq action 'metadata)
-;;                               '(metadata
-;;                                 (annotation-function . (lambda (title)
-;;                                                          (funcall org-roam-node-annotation-function
-;;                                                                   (get-text-property 0 'node title))))
-;;                                 (category . org-roam-node))
-;;                             (complete-with-action action nodes string pred))))))
-;;             (or (cdr (assoc node nodes))
-;;                 (org-roam-node-create :title node)))
-;;           )
-;;          )
-;;     (if (equal node next-node)
-;;         (org-roam-node-visit node)
-;;       (my/navigate-note nil next-node (cons next-node (-map #'org-roam-backlink-source-node (org-roam-backlinks-get next-node))))))))
 
 ;; https://github.com/Vidianos-Giannitsis/Dotfiles/blob/313b563595e133901b7443783642c64e9e2434b2/emacs/.emacs.d/libs/zettelkasten.org#org-roam-backlinks-search
 (defcustom org-roam-backlinks-choices '("View Backlinks" "Go to Node" "Add to Zetteldesk" "Quit")
