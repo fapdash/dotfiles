@@ -3208,6 +3208,14 @@ clear the buffers undo-tree before saving the file."
   :after cider-mode
   :config (add-hook 'cider-mode-hook #'macrostep-geiser-setup))
 
+(use-package elisp-autofmt
+  :ensure t
+  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
+  :hook (emacs-lisp-mode . elisp-autofmt-mode)
+  :config
+  (setq elisp-autofmt-on-save-p 'always))
+
+
 (defun my-eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
   (interactive)
