@@ -158,6 +158,18 @@ If REPOSITORY is specified, use that."
  '(org-clock-overlay ((t (:background "SkyBlue4" :foreground "black"))))
  '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
  '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflower blue"))))
+ '(rainbow-delimiters-base-error-face ((t (:foreground "#FFFFFF" :background "#EF6C00"))))
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "#e91e63"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "#2196F3"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "#EF6C00"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "#B388FF"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "#76ff03"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "#26A69A"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "#FFCDD2"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "#795548"))))
+ '(rainbow-delimiters-depth-9-face ((t (:foreground "#DCE775"))))
+ '(rainbow-delimiters-mismatched-face ((t (:foreground "#FFFFFF" :background "#EF6C00"))))
+ '(rainbow-delimiters-unmatched-face ((t (:foreground "#ffffff" :background "#EF6C00"))))
  '(sp-show-pair-match-face ((t (:background "dark slate blue")))))
 
 (global-auto-revert-mode 1) ;; Always reload the file if it changed on disk
@@ -792,7 +804,7 @@ Try the repeated popping up to 10 times."
  '(anzu-search-threshold 1000)
  '(compilation-message-face 'default)
  '(custom-safe-themes
-   '("6df30cfb75df80e5808ac1557d5cc728746c8dbc9bc726de35b15180fa6e0ad9" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "64581032564feda2b5f2cf389018b4b9906d98293d84d84142d90d7986032d33" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default))
+   '("82225f1fa1e4d3b00c63700f691fc0dc7c9bdab8a996e6a78f451f9a15bd74fc" "6df30cfb75df80e5808ac1557d5cc728746c8dbc9bc726de35b15180fa6e0ad9" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "64581032564feda2b5f2cf389018b4b9906d98293d84d84142d90d7986032d33" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default))
  '(highlight-changes-colors '("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
    '(("#3C3D37" . 0)
@@ -810,11 +822,13 @@ Try the repeated popping up to 10 times."
  '(org-modules
    '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
  '(package-selected-packages
-   '(quickrun org-superstar org-preview-html w3m yaml-mode web-mode tide robe yasnippet-snippets smartparens org-tree-slide spacemacs-theme writeroom-mode org-ref embrace smart-semicolon ox-hugo ox-pandoc projectile-rails smart-mode-line org-contrib org-gcal terminal-here workgroups2 racer rubocop rspec-mode yasnippet org-present org-kanban org-download org-web-tools flycheck-ledger ledger-mode beginend keyfreq editorconfig org-pomodoro all-the-icons-dired mode-icons doom-modeline spaceline ace-isearch helpful emmet-mode paredit pdfgrep org-noter-pdftools org-pdftools markdown-mode company-box ruby-test-mode ivy-hydra ivy-rich company-quickhelp counsel-etags emacs-w3m ivy-xref prettier-js org-rich-yank diminish org-cliplink activity-watch-mode org-agenda-property org-ql multi-vterm org-noter ivy-bibtex company-org-roam org-roam-bibtex org-journal ansible magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line deft deadgrep alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format epresent esprent smart-shift engine-mode itail vlf vfl htmlize tangotango-theme org-mode discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list ruby-tools rbenv counsel-projectile fzf smex counsel ivy projectile-ripgrep ripgrep dumb-jump yari undo-tree switch-window smartscan rvm ruby-refactor ruby-compilation puml-mode pos-tip plantuml-mode nyan-mode neotree move-text minitest goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window))
+   '(elisp-autofmt gnu-elpa-keyring-update org easy-escape diredfl macrostep-geiser geiser-chez citar-org-roam org-roam-ui websocket xeft org-transclusion nov-xwidget nov rainbow-delimiters company-statistics sly-quicklisp sly multi-vterm exercism quickrun org-superstar org-preview-html w3m yaml-mode web-mode tide robe yasnippet-snippets smartparens org-tree-slide spacemacs-theme writeroom-mode org-ref embrace smart-semicolon ox-hugo ox-pandoc projectile-rails smart-mode-line org-contrib org-gcal terminal-here workgroups2 racer rubocop rspec-mode yasnippet org-present org-kanban org-download org-web-tools flycheck-ledger ledger-mode beginend keyfreq editorconfig org-pomodoro all-the-icons-dired mode-icons doom-modeline spaceline ace-isearch helpful emmet-mode paredit pdfgrep org-noter-pdftools org-pdftools markdown-mode company-box ruby-test-mode ivy-hydra ivy-rich company-quickhelp counsel-etags emacs-w3m ivy-xref prettier-js org-rich-yank diminish org-cliplink activity-watch-mode org-agenda-property org-ql org-noter ivy-bibtex company-org-roam org-roam-bibtex org-journal ansible magit-todos flutter-l10n-flycheck flutter use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line deft deadgrep alchemist mastodon exec-path-from-shell iy-go-to-char copy-as-format epresent esprent smart-shift engine-mode itail vlf vfl htmlize tangotango-theme org-mode discover-my-major ivy-historian ac-dabbrev iedit wgrep-ag imenu-list ruby-tools rbenv counsel-projectile fzf smex counsel ivy projectile-ripgrep ripgrep dumb-jump yari undo-tree switch-window smartscan rvm ruby-refactor ruby-compilation puml-mode pos-tip plantuml-mode nyan-mode neotree move-text minitest goto-chg google-translate google-this fuzzy fullframe flymake-ruby flycheck-rust flycheck-credo flx-ido fill-column-indicator expand-region erlang elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
-   '((magit-todos-exclude-globs "*.js.map")
+   '((backup-inhibited . t)
+     (undo-tree-auto-save-history)
+     (magit-todos-exclude-globs "*.js.map")
      (magit-todos-exclude-globs . "*.js.map")
      (magit-todos-exclude-globs . *\.js\.map)
      (encoding . utf-8)
@@ -828,7 +842,6 @@ Try the repeated popping up to 10 times."
  '(sml/shorten-directory t)
  '(sml/shorten-modes t)
  '(tab-width 4)
- '(undo-tree-visualizer-diff t)
  '(weechat-color-list
    (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
 
@@ -2257,7 +2270,6 @@ Notes:
   :ensure t
   :config
   (defalias 'rename-variable 'iedit-mode))
-
 
 (use-package fuzzy
   :ensure t)
