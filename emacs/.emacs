@@ -459,7 +459,72 @@ Try the repeated popping up to 10 times."
 
 ;; shows matching paranthesis with matching colors
 (use-package rainbow-delimiters
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  (custom-set-faces
+
+   ;; Rainbow-delimiters from https://github.com/cpaulik/emacs-material-theme/blob/master/material-theme.el
+   ;; `(rainbow-delimiters-depth-1-face ((t (:foreground "#e91e63"))))
+   ;; `(rainbow-delimiters-depth-2-face ((t (:foreground "#2196F3"))))
+   ;; `(rainbow-delimiters-depth-3-face ((t (:foreground "#EF6C00"))))
+   ;; `(rainbow-delimiters-depth-4-face ((t (:foreground "#B388FF"))))
+   ;; `(rainbow-delimiters-depth-5-face ((t (:foreground "#76ff03"))))
+   ;; `(rainbow-delimiters-depth-6-face ((t (:foreground "#26A69A"))))
+   ;; `(rainbow-delimiters-depth-7-face ((t (:foreground "#FFCDD2"))))
+   ;; `(rainbow-delimiters-depth-8-face ((t (:foreground "#795548"))))
+   ;; `(rainbow-delimiters-depth-9-face ((t (:foreground "#DCE775"))))
+   ;; `(rainbow-delimiters-unmatched-face ((t (:foreground "#eeeeee" :background "#EF6C00"))))
+
+   ;; Rainbow-delimiters from https://github.com/cpaulik/emacs-material-theme/blob/master/material-theme.el
+   ;; TODO(FAP): either more colors or move the 2 green and 2 blue more apart
+   ;;            check contrasts?
+   ;; `(rainbow-delimiters-depth-1-face ((t (:foreground "#ef2929"))))
+   ;; `(rainbow-delimiters-depth-2-face ((t (:foreground "dodger blue"))))
+   ;; `(rainbow-delimiters-depth-3-face ((t (:foreground "#edd400"))))
+   ;; `(rainbow-delimiters-depth-4-face ((t (:foreground "magenta3"))))
+   ;; `(rainbow-delimiters-depth-5-face ((t (:foreground "#8ae234"))))
+   ;; `(rainbow-delimiters-depth-6-face ((t (:foreground "tomato"))))
+   ;; `(rainbow-delimiters-depth-7-face ((t (:foreground "#6ac214"))))
+   ;; `(rainbow-delimiters-depth-8-face ((t (:foreground "royal blue"))))
+   ;; `(rainbow-delimiters-depth-9-face ((t (:foreground "turquoise"))))
+
+
+   ;; ;; https://en.wikipedia.org/wiki/Tango_Desktop_Project
+   ;; ;; https://en.wikipedia.org/wiki/Tango_Desktop_Project#/media/File:Tango_pallette.svg
+   ;; `(rainbow-delimiters-depth-1-face ((t (:foreground "#edd400"))))
+   ;; `(rainbow-delimiters-depth-2-face ((t (:foreground "#8ae234"))))
+   ;; `(rainbow-delimiters-depth-3-face ((t (:foreground "#f57900"))))
+   ;; `(rainbow-delimiters-depth-4-face ((t (:foreground "royal blue"))))
+   ;; `(rainbow-delimiters-depth-5-face ((t (:foreground "magenta3"))))
+   ;; `(rainbow-delimiters-depth-6-face ((t (:foreground "#c17d11"))))
+   ;; `(rainbow-delimiters-depth-7-face ((t (:foreground "#ef2929"))))
+   ;; `(rainbow-delimiters-depth-8-face ((t (:foreground "turquoise"))))
+   ;; `(rainbow-delimiters-depth-9-face ((t (:foreground "#eeeeec"))))
+   ;; `(rainbow-delimiters-unmatched-face ((t (:foreground "#eeeeee" :background "#a40000"))))
+   ;; `(rainbow-delimiters-base-error-face ((t (:foreground "#eeeeee" :background "#a40000"))))
+   ;; `(rainbow-delimiters-mismatched-face ((t (:foreground "#eeeeee" :background "#a40000")))))
+
+
+
+   ;; https://en.wikipedia.org/wiki/Tango_Desktop_Project
+   ;; https://en.wikipedia.org/wiki/Tango_Desktop_Project#/media/File:Tango_pallette.svg
+   ;; https://webaim.org/resources/contrastchecker/
+   ;; https://www.tydac.ch/color/
+   `(rainbow-delimiters-depth-1-face ((t (:foreground "#FFE400"))))
+   `(rainbow-delimiters-depth-2-face ((t (:foreground "#6EDA00"))))
+   `(rainbow-delimiters-depth-3-face ((t (:foreground "#FF7E00"))))
+   `(rainbow-delimiters-depth-4-face ((t (:foreground "#1E90FF"))))
+   `(rainbow-delimiters-depth-5-face ((t (:foreground "#FF00FF"))))
+   `(rainbow-delimiters-depth-6-face ((t (:foreground "#FFB200")))) ;; hard to differentiate from the orange
+   `(rainbow-delimiters-depth-7-face ((t (:foreground "#FF2C2C"))))
+   `(rainbow-delimiters-depth-8-face ((t (:foreground "#49FFED"))))
+   `(rainbow-delimiters-depth-9-face ((t (:foreground "#eeeeec"))))
+
+   `(rainbow-delimiters-unmatched-face ((t (:foreground "#eeeeee" :background "#a40000"))))
+   `(rainbow-delimiters-base-error-face ((t (:foreground "#eeeeee" :background "#a40000"))))
+   `(rainbow-delimiters-mismatched-face ((t (:foreground "#eeeeee" :background "#a40000")))))
+  )
 
 ;; provides color preview in buffer
 (use-package rainbow-mode
