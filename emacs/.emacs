@@ -3183,6 +3183,13 @@ clear the buffers undo-tree before saving the file."
   :after cider-mode
   :config (add-hook 'cider-mode-hook #'macrostep-geiser-setup))
 
+(defun my-eval-and-run-all-tests-in-buffer ()
+  "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
+  (interactive)
+  (ert-delete-all-tests)
+  (eval-buffer)
+  (ert 't))
+
 (and window-system (server-start))
 
 ;; Reset startup optimizations
