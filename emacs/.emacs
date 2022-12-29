@@ -1835,6 +1835,7 @@ With a prefix ARG, remove start location."
   (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-fetch)))
   ;;  https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
   (load-library "~/repos/dotfiles/emacs/org-gcal-secrets.el.gpg")
+  (org-gcal-reload-client-id-secret)
   (defun fap//org-gcal-add-warning-period (_calendar-id event _update-mode)
     "Add a warning period to the plain timestamp in the gcal drawer. Warning periods for plain timestamps are supported by Orgzly."
     (when (not (org-gcal--event-cancelled-p event))
