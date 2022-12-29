@@ -1,5 +1,36 @@
-;; Initialize Garbage Collector every 20mb allocated.
-(setq gc-cons-threshold 20000000)
+;;; .emacs --- summary -*- lexical-binding: t -*-
+
+;; This file is not part of GNU Emacs
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+;;; Commentary:
+
+;;; Code:
+
+;;;;; Startup optimizations
+
+;;;;;; Set garbage collection threshold
+
+;; https://emacs.stackexchange.com/a/34367/11806
+
+;; From https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
+
+(setq gc-cons-threshold-original gc-cons-threshold)
+(setq gc-cons-threshold (* 1024 1024 100))
+
 
 (require 'package)
 
@@ -3153,6 +3184,13 @@ clear the buffers undo-tree before saving the file."
   :config (add-hook 'cider-mode-hook #'macrostep-geiser-setup))
 
 (and window-system (server-start))
+
+;; Reset startup optimizations
+;; https://emacs.stackexchange.com/a/34367/11806
+;; https://old.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
+(setq gc-cons-threshold gc-cons-threshold-original)
+(makunbound 'gc-cons-threshold-original)
+(message "gc-cons-threshold and file-name-handler-alist restored")
 
 (provide '.emacs)
 ;;; .emacs ends here
