@@ -1170,7 +1170,7 @@ is nil, refile in the current file."
 %i    1. \n\
 ")
                                 ("E" "Encrypted File" plain (file my-org-capture-ask-for-filename)
-                                 "-*- undo-tree-auto-save-history: nil; epa-file-encrypt-to: nil; -*-
+                                 "-*- undo-tree-auto-save-history: nil; backup-inhibited: t; epa-file-encrypt-to: nil; -*-
 
 * %i%?
 
@@ -1183,14 +1183,6 @@ is nil, refile in the current file."
   "Read file name to capture to."
   (interactive)
   (concat org_top "/" (read-string "Enter filename (without extension): ") ".org.gpg"))
-
-
-(setq org-capture-templates
-      '(("E" "Encrypted File" entry (file my-org-capture-ask-for-filename)
-                                 "-*- undo-tree-auto-save-history: nil; epa-file-encrypt-to: nil; -*-
-
-* %i%?")))
-
 
 (use-package org-ql
   :ensure t)
