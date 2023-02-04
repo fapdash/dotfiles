@@ -3252,11 +3252,13 @@ clear the buffers undo-tree before saving the file."
   :load-path "~/.emacs.d/lisp/gleam-mode"
   :config
   (projectile-register-project-type 'gleam '("gleam.toml")
-                                  :project-file "gleam.toml"
-				  :compile "gleam build"
-				  :test "gleam test"
-				  :run "gleam run"
-				  :test-suffix "_test.gleam")
+                                    :project-file "gleam.toml"
+				                    :compile "gleam build"
+				                    :test "gleam test"
+				                    :run "gleam run"
+                                    :src-dir "src/"
+                                    :test-dir "test/"
+				                    :test-suffix "_test")
   (add-to-list 'eglot-server-programs
                '(gleam-mode . ("gleam" "lsp")))
   (add-hook 'gleam-mode-hook
