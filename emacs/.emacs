@@ -3234,6 +3234,13 @@ clear the buffers undo-tree before saving the file."
 (use-package eglot
   :ensure t)
 
+(use-package haskell-mode
+  :after eglot
+  :ensure t
+  :config
+  (add-to-list 'eglot-server-programs
+               '(haskell-mode . ("haskell-language-server-wrapper" "--lsp"))))
+
 
 (defun my-eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
