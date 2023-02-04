@@ -1845,7 +1845,7 @@ With a prefix ARG, remove start location."
   (setq org-gcal-file-alist `(("fabian.pfaff@vogella.com" .  ,(concat org_todo "/vogella_gcal.org")))
         org-gcal-remove-api-cancelled-events t
         fap//org-gcal--warning-period "-1d")
-  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-fetch)))
+  ;;  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-fetch)))
   ;;  https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
   (load-library "~/repos/dotfiles/emacs/org-gcal-secrets.el.gpg")
   (org-gcal-reload-client-id-secret)
