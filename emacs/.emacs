@@ -3241,6 +3241,27 @@ clear the buffers undo-tree before saving the file."
   (add-to-list 'eglot-server-programs
                '(haskell-mode . ("haskell-language-server-wrapper" "--lsp"))))
 
+(use-package tree-sitter
+  :ensure t)
+
+(use-package tree-sitter-indent
+  :ensure t)
+
+(use-package gleam-mode
+  :after (projectile eglot)
+  :load-path "~/.emacs.d/lisp/gleam-mode"
+  :config
+  (projectile-register-project-type 'gleam '("gleam.toml")
+                                  :project-file "gleam.toml"
+				  :compile "gleam build"
+				  :test "gleam test"
+				  :run "gleam run"
+				  :test-suffix "_test.gleam")
+  (add-to-list 'eglot-server-programs
+               '(gleam-mode . ("gleam" "lsp")))
+  (add-hook 'gleam-mode-hook
+            (lambda () (add-hook 'before-save-hook 'gleam-format nil t))))
+
 
 (defun my-eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
