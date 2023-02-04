@@ -2362,9 +2362,28 @@ Notes:
 
 (use-package projectile
   :ensure t
-  :init
+  :config
   (setq projectile-completion-system 'ivy)
-  (projectile-mode))
+  (projectile-mode)
+  ;; https://emacs.stackexchange.com/a/63744/11806
+  ;; Due to "alien" indexing method, globally ignore folders/files by
+  ;; re-defining "rg" args
+  (mapc (lambda (item)
+          (add-to-list 'projectile-globally-ignored-directories item))
+        '("Backup" "backup" "auto" "archived"))
+  ;; files to be ignored should be listed in "~/.emacs.d/.rg_ignore"
+
+  ;; Use the faster searcher to handle project files: ripgrep "rg"
+  (when (and (not (executable-find "fd"))
+             (executable-find "rg"))
+    (setq projectile-generic-command
+          (let ((rg-cmd ""))
+            (dolist (dir projectile-globally-ignored-directories)
+              (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
+            (setq rg-ignorefile
+                  (concat "--ignore-file" " "
+                          (expand-file-name ".rg_ignore" user-emacs-directory)))
+            (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile)))))
 
 (use-package projectile-rails
   :ensure t
