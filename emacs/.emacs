@@ -3228,6 +3228,9 @@ clear the buffers undo-tree before saving the file."
   :config
   (setq elisp-autofmt-on-save-p 'always))
 
+(use-package ox-reveal
+  :ensure t)
+
 
 (defun my-eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
