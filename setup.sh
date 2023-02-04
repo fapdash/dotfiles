@@ -7,6 +7,7 @@
 ln -s ~/repos/dotfiles/emacs/.emacs ~/.emacs
 mkdir ~/.emacs.d 2> /dev/null
 ln -s ~/repos/dotfiles/emacs/lisp/ ~/.emacs.d/lisp
+ln -s ~/repos/dotfiles/emacs/.rg_ignore ~/.emacs.d
 
 
 ################################
