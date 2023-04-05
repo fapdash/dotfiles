@@ -3245,7 +3245,14 @@ clear the buffers undo-tree before saving the file."
   :commands (elisp-autofmt-mode elisp-autofmt-buffer)
   :hook (emacs-lisp-mode . elisp-autofmt-mode)
   :config
-  (setq elisp-autofmt-on-save-p 'always))
+  (defun fap/elisp-autofmt-on-save-p ()
+    "Stop autoformat for .emacs, format all other files."
+    (if (string-suffix-p ".emacs" (buffer-file-name))
+        nil
+      t))
+
+  (setq elisp-autofmt-on-save-p 'fap/elisp-autofmt-on-save-p
+        elisp-autofmt-python-bin "~/.asdf/installs/python/3.11.2/bin/python3"))
 
 (use-package ox-reveal
   :ensure t)
