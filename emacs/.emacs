@@ -1041,6 +1041,15 @@ Try the repeated popping up to 10 times."
   :demand t
   :bind (:map org-mode-map
               ("C-M-y" . org-rich-yank)))
+              ("C-M-y" . org-rich-yank))
+  :config
+  (defun my-org-rich-yank-format-paste (language contents link)
+    "Based on `org-rich-yank--format-paste-default'."
+    (format "#+BEGIN_SRC %s\n%s\n#+END_SRC\n#+comment: %s"
+            language
+            (org-rich-yank--trim-nl contents)
+            link))
+  (customize-set-variable 'org-rich-yank-format-paste #'my-org-rich-yank-format-paste))
 
 (use-package org-web-tools
   :ensure t)
