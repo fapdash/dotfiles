@@ -3455,6 +3455,13 @@ clear the buffers undo-tree before saving the file."
   (define-key gleam-mode-map (kbd "<M-return>") 'elixir-pipe-operator-on-newline)
   (define-key gleam-mode-map (kbd "<C-return>") 'elixir-pipe-operator))
 
+(use-package elfeed
+  :ensure t
+  :config
+  (setq elfeed-feeds
+        '("http://nullprogram.com/feed/"
+          "https://planet.emacslife.com/atom.xml")))
+
 
 (defun my-eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
