@@ -3417,6 +3417,12 @@ clear the buffers undo-tree before saving the file."
 (use-package eglot
   :ensure t)
 
+(use-package flycheck-eglot
+  :ensure t
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
+
 (use-package haskell-mode
   :after eglot
   :ensure t
