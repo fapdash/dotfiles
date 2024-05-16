@@ -768,7 +768,9 @@ Try the repeated popping up to 10 times."
   (setq git-commit-major-mode 'markdown-mode))
 
 (use-package magit-popup
-  :ensure t)
+  :ensure t
+  :config
+  (magit-define-popup-switch 'magit-log-popup ?f "first parent" "--first-parent"))
 
 (use-package magit-todos
   :ensure t
