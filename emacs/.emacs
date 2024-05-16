@@ -3291,6 +3291,8 @@ clear the buffers undo-tree before saving the file."
 
 ;; auto revert mode
 (global-auto-revert-mode 1)
+;; Revert Dired and other buffers
+(setq global-auto-revert-non-file-buffers t)
 ;; auto refresh dired when file changes
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 
