@@ -994,6 +994,35 @@ Try the repeated popping up to 10 times."
 
 (require 'org-columns-calc)
 
+(use-package org-modern
+  :after org
+  :ensure t
+  :config
+  (setq
+ ;; Edit settings
+ org-auto-align-tags nil
+ org-tags-column 0
+ org-catch-invisible-edits 'show-and-error
+ org-special-ctrl-a/e t
+ org-insert-heading-respect-content t
+
+ ;; Org styling, hide markup etc.
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+ org-ellipsis "…"
+
+ ;; Agenda styling
+ org-agenda-tags-column 0
+ org-agenda-block-separator ?─
+ org-agenda-time-grid
+ '((daily today require-timed)
+   (800 1000 1200 1400 1600 1800 2000)
+   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+ org-agenda-current-time-string
+ "◀── now ─────────────────────────────────────────────────")
+  (global-org-modern-mode)
+  (add-hook 'org-mode-hook (lambda () (setq line-spacing 0.2)))
+  )
 (use-package org-tempo
   ;; contains old template expansion syntax: <s
   ;; https://orgmode.org/manual/Structure-Templates.html
@@ -3501,6 +3530,8 @@ clear the buffers undo-tree before saving the file."
  '(window-divider-last-pixel ((t (:background "#2e3434" :foreground "#2e3434")))))
 
 (set-face-foreground 'success "#6ac214")
+(set-face-background 'org-modern-time-inactive "grey65")
+(set-face-foreground 'org-modern-date-inactive "grey70")
 (set-face-foreground 'highlight-indent-guides-character-face "gray30")
 (set-face-foreground 'highlight-indent-guides-top-character-face "gray50")
 
