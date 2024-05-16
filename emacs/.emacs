@@ -107,7 +107,9 @@ If REPOSITORY is specified, use that."
 (sacha/package-install 'color-theme-sanityinc-solarized)
 (sacha/package-install 'monokai-theme)
 (use-package tangotango-theme
-  :ensure t)
+  :ensure t
+  :init (load-theme 'tangotango t)
+  :config)
 										;(color-theme-solarized 'dark)
 
 										;(defun sacha/setup-color-theme ()
@@ -126,7 +128,6 @@ If REPOSITORY is specified, use that."
 										;  (when window-system
 										;    (sacha/setup-color-theme)))
 ;; (load-theme 'monokai t)
-(load-theme 'tangotango t)
 
 										;(when window-system
 										;  (custom-set-faces
