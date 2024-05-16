@@ -456,6 +456,7 @@ Try the repeated popping up to 10 times."
   (add-hook 'org-mode-hook #'fap/deactivate-line-max-highlight)
   (add-hook 'adoc-mode-hook #'fap/deactivate-line-max-highlight)
   (add-hook 'vterm-mode-hook #'fap/deactivate-line-max-highlight)
+  (add-hook 'nov-mode-hook #'fap/deactivate-line-max-highlight)
   :init
   (global-whitespace-mode +1))
 
