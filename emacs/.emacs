@@ -3462,6 +3462,9 @@ clear the buffers undo-tree before saving the file."
         '("http://nullprogram.com/feed/"
           "https://planet.emacslife.com/atom.xml")))
 
+;; Show current command and it's binding / keys pressed
+(use-package keycast
+  :ensure t)
 
 (defun my-eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
