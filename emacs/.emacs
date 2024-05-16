@@ -526,15 +526,32 @@ Try the repeated popping up to 10 times."
 (use-package diredfl
   :ensure t)
 
-(use-package smart-mode-line
+(use-package doom-modeline
   :ensure t
+  ;; run (nerd-icons-install-fonts) once
+  :init (doom-modeline-mode 1)
   :config
-  (setq sml/no-confirm-load-theme t)
-  (sml/setup))
+  (setq doom-modeline-time-icon t)
+  (setq doom-modeline-buffer-name t)
+  (setq doom-modeline-time t)
+  (setq doom-modeline-battery t)
+  (display-battery-mode)
+  (display-time-mode))
+
+(use-package spacious-padding
+  :ensure t
+  :after doom-modeline
+  :config
+  ;; need to set this variable before activating the mode
+  ;; maybe only activate in GUI mode? doesn't work in TUI, see https://lists.sr.ht/~protesilaos/general-issues/%3C87sf4f4k18.fsf%40alternateved.com%3E#%3C87msumbglm.fsf@protesilaos.com%3E
+  (setq spacious-padding-subtle-mode-line
+        `( :mode-line-active 'default
+           :mode-line-inactive vertical-border))
+  (spacious-padding-mode))
 
 (use-package all-the-icons
   :ensure t
-  ;; have to run all-the-icons-install-fonts once
+  ;; have to run (all-the-icons-install-fonts) once
   )
 
 (use-package all-the-icons-dired
@@ -546,6 +563,11 @@ Try the repeated popping up to 10 times."
                         (unless (file-remote-p default-directory)
                           (all-the-icons-dired-mode))))
   :diminish 'all-the-icons-dired-mode)
+
+(use-package all-the-icons-completion
+  :ensure t
+  :config
+  (all-the-icons-completion-mode))
 
 ;; view large files
 (use-package vlf
