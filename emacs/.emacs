@@ -2909,13 +2909,20 @@ Notes:
           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 
 
-;; TODO: this should  probably break at cursor point and offer the existing
-;;       behavior (jump to end of line, newline and then pipe) with S-return
-(fset 'elixir-pipe-operator-on-newline
-   "\C-e\C-j|> ")
+
+(defun elixir-pipe-operator-on-newline ()
+  (interactive)
+  (end-of-line)
+  (newline-and-indent)
+  (insert "|> "))
+
+(defun elixir-pipe-operator ()
+  (interactive)
+  (insert " |> "))
+
 (with-eval-after-load 'elixir-mode
-     (define-key elixir-mode-map (kbd "<C-return>") 'elixir-pipe-operator-on-newline)
-     (define-key elixir-mode-map (kbd "<M-return>") 'elixir-pipe-operator-on-newline))
+  (define-key elixir-mode-map (kbd "<M-return>") 'elixir-pipe-operator-on-newline)
+  (define-key elixir-mode-map (kbd "<C-return>") 'elixir-pipe-operator))
 
 ;; smartparens hack for elixir
 (defun my-elixir-do-end-close-action (id action context)
