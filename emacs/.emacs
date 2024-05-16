@@ -1502,6 +1502,10 @@ is nil, refile in the current file."
         ;; save db outside of roam folder so it won't get synced
         org-roam-db-location (concat (getenv "HOME") "/.org-roam.db")
         )
+  ;; include day and calendar week in title, use logseq naming scheme for dailies
+  (setq org-roam-dailies-capture-templates '(("d" "default" entry "* %<%r> %?"
+					                          :target
+					                          (file+head "%<%Y_%m_%d>.org" "#+TITLE: %<%Y-%m-%d %A | week %W | day %j>\n"))))
   (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
   (setq org-roam-completion-everywhere t)
   (org-roam-db-autosync-enable))
