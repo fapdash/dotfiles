@@ -463,7 +463,7 @@ Try the repeated popping up to 10 times."
 
 (defun fap/deactivate-line-max-highlight ()
   (and (boundp 'whitespace-mode)
-       (set (make-local-variable 'whitespace-line-column) 999)))
+       (set (make-local-variable 'whitespace-line-column) 9999)))
 
 (use-package saveplace
   :ensure t
