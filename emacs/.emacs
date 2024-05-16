@@ -3502,6 +3502,17 @@ clear the buffers undo-tree before saving the file."
  '(window-divider-first-pixel ((t (:background "#2e3434" :foreground "#2e3434"))))
  '(window-divider-last-pixel ((t (:background "#2e3434" :foreground "#2e3434")))))
 
+(set-face-foreground 'success "#6ac214")
+(set-face-foreground 'highlight-indent-guides-character-face "gray30")
+(set-face-foreground 'highlight-indent-guides-top-character-face "gray50")
+
+(set-face-attribute 'tab-bar nil
+                    :inherit 'variable-pitch :background "#2E3434" :foreground "#eeeeec")
+(set-face-attribute 'tab-bar-tab nil
+                    :box (list :line-width 2 :color "grey80" :style nil))
+(set-face-attribute 'tab-bar-tab-inactive nil
+                    :box (list :line-width 2 :color "#2E3434" :style nil))
+
 (and window-system (server-start))
 
 ;; Reset startup optimizations
