@@ -985,21 +985,6 @@ Try the repeated popping up to 10 times."
 
 (global-set-key (kbd "s-j") 'newline-and-indent-anywhere)
 
-(setq
- org_top (concat (getenv "HOME") "/repos/org")
- org_todo (concat org_top "/todo")
- org_gtd (concat org_todo "/gtd")
- org_roam (concat org_top "/roam")
- org_bib (concat org_roam "/roam.bib") ;; https://github.com/JabRef/jabref
- bib_notes_subdir "/bib_notes"
- org_bib_notes (concat org_roam bib_notes_subdir)
- org_bib_library (concat org_bib_notes "/pdf")
- org_journal (concat org_top "/journal")
- org-directory org_top
- deft-directory org_top
- org-roam-directory org_roam
- )
-
 (use-package org
   :ensure t
   :pin elpa
@@ -1012,6 +997,21 @@ Try the repeated popping up to 10 times."
   (setq org-startup-indented t)
   :config
   (setq org-startup-with-inline-images t)
+  (setq
+   org_top (concat (getenv "HOME") "/repos/org")
+   org_todo (concat org_top "/todo")
+   org_gtd (concat org_todo "/gtd")
+   org_roam org_top
+   org_bib (concat org_roam "/roam.bib") ;; https://github.com/JabRef/jabref
+   bib_notes_subdir "/bib_notes"
+   org_bib_notes (concat org_roam bib_notes_subdir)
+   org_bib_library (concat org_bib_notes "/pdf")
+   org_journal (concat org_top "/journal")
+   org-directory org_top
+   deft-directory org_top
+   org-roam-directory org_roam
+   org-roam-dailies-directory "journals/"
+   )
   (setq org-refile-targets `((nil :level . 3)
                              (,(concat org_gtd "/gtd.org") :maxlevel . 3)
                              (,(concat org_gtd "/someday.org") :maxlevel . 2)
