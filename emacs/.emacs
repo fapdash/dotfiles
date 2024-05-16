@@ -1903,7 +1903,7 @@ With a prefix ARG, remove start location."
            (file+head ,(concat org_bib_notes "/${citekey}.org") "#+title: ${title}\n"))
           ("g" "GPG encrypted" plain "%?" :if-new (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org.gpg""#+title: ${title}") :unnarrowed t)
           ("d" "default" plain "%?" :if-new
-           (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+           (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 ")
            :unnarrowed t)))
   (org-roam-bibtex-mode)
