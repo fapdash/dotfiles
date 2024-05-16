@@ -244,6 +244,7 @@ Try the repeated popping up to 10 times."
   :init
   (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
   :config
+  (setq vterm-max-scrollback 10000)
   ;; https://old.reddit.com/r/emacs/comments/op4fcm/send_command_to_vterm_and_execute_it/h63i4f3/
   (defun my/vterm-execute-current-line ()
     "Insert text of current line in vterm and execute."
