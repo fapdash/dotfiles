@@ -764,7 +764,6 @@ Try the repeated popping up to 10 times."
   ;;(global-set-key (kbd "C-M-p") 'git-rebase-move-line-up)
   ;;(global-set-key (kbd "C-M-n") 'git-rebase-move-line-down)
   (setq magit-completing-read-function 'ivy-completing-read)
-  (magit-define-popup-switch 'magit-log-popup ?f "first parent" "--first-parent")
   (setq git-commit-major-mode 'markdown-mode))
 
 (use-package magit-popup
