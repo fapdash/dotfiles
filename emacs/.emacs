@@ -1232,6 +1232,16 @@ is nil, refile in the current file."
                 "\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
                 "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
                 "\\)")))
+;; faster deft: https://sr.ht/~casouri/xeft/
+;; also see notdeft: https://sr.ht/~casouri/xeft/
+(use-package xeft
+  :ensure t
+  :bind (("C-c n x" . xeft))
+  :config
+  (setq xeft-recursive t)
+  (setq xeft-directory org-directory)
+  ;; needed to install xapian for local build: sudo apt install libxapian-dev
+  )
 
 (defun org-journal-find-location ()
   ;; Open today's journal, but specify a non-nil prefix argument in order to
