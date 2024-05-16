@@ -3282,6 +3282,7 @@ clear the buffers undo-tree before saving the file."
 
 
 (workgroups-mode 1)        ; put this one at the bottom of .emacs
+(tab-bar-mode 1)
 
 ;; from better-defaults
 (autoload 'zap-up-to-char "misc"
