@@ -720,7 +720,9 @@ Try the repeated popping up to 10 times."
   :ensure t
   :config
   (global-set-key (kbd "s-w") 'ace-window)
-  (global-set-key (kbd "C-x o") 'ace-window))
+  (global-set-key (kbd "C-x o") 'ace-window)
+  ;; use home row keys instead of numbers 1-9 for jumping to windows
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 ;; move to different window with shift + arrow keys
 (use-package windmove
