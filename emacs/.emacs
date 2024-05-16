@@ -140,40 +140,6 @@ If REPOSITORY is specified, use that."
 										;   '(org-headline-done ((((t color) (min-colors 16) (background dark)) (:fo;reground "LightSalmon" :strike-through t))))
 										;   '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflow;er blue"))))))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-tooltip-selection ((t (:inherit highlight))))
- '(erc-input-face ((t (:foreground "antique white"))) t)
- '(ido-first-match ((t (:background "ForestGreen" :foreground "black"))))
- '(ido-selection ((t (:background "ForestGreen" :foreground "black"))) t)
- '(markup-title-0-face ((t (:inherit markup-gen-face :height 1.8))))
- '(markup-title-1-face ((t (:inherit markup-gen-face :height 1.7))))
- '(markup-title-2-face ((t (:inherit markup-gen-face :height 1.6))))
- '(markup-title-3-face ((t (:inherit markup-gen-face :height 1.5))))
- '(markup-title-4-face ((t (:inherit markup-gen-face :height 1.4))))
- '(markup-title-5-face ((t (:inherit markup-gen-face :height 1.3))))
- '(org-agenda-clocking ((t (:inherit secondary-selection :foreground "black"))))
- '(org-agenda-done ((t (:foreground "dim gray" :strike-through nil))))
- '(org-clock-overlay ((t (:background "SkyBlue4" :foreground "black"))))
- '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
- '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflower blue"))))
- '(rainbow-delimiters-base-error-face ((t (:foreground "#FFFFFF" :background "#EF6C00"))))
- '(rainbow-delimiters-depth-1-face ((t (:foreground "#e91e63"))))
- '(rainbow-delimiters-depth-2-face ((t (:foreground "#2196F3"))))
- '(rainbow-delimiters-depth-3-face ((t (:foreground "#EF6C00"))))
- '(rainbow-delimiters-depth-4-face ((t (:foreground "#B388FF"))))
- '(rainbow-delimiters-depth-5-face ((t (:foreground "#76ff03"))))
- '(rainbow-delimiters-depth-6-face ((t (:foreground "#26A69A"))))
- '(rainbow-delimiters-depth-7-face ((t (:foreground "#FFCDD2"))))
- '(rainbow-delimiters-depth-8-face ((t (:foreground "#795548"))))
- '(rainbow-delimiters-depth-9-face ((t (:foreground "#DCE775"))))
- '(rainbow-delimiters-mismatched-face ((t (:foreground "#FFFFFF" :background "#EF6C00"))))
- '(rainbow-delimiters-unmatched-face ((t (:foreground "#ffffff" :background "#EF6C00"))))
- '(sp-show-pair-match-face ((t (:background "dark slate blue")))))
-
 (global-auto-revert-mode 1) ;; Always reload the file if it changed on disk
 (prefer-coding-system 'utf-8) ;; Prefer UTF-8 encoding
 
@@ -3483,6 +3449,58 @@ clear the buffers undo-tree before saving the file."
   (ert-delete-all-tests)
   (eval-buffer)
   (ert 't))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-selection ((t (:inherit highlight))))
+ '(erc-input-face ((t (:foreground "antique white"))) t)
+ '(fringe ((t :background "#2e3434")))
+ '(header-line ((t :box (:line-width 4 :color "grey20" :style nil))))
+ '(header-line-highlight ((t :box (:color "#eeeeec"))))
+ '(ido-first-match ((t (:background "ForestGreen" :foreground "black"))))
+ '(ido-selection ((t (:background "ForestGreen" :foreground "black"))) t)
+ '(keycast-key ((t)))
+ '(line-number ((t :background "#2e3434")))
+ '(markup-title-0-face ((t (:inherit markup-gen-face :height 1.8))))
+ '(markup-title-1-face ((t (:inherit markup-gen-face :height 1.7))))
+ '(markup-title-2-face ((t (:inherit markup-gen-face :height 1.6))))
+ '(markup-title-3-face ((t (:inherit markup-gen-face :height 1.5))))
+ '(markup-title-4-face ((t (:inherit markup-gen-face :height 1.4))))
+ '(markup-title-5-face ((t (:inherit markup-gen-face :height 1.3))))
+ '(mode-line ((t :background "#2e3434" :overline "#bbbbbc" :box (:line-width 6 :color "#2e3434" :style nil))))
+ '(mode-line-active ((t :background "#2e3434" :overline "#bbbbbc" :box (:line-width 6 :color "#2e3434" :style nil))))
+ '(mode-line-highlight ((t :box (:color "#eeeeec"))))
+ '(mode-line-inactive ((t :background "#2e3434" :overline "#bbbbbc" :box (:line-width 6 :color "#2e3434" :style nil))))
+ '(org-agenda-clocking ((t (:inherit secondary-selection :foreground "black"))))
+ '(org-agenda-done ((t (:foreground "dim gray" :strike-through nil))))
+ '(org-clock-overlay ((t (:background "SkyBlue4" :foreground "black"))))
+ '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
+ '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflower blue"))))
+ '(rainbow-delimiters-base-error-face ((t (:foreground "#eeeeee" :background "#a40000"))))
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "#FFE400"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "#6EDA00"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "#FF7E00"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "#1E90FF"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "#FF00FF"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "#FFB200"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "#FF2C2C"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "#49FFED"))))
+ '(rainbow-delimiters-depth-9-face ((t (:foreground "#eeeeec"))))
+ '(rainbow-delimiters-mismatched-face ((t (:foreground "#eeeeee" :background "#a40000"))))
+ '(rainbow-delimiters-unmatched-face ((t (:foreground "#eeeeee" :background "#a40000"))))
+ '(sp-show-pair-match-face ((t (:background "dark slate blue"))))
+ '(tab-bar-tab ((t :box (:line-width 4 :color "grey85" :style nil))))
+ '(tab-bar-tab-inactive ((t :box (:line-width 4 :color "grey75" :style nil))))
+ '(tab-line-tab ((t)))
+ '(tab-line-tab-active ((t)))
+ '(tab-line-tab-inactive ((t)))
+ '(vertical-border ((t :background "#2e3434" :foreground "#2e3434")))
+ '(window-divider ((t (:background "#2e3434" :foreground "#2e3434"))))
+ '(window-divider-first-pixel ((t (:background "#2e3434" :foreground "#2e3434"))))
+ '(window-divider-last-pixel ((t (:background "#2e3434" :foreground "#2e3434")))))
 
 (and window-system (server-start))
 
