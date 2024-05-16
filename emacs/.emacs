@@ -212,6 +212,9 @@ Try the repeated popping up to 10 times."
 (global-set-key (kbd "C-j") 'newline-and-indent)
 (global-set-key (kbd "RET") 'newline)
 
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
+(global-set-key (kbd "C-x K") 'kill-buffer)
+
 ;; Remove the fringe indicators
 (when (boundp 'fringe-indicator-alist)
   (setq-default fringe-indicator-alist
