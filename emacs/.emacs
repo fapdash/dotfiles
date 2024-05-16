@@ -3409,7 +3409,7 @@ clear the buffers undo-tree before saving the file."
       t))
 
   (setq elisp-autofmt-on-save-p 'fap/elisp-autofmt-on-save-p
-        elisp-autofmt-python-bin "~/.asdf/installs/python/3.11.2/bin/python3"))
+        elisp-autofmt-python-bin "~/.asdf/installs/python/3.11.6/bin/python3"))
 
 (use-package ox-reveal
   :ensure t)
