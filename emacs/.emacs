@@ -3471,6 +3471,12 @@ clear the buffers undo-tree before saving the file."
   :config
   (require 'ob-gnuplot))
 
+(use-package typescript-mode
+  :ensure t)
+
+(use-package php-mode
+  :ensure t)
+
 (defun my-eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
   (interactive)
