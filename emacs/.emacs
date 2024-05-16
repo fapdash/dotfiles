@@ -207,9 +207,10 @@ Try the repeated popping up to 10 times."
     (setq mark-ring (nbutlast mark-ring))
     (goto-char (marker-position (car (last mark-ring))))))
 
-;; invert electric-indent keybinds
-(global-set-key (kbd "C-j") 'newline)
-(global-set-key (kbd "RET") 'electric-newline-and-maybe-indent)
+;; Indent with C-j, newline with RET
+(electric-indent-mode 0)
+(global-set-key (kbd "C-j") 'newline-and-indent)
+(global-set-key (kbd "RET") 'newline)
 
 ;; Remove the fringe indicators
 (when (boundp 'fringe-indicator-alist)
