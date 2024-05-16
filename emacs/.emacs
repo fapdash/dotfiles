@@ -1033,7 +1033,6 @@ Try the repeated popping up to 10 times."
   :ensure t
   :demand t
   :bind (:map org-mode-map
-              ("C-M-y" . org-rich-yank)))
               ("C-M-y" . org-rich-yank))
   :config
   (defun my-org-rich-yank-format-paste (language contents link)
