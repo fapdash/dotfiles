@@ -842,6 +842,10 @@ Try the repeated popping up to 10 times."
   :ensure t
   :config
   (setq highlight-indent-guides-method 'character)
+  ;; if auto is enabled then the mode overwrite the font face colors
+  (setq highlight-indent-guides-auto-enabled nil)
+  ;; mark current indent block with different highlight color
+  (setq highlight-indent-guides-responsive "top")
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
   :diminish highlight-indent-guides-mode)
 
