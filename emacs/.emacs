@@ -1003,6 +1003,7 @@ Try the repeated popping up to 10 times."
 
 (use-package org
   :ensure t
+  :pin elpa
   :bind
   (:map org-mode-map
         ("C-j" . newline-and-indent)
