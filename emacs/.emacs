@@ -1499,7 +1499,8 @@ is nil, refile in the current file."
   (setq org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
         org-roam-verbose nil ; make org-roam quiet
         ;; https://www.youtube.com/watch?v=1q9x2aZCJJ4
-        org-roam-directory org_roam
+        ;; save db outside of roam folder so it won't get synced
+        org-roam-db-location (concat (getenv "HOME") "/.org-roam.db")
         )
   (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
   (setq org-roam-completion-everywhere t)
