@@ -272,6 +272,86 @@ Try the repeated popping up to 10 times."
 (use-package multi-vterm
   :ensure t)
 
+(use-package dwim-shell-command
+  :ensure t
+  :bind (([remap shell-command] . dwim-shell-command)
+         :map dired-mode-map
+         ([remap dired-do-async-shell-command] . dwim-shell-command)
+         ([remap dired-do-shell-command] . dwim-shell-command)
+         ([remap dired-smart-shell-command] . dwim-shell-command))
+  :config
+  (require 'dwim-shell-commands))
+
+(defun fap/buffer-face-mode-fixed ()
+   "Sets a fixed width (monospace) font in current buffer"
+   (interactive)
+   ;; see https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode
+   (setq buffer-face-mode-face '(:family "Fira Code" :height 120))
+   (buffer-face-mode))
+
+;; https://github.com/daviwil/emacs-from-scratch/blob/bbfbc77b3afab0c14149e07d0ab08d275d4ba575/Emacs.org#eshell
+(defun efs/configure-eshell ()
+  ;; Save command history when commands are entered
+  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+
+  ;; add completions coming from bash-completion to company via capf
+  (add-hook 'completion-at-point-functions
+            'bash-completion-capf-nonexclusive nil t)
+
+  (fap/buffer-face-mode-fixed)
+
+  ;; Truncate buffer for performance
+  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+
+  ;; Bind some useful keys for evil-mode
+  ;; (evil-define-key '(normal insert visual) eshell-mode-map (kbd "C-r") 'counsel-esh-history)
+  ;; (evil-define-key '(normal insert visual) eshell-mode-map (kbd "<home>") 'eshell-bol)
+  ;; (evil-normalize-keymaps)
+
+  (define-key eshell-mode-map (kbd "C-r") 'counsel-esh-history)
+  ;; (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)
+  ;; (define-key eshell-mode-map (kbd "TAB") 'completion-at-point)
+
+
+  (setq eshell-history-size         10000
+        eshell-buffer-maximum-lines 10000
+        eshell-hist-ignoredups t
+        eshell-scroll-to-bottom-on-input t))
+
+(use-package eshell-git-prompt
+  :ensure t)
+
+(use-package esh-autosuggest
+  :ensure t)
+
+(use-package bash-completion
+  :ensure t
+  :config
+  (autoload 'bash-completion-dynamic-complete
+    "bash-completion"
+    "BASH completion hook")
+  (add-hook 'shell-dynamic-complete-functions
+            'bash-completion-dynamic-complete))
+
+(use-package eshell
+  :hook (eshell-first-time-mode . efs/configure-eshell)
+  :config
+
+  (with-eval-after-load 'esh-opt
+    (setq eshell-destroy-buffer-when-process-dies t)
+    (setq eshell-visual-commands '("htop" "less" "more" "zsh" "vim")))
+
+  (eshell-git-prompt-use-theme 'powerline)
+
+  ;; use esh-autosuggest via company, make sure it's completions are on top
+  (add-hook 'eshell-mode-hook
+            (lambda () (setq-local company-backends (push '(company-capf esh-autosuggest) company-backends))))
+
+  (add-hook 'eshell-mode-hook
+          (lambda ()
+            (add-hook 'completion-at-point-functions
+                      'bash-completion-capf-nonexclusive nil t))))
+
 (use-package goto-chg
   :ensure t
   :config
