@@ -3451,7 +3451,9 @@ clear the buffers undo-tree before saving the file."
   (add-to-list 'eglot-server-programs
                '(gleam-mode . ("gleam" "lsp")))
   (add-hook 'gleam-mode-hook
-            (lambda () (add-hook 'before-save-hook 'gleam-format nil t))))
+            (lambda () (add-hook 'before-save-hook 'gleam-format nil t)))
+  (define-key gleam-mode-map (kbd "<M-return>") 'elixir-pipe-operator-on-newline)
+  (define-key gleam-mode-map (kbd "<C-return>") 'elixir-pipe-operator))
 
 
 (defun my-eval-and-run-all-tests-in-buffer ()
