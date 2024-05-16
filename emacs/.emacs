@@ -3466,6 +3466,11 @@ clear the buffers undo-tree before saving the file."
 (use-package keycast
   :ensure t)
 
+(use-package gnuplot
+  :ensure t
+  :config
+  (require 'ob-gnuplot))
+
 (defun my-eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
   (interactive)
