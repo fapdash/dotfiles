@@ -3389,6 +3389,9 @@ clear the buffers undo-tree before saving the file."
   :after geiser-repl
   :config (add-hook 'geiser-repl-mode-hook #'macrostep-geiser-setup))
 
+(use-package cider
+  :ensure t)
+
 (use-package macrostep-geiser
   :ensure t
   :after cider-mode
