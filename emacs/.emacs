@@ -688,6 +688,7 @@ Try the repeated popping up to 10 times."
       desktop-save t)
 (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
 (desktop-save-mode 1)
+(desktop-read)
 
 (setq savehist-file "~/.emacs.d/savehist")
 (savehist-mode 1)
