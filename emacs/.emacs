@@ -359,8 +359,8 @@ Try the repeated popping up to 10 times."
   ;; look at interactive functions.
   (global-set-key (kbd "C-h C") #'helpful-command))
 
--(use-package nyan-mode
--  :ensure t)
+(use-package nyan-mode
+  :ensure t)
 
 ;; disable all toolbars and menus
 (when window-system
