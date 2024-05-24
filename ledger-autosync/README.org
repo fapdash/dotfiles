@@ -2,7 +2,7 @@
 ** Using ledger-autosync
 *** Installation
 1. ~pip3 install ledger-autosync~
-2. Copy the python source files from the ~/plugins~ folder to ~~/.config/ledger-autosync/plugins/teo.py~
+2. Symlink the plugins: ~ln -s ~/repos/dotfiles/ledger-autosync/plugins/ \~/.config/ledger-autosync/~
 *** Workflow
   1. Download csv from https://web.goteo.de or https://www.dkb.de/
   2. Remove the first 9 lines so ledger-autoscript can properly detect the csv type (included in the comment in ~3.~)
