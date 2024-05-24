@@ -3,29 +3,50 @@ import datetime
 import re
 from decimal import Decimal
 
-class TeoConverter(CsvConverter):
-    FIELDSET = set(["Buchungstag", "Wertstellung", "Buchungstext", "Auftraggeber / Begünstigter", "Verwendungszweck", "Kontonummer", "BLZ", "Betrag (EUR)", "Gläubiger-ID", "Mandatsreferenz", "Kundenreferenz"])
+class DkbConverter(CsvConverter):
+    FIELDSET = set(["Buchungsdatum", "Wertstellung", "Status", "Zahlungspflichtige*r", "Zahlungsempfänger*in", "Verwendungszweck", "Umsatztyp", "IBAN", "Betrag (€)", "Gläubiger-ID", "Mandatsreferenz", "Kundenreferenz"])
 
     def __init__(self, *args, **kwargs):
-        super(TeoConverter, self).__init__(*args, **kwargs)
+        super(DkbConverter, self).__init__(*args, **kwargs)
 
     def convert(self, row):
         posting_metadata = {"csvid": "dkb.%s" % (self.get_csv_id(row))}
-        amount = abs(Decimal(row['Betrag (EUR)'].replace(".", "").replace(",", ".")))
-        reverse = row['Betrag (EUR)'].startswith('-')
+        amount = abs(Decimal(row['Betrag (€)'].replace(".", "").replace(",", ".")))
+        reverse = row['Betrag (€)'].startswith('-')
         if reverse:
             account = 'Expenses'
         else:
             account = 'Income'
-        if row['Auftraggeber / Begünstigter']:
-            payee = row['Auftraggeber / Begünstigter']
+
+        if row['Zahlungspflichtige*r'] and not reverse:
+            payee = row['Zahlungspflichtige*r']
+        elif row['Zahlungsempfänger*in']:
+            payee = row['Zahlungsempfänger*in']
         else:
             payee = "Umbuchung"
 
+        cleared = row['Status'].__eq__('Gebucht')
+        date = row['Wertstellung'] if cleared else row['Buchungsdatum']
+
+        if not date or not cleared:
+            # Ignore unsettled transactions and transactions without any dates
+            return NoneTransaction()
+
+        posting_from = Posting(self.name, Amount(amount, '€', reverse=reverse), metadata=posting_metadata)
+        posting_to = Posting(account, Amount(amount, '€', reverse=not(reverse)), metadata=posting_metadata)
+
         return Transaction(
-            date=datetime.datetime.strptime(row['Wertstellung'], "%d.%m.%Y"),
+            # date is supposed to be 'Buchungsdatum', aux_date is 'Wertstellung'
+            # but I ignore non-cleared transactions anyways, so date=aux_date
+            date=datetime.datetime.strptime(date, "%d.%m.%y"),
             payee=payee,
-            postings=[Posting(self.name, Amount(amount, '€', reverse=reverse), metadata=posting_metadata),
-                      Posting(account, Amount(amount, '€', reverse=not(reverse)), metadata=posting_metadata)],
+            postings=[posting_from,
+                      posting_to],
             date_format=self.date_format,
+            cleared=cleared
         )
+
+
+class NoneTransaction:
+    def format(self, _indent, _assertions):
+        return ""
