@@ -78,7 +78,7 @@ If REPOSITORY is specified, use that."
   :ensure t
   :config
   (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize)))
 
 (defun sacha/byte-recompile ()
   (interactive)
