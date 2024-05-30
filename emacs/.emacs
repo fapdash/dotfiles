@@ -31,6 +31,8 @@
 (setq gc-cons-threshold-original gc-cons-threshold)
 (setq gc-cons-threshold (* 1024 1024 100))
 
+;; prefer newer non-byte compiled sources to older byte compiled ones
+(setq load-prefer-newer t)
 
 (require 'package)
 
