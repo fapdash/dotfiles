@@ -63,6 +63,11 @@ If REPOSITORY is specified, use that."
 (sacha/package-install 'use-package)
 (require 'use-package)
 
+;; uncomment to debug package loading times
+;; (setq use-package-verbose t)
+;; compute stats to see what is taking so long on init
+;; (setq use-package-compute-statistics t)
+
 (use-package use-package-ensure-system-package
   :ensure t)
 
