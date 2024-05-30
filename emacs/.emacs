@@ -3345,7 +3345,8 @@ clear the buffers undo-tree before saving the file."
   (global-set-key (kbd "s-/")         'wg-switch-to-previous-workgroup))
 
 
-(workgroups-mode 1)        ; put this one at the bottom of .emacs
+;; (workgroups-mode 1)        ; put this one at the bottom of .emacs
+
 (tab-bar-mode 1)
 
 ;; from better-defaults
