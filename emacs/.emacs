@@ -2515,40 +2515,6 @@ Notes:
   :config
   (company-statistics-mode))
 
-;; (use-package auto-complete
-;;   :ensure t
-;;   :init
-;;   (require 'auto-complete-config)
-;;   (global-auto-complete-mode +1)
-;;   :config
-;;   (setq ac-auto-show-menu t
-;; 		ac-quick-help-delay 0.2
-;;         ac-auto-start 0
-;; 		ac-use-fuzzy t
-;;         ac-show-menu-immediately-on-auto-complete t)
-;;   (define-key ac-complete-mode-map (kbd "M-x") 'execute-extended-command)
-;;   (define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
-;;   (define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
-;;   (define-key ac-complete-mode-map (kbd "C-g") 'ac-stop)
-;;   ;; trigger auto-complete on delete
-;;   (define-key ac-complete-mode-map (kbd "DEL")
-;;     (lambda ()
-;;       (interactive)
-;;       (backward-delete-char-untabify 1)
-;;       (ac-start)))
-;;   (provide 'auto-complete-config)
-;;   ;; deactivate company-mode so it can't interfe with ac completion
-;;   (setq company-backends nil))
-
-;; (use-package ac-dabbrev
-;;   :ensure t
-;;   :config
-;;   (global-set-key "\M-/" 'ac-dabbrev-expand)
-;;   (defun ac-dabbrev-expand ()
-;;     (interactive)
-;;     (auto-complete '(ac-source-dabbrev)))
-;;   (setq ac-dabbrev-sort t))
-
 (set-frame-parameter nil 'fullscreen 'maximized)
 
 (defun w32-maximize-frame ()
