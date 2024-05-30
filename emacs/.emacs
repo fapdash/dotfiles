@@ -504,7 +504,10 @@ Try the repeated popping up to 10 times."
 (use-package all-the-icons
   :ensure t
   ;; have to run (all-the-icons-install-fonts) once
-  )
+  (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
+    (alert "Installing all-the-icons font...")
+    (all-the-icons-install-fonts)))
+
 
 (use-package all-the-icons-dired
   :ensure t
