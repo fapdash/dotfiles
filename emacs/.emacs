@@ -945,6 +945,11 @@ Try the repeated popping up to 10 times."
 
 (transient-mark-mode 1)
 
+;; show elisp-eval (C-x C-e) results as inline overlay
+(use-package eros
+  :ensure t
+  :config (eros-mode 1))
+
 (defun fap/copy-keep-highlight (beg end)
   (interactive "r")
   (prog1 (kill-ring-save beg end)
