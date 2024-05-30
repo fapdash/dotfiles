@@ -799,6 +799,11 @@ Try the repeated popping up to 10 times."
 (use-package ibuffer-projectile
   :ensure t)
 
+(use-package bufler
+  :ensure t
+  ;; kind of like ivy-rich, but projects, mode etc. is part of the searchable term
+  )
+
 (use-package discover
   :ensure t
   :init
