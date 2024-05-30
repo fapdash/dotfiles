@@ -756,52 +756,24 @@ Try the repeated popping up to 10 times."
 (use-package git-timemachine
   :ensure t)
 
-;; alternatively could use diff-hl, which is based on vc, so supports more VCs besides git
-(use-package git-gutter
+(use-package diff-hl
   :ensure t
+  ;; Integrate with Magit and highlight changed files in the fringe of dired
+  :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)
+         (magit-post-refresh . diff-hl-magit-post-refresh)
+         (dired-mode . diff-hl-dired-mode))
   :config
-  (global-git-gutter-mode +1)
+  (global-diff-hl-mode 1)
   (custom-set-faces
-   `(git-gutter:added ((t (:foreground "#8ae234"))))
-  ;;  `(git-gutter:deleted ((t (:foreground "red"))))
-  ;;  `(git-gutter:modified ((t (:foreground "#ffbf00"))))
-   )
-  :diminish 'git-gutter-mode)
+   `(diff-hl-change ((t (:foreground "#a4c0e4" :background "#204a87"))))
+   `(diff-hl-insert ((t (:foreground "#8ae234"))))
+   `(diff-hl-delete ((t (:foreground "#ffbfbf" :background "#800000"))))
+   ;; `(diff-hl-dired-change ((t (:foreground  :background ))))
+   `(diff-hl-dired-insert ((t (:foreground "#00ff00" :background "#008c00")))) ;; green from Onyx theme
+   ;; `(diff-hl-dired-delete ((t (:foreground :background ))))
+   `(diff-hl-dired-unknown ((t (:foreground "#d3d7cf" :background "#555753"))))
+   ))
 
-
-(use-package git-gutter-fringe
-  :ensure t
-  :config
-  ;; make fringe look like in VSCode: https://ianyepan.github.io/posts/emacs-git-gutter/
-  ;; https://github.com/doomemacs/doomemacs/issues/2246
-  ;; https://github.com/doomemacs/doomemacs/blob/9620bb45ac4cd7b0274c497b2d9d93c4ad9364ee/modules/ui/vc-gutter/config.el#L28-L33
-  ;; https://old.reddit.com/r/emacs/comments/suxc9b/modern_gitgutter_in_emacs/hxfjij8/
-  ;; (define-fringe-bitmap 'git-gutter-fr:added [#b11100000] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [#b11100000
-                                                 #b11100000
-                                                 #b11100000
-                                                 #b11100000
-                                                 #b11100000
-                                                 #b11100000
-                                                 #b11100000
-                                                 #b11100000
-                                                 #b11100000
-                                                 #b11100000
-                                                 #b11100000
-                                                 #b11100000] nil nil 'center)
-  ;; (define-fringe-bitmap 'git-gutter-fr:deleted
-  ;;   [#b10000000
-  ;;    #b11000000
-  ;;    #b11100000
-  ;;    #b11110000
-  ;;    #b11111000
-  ;;    #b11111100
-  ;;    #b11111000
-  ;;    #b11110000
-  ;;    #b11100000
-  ;;    #b11000000
-  ;;    #b10000000] nil nil 'bottom)
-)
 ;; use ibuffer groups to garbage collect temp buffers
 (use-package ibuffer
   :init
