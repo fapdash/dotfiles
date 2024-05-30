@@ -722,6 +722,14 @@ Try the repeated popping up to 10 times."
   (setq magit-completing-read-function 'ivy-completing-read)
   (setq git-commit-major-mode 'markdown-mode))
 
+(use-package forge
+  :after magit
+  :ensure t)
+
+(use-package gh-notify
+  :after forge
+  :ensure t)
+
 (use-package magit-popup
   :ensure t
   :config
