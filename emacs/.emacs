@@ -69,7 +69,10 @@ If REPOSITORY is specified, use that."
 ;; (setq use-package-compute-statistics t)
 
 (use-package use-package-ensure-system-package
-  :ensure t)
+  :ensure t
+  :config
+  (setq system-packages-package-manager 'apt
+        system-packages-use-sudo t))
 
 (use-package exec-path-from-shell
   :ensure t
