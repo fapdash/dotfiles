@@ -3360,6 +3360,9 @@ clear the buffers undo-tree before saving the file."
 
 (add-to-list 'find-file-not-found-functions #'my-create-non-existent-directory)
 
+(use-package dired-preview
+  :ensure t)
+
 (use-package terminal-here
   :ensure t)
 
