@@ -110,35 +110,6 @@ If REPOSITORY is specified, use that."
   :ensure t
   :init (load-theme 'tangotango t)
   :config)
-										;(color-theme-solarized 'dark)
-
-										;(defun sacha/setup-color-theme ()
-										;  (interactive)
-										;  (color-theme-solarized 'dark)
-										;  (set-face-foreground 'secondary-selection "darkblue")
-										;  (set-face-background 'secondary-selection "lightblue")
-										;  (set-face-background 'font-lock-doc-face "black")
-										;  (set-face-foreground 'font-lock-doc-face "wheat")
-										;  (set-face-background 'font-lock-string-face "black")
-										;  (set-face-foreground 'org-todo "green")
-										;  (set-face-background 'org-todo "black"))
-
-										;(use-package color-theme
-										;  :init
-										;  (when window-system
-										;    (sacha/setup-color-theme)))
-;; (load-theme 'monokai t)
-
-										;(when window-system
-										;  (custom-set-faces
-										;   '(erc-input-face ((t (:foreground "antique white"))))
-										;   '(ido-first-match ((t (:background "ForestGreen" :foreground "black"))))
-										;   '(org-agenda-clocking ((t (:inherit secondary-selection :foreground "black");)) t)
-										;   '(org-agenda-done ((t (:foreground "dim gray" :strike-through nil))))
-										;   '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
-										;   '(org-clock-overlay ((t (:background "SkyBlue4" :foreground "black"))))
-										;   '(org-headline-done ((((t color) (min-colors 16) (background dark)) (:fo;reground "LightSalmon" :strike-through t))))
-										;   '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "cornflow;er blue"))))))
 
 (global-auto-revert-mode 1) ;; Always reload the file if it changed on disk
 (prefer-coding-system 'utf-8) ;; Prefer UTF-8 encoding
