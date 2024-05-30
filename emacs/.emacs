@@ -3452,7 +3452,9 @@ clear the buffers undo-tree before saving the file."
 (use-package macrostep-geiser
   :ensure t
   :after cider-mode
-  :config (add-hook 'cider-mode-hook #'macrostep-geiser-setup))
+  :config
+  (add-hook 'cider-mode-hook #'macrostep-geiser-setup)
+  (add-hook 'cider-mode-hook #'paredit-mode))
 
 (use-package elisp-autofmt
   :ensure t
