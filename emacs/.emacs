@@ -3185,7 +3185,7 @@ clear the buffers undo-tree before saving the file."
   :defer t)
 
 (use-package dumb-jump
-  :ensure
+  :ensure t
 
   :bind
   ;; the dumb-jump commands are deprecated
