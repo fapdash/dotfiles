@@ -293,6 +293,7 @@ Try the repeated popping up to 10 times."
   (with-eval-after-load 'esh-opt
     (setq eshell-destroy-buffer-when-process-dies t)
     (setq eshell-visual-commands '("htop" "less" "more" "zsh" "vim" "vi" "mg" "nano"))
+    (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color"))))
 
   (eshell-git-prompt-use-theme 'powerline)
 
