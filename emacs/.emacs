@@ -3540,6 +3540,10 @@ clear the buffers undo-tree before saving the file."
 (use-package php-mode
   :ensure t)
 
+(use-package xref
+  :ensure t
+  :custom (xref-search-program 'ripgrep))
+
 (defun my-eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
   (interactive)
