@@ -291,8 +291,12 @@ Try the repeated popping up to 10 times."
   :config
 
   (with-eval-after-load 'esh-opt
+    ;; need to require 'em-term before add-to-list, otherwise vars not defined
+    (require 'em-term)
     (setq eshell-destroy-buffer-when-process-dies t)
-    (setq eshell-visual-commands '("htop" "less" "more" "zsh" "vim" "vi" "mg" "nano"))
+    (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
+    (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))
+    (add-to-list 'eshell-visual-commands '("htop" "less" "more" "zsh" "vim" "vi" "mg" "nano"))
     (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color"))))
 
   (eshell-git-prompt-use-theme 'powerline)
