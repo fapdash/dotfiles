@@ -2464,6 +2464,9 @@ Notes:
 (use-package wgrep-ag
   :ensure t)
 
+(use-package wgrep-deadgrep
+  :ensure t)
+
 ;; basically rename refactoring with C-;
 (use-package iedit
   :ensure t
