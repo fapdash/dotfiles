@@ -3172,6 +3172,18 @@ clear the buffers undo-tree before saving the file."
   :ensure t
   :commands (sudo-edit))
 
+(use-package gitattributes-mode
+  :ensure git-modes
+  :defer t)
+
+(use-package gitconfig-mode
+  :ensure git-modes
+  :defer t)
+
+(use-package gitignore-mode
+  :ensure git-modes
+  :defer t)
+
 (use-package dumb-jump
   :ensure
 
