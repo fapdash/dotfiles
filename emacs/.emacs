@@ -3518,8 +3518,12 @@ clear the buffers undo-tree before saving the file."
   :ensure t
   :config
   (setq elfeed-feeds
-        '("http://nullprogram.com/feed/"
-          "https://planet.emacslife.com/atom.xml")))
+        '(("http://nullprogram.com/feed/" blog emacs)
+          ("https://planet.emacslife.com/atom.xml" emacs)
+          ("https://csscade.com/feed.xml" css)
+          ("https://jvns.ca/atom.xml" blog software-development)
+          ("https://chelseatroy.com/feed/" blog software-development)))
+  (add-hook 'elfeed-search-mode-hook 'elfeed-update))
 
 ;; Show current command and it's binding / keys pressed
 (use-package keycast
