@@ -666,6 +666,7 @@ Try the repeated popping up to 10 times."
   (global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
   (global-set-key (kbd "s-,") 'avy-goto-char-2))
 
+;; Copy code in the format that GitHub, Slack, etc.. like
 (use-package copy-as-format
   :ensure t)
 
