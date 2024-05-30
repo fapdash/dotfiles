@@ -950,6 +950,52 @@ Try the repeated popping up to 10 times."
   :ensure t
   :config (eros-mode 1))
 
+;; https://xenodium.com/inline-previous-result-and-why-you-should-edebug/
+(defun adviced:edebug-compute-previous-result (_ &rest r)
+  "Adviced `edebug-compute-previous-result'."
+  (let ((previous-value (nth 0 r)))
+    (if edebug-unwrap-results
+        (setq previous-value
+              (edebug-unwrap* previous-value)))
+    (setq edebug-previous-result
+          (edebug-safe-prin1-to-string previous-value))))
+
+(advice-add #'edebug-compute-previous-result
+            :around
+            #'adviced:edebug-compute-previous-result)
+
+(defun adviced:edebug-previous-result (_ &rest r)
+  "Adviced `edebug-previous-result'."
+  ;; still print via message so we have a log in *Messages*
+  (message "%s" edebug-previous-result)
+  (eros--make-result-overlay edebug-previous-result
+    :where (point)
+    :duration eros-eval-result-duration))
+
+(advice-add #'edebug-previous-result
+            :around
+            #'adviced:edebug-previous-result)
+
+;; https://gist.github.com/jdtsmith/1fbcacfe677d74bbe510aec80ac0050c
+(defun jdtsmith/reraise-error (func &rest args)
+  "Call function FUNC with ARGS and re-raise any error which occurs.
+Useful for debugging post-command hooks and filter functions, which
+normally have their errors suppressed."
+  (condition-case err
+      (apply func args)
+    ((debug error) (signal (car err) (cdr err)))))
+
+(defun toggle-debug-on-hidden-errors (func)
+  "Toggle hidden error debugging for function FUNC."
+  (interactive "a")
+  (cond
+   ((advice-member-p #'jdtsmith/reraise-error func)
+    (advice-remove func #'jdtsmith/reraise-error)
+    (message "Debug on hidden errors disabled for %s" func))
+   (t
+    (advice-add func :around #'jdtsmith/reraise-error)
+    (message "Debug on hidden errors enabled for %s" func))))
+
 (defun fap/copy-keep-highlight (beg end)
   (interactive "r")
   (prog1 (kill-ring-save beg end)
