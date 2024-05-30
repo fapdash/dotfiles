@@ -3168,6 +3168,10 @@ clear the buffers undo-tree before saving the file."
   :init (unless (executable-find "rg")
           (alert "Please apt install ripgrep")))
 
+(use-package sudo-edit
+  :ensure t
+  :commands (sudo-edit))
+
 (use-package dumb-jump
   :ensure
 
