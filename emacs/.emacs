@@ -3616,6 +3616,10 @@ clear the buffers undo-tree before saving the file."
 (set-face-attribute 'tab-bar-tab-inactive nil
                     :box (list :line-width 2 :color "#2E3434" :style nil))
 
+(setq frame-title-format
+      (list '(buffer-file-name "%f" "%b")
+            '(:eval (format " - GNU Emacs %s" emacs-version))))
+
 (and window-system (server-start))
 
 ;; Reset startup optimizations
