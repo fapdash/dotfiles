@@ -311,6 +311,12 @@ Try the repeated popping up to 10 times."
             (add-hook 'completion-at-point-functions
                       'bash-completion-capf-nonexclusive nil t))))
 
+(use-package eshell-vterm
+  :ensure t
+  :after (eshell vterm)
+  :config
+  (eshell-vterm-mode))
+
 (use-package goto-chg
   :ensure t
   :config
