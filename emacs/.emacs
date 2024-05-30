@@ -297,7 +297,8 @@ Try the repeated popping up to 10 times."
     (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
     (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))
     (add-to-list 'eshell-visual-commands '("htop" "less" "more" "zsh" "vim" "vi" "mg" "nano"))
-    (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color"))))
+    (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
+    (defalias 'eshell/v 'eshell-exec-visual))
 
   (eshell-git-prompt-use-theme 'powerline)
 
