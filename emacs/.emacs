@@ -3047,27 +3047,32 @@ Notes:
   (add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
   :diminish paredit-mode)
 
-(define-minor-mode my/pair-programming-mode
-  "Toggle visualizations for pair programming.
+(use-package nlinum
+  :ensure t
+  :config
+  (define-minor-mode my/pair-programming-mode
+    "Toggle visualizations for pair programming.
 
 Interactively with no argument, this command toggles the mode.  A
 positive prefix argument enables the mode, any other prefix
 argument disables it.  From Lisp, argument omitted or nil enables
 the mode, `toggle' toggles the state."
-  ;; The initial value.
-  nil
-  ;; The indicator for the mode line.
-  " Pairing"
-  ;; The minor mode bindings.
-  '()
-  :group 'my/pairing
-  (linum-mode (if my/pair-programming-mode 1 -1)))
+    ;; The initial value.
+    nil
+    ;; The indicator for the mode line.
+    " Pairing"
+    ;; The minor mode bindings.
+    '()
+    :group 'my/pairing
+    ;; alternatively could use display-line-numbers-mode, which is faster,
+    ;; but imo looks worse
+    (nlinum-mode (if my/pair-programming-mode 1 -1)))
 
-(define-global-minor-mode my/global-pair-programming-mode
-  my/pair-programming-mode
-  (lambda () (my/pair-programming-mode 1)))
+  (define-global-minor-mode my/global-pair-programming-mode
+    my/pair-programming-mode
+    (lambda () (my/pair-programming-mode 1)))
 
-(global-set-key "\C-c\M-p" 'my/global-pair-programming-mode)
+  (global-set-key "\C-c\M-p" 'my/global-pair-programming-mode))
 
 ;; Originally from stevey, adapted to support moving to a new directory.
 (defun rename-file-and-buffer (new-name)
