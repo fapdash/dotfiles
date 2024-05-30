@@ -1055,6 +1055,11 @@ normally have their errors suppressed."
   :after org
   :ensure t)
 
+(use-package org-duration
+  :ensure org
+  ;; don't show days, only total hours as maximum value
+  :config (setq org-duration-format (quote h:mm)))
+
 (require 'org-columns-calc)
 
 (use-package org-modern
