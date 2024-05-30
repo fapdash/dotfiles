@@ -825,7 +825,7 @@ Try the repeated popping up to 10 times."
   :diminish highlight-indent-guides-mode)
 
 (use-package highlight-indentation
-:ensure t)
+  :ensure t)
 
 (use-package move-text
   :ensure t
