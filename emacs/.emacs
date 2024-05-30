@@ -3149,15 +3149,24 @@ clear the buffers undo-tree before saving the file."
         (error "Buffer %s has no local binding of `buffer-undo-tree'" (buffer-name buff))))))
 
 (use-package ripgrep
-  :ensure)
+  :ensure t
+  :ensure-system-package
+  (rg . ripgrep)
+  :init (unless (executable-find "rg")
+          (alert "Please apt install ripgrep")))
 
 (use-package projectile-ripgrep
-  :ensure
+  :ensure t
   :config
+  :init (unless (executable-find "rg")
+          (alert "Please apt install ripgrep"))
   (defalias 'rg-project 'projectile-ripgrep))
+
 ;; also see https://github.com/Wilfred/deadgrep/blob/master/docs/ALTERNATIVES.md
 (use-package deadgrep
-  :ensure t)
+  :ensure t
+  :init (unless (executable-find "rg")
+          (alert "Please apt install ripgrep")))
 
 (use-package dumb-jump
   :ensure
