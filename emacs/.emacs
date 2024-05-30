@@ -1571,37 +1571,67 @@ is nil, refile in the current file."
   (setq org-roam-dailies-capture-templates '(("d" "default" entry "* %<%r> %?"
 					                          :target
 					                          (file+head "%<%Y_%m_%d>.org" "#+TITLE: %<%Y-%m-%d %A | week %W | day %j>\n"))))
+  (setq org-roam-capture-templates
+        `(("r" "bibliography reference" plain
+           (file ,(concat org_bib_notes "/bib_ref_template.org"))
+           :if-new
+           (file+head ,(concat org_bib_notes "/${citekey}.org") "#+title: ${title}\n"))
+          ("g" "GPG encrypted" plain "%?" :if-new (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org.gpg""#+title: ${title}") :unnarrowed t)
+          ("d" "default" plain "%?" :if-new
+           (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+")
+           :unnarrowed t)))
   (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
   (setq org-roam-completion-everywhere t)
   (org-roam-db-autosync-enable))
 
-(defun gsgx/org-roam-create-note-from-headline ()
-  "Create an Org-roam note from the current headline if it doesn't
-exist without jumping to it"
-  (let* ((title (nth 4 (org-heading-components)))
-         ;; Read in the name of the node, with the title filled in
-         ;; TODO: How can I just use the title without user input?
-         (node (org-roam-node-read title)))
-    ;; Skip the node if it already exists
-    (if (org-roam-node-file node)
-        (message "Skipping %s, node already exists" title)
-      ;; Without this the subsequent kills seem to be grouped together, not
-      ;; sure why
-      (kill-new "")
-      ;; Cut the subtree from the original file
-      (org-cut-subtree)
-      ;; Create the new capture file
-      (org-roam-capture- :node node)
-      ;; Paste in the subtree
-      (org-paste-subtree)
-      ;; Removing the heading from new node
-      (kill-whole-line)
-      ;; Finalizing the capture will save and close the capture buffer
-      (org-capture-finalize nil)
-      ;; Because we've deleted a subtree, we need the following line to make the
-      ;; `org-map-entries' call continue from the right place
-      (setq org-map-continue-from
-            (org-element-property :begin (org-element-at-point))))))
+(defun fap/org-roam-add-id ()
+  (org-with-point-at 1
+    (org-id-get-create)))
+
+(defun fap/org-roam-add-id-to-files ()
+  (interactive)
+  (dolist (file (f-files (f-expand (read-directory-name "Add ID to files in: "))))
+    (if (f-ext-p file "org")
+        (progn
+          (set-buffer (or (get-file-buffer file) (find-file-noselect file)))
+          (org-mode)
+          (fap/org-roam-add-id)
+          (save-buffer)
+          (kill-buffer)))))
+
+(load "~/.emacs.d/lisp/org-roam-logseq.el")
+
+
+  (defun gsgx/org-roam-create-note-from-headline ()
+    "Create an Org-roam note from the current headline if it doesn't
+exist without jumping to it
+
+DEPRECATED: use (org-roam-extract-subtree now"
+    (let* ((title (nth 4 (org-heading-components)))
+           ;; Read in the name of the node, with the title filled in
+           ;; TODO: How can I just use the title without user input?
+           (node (org-roam-node-read title)))
+      ;; Skip the node if it already exists
+      (if (org-roam-node-file node)
+          (message "Skipping %s, node already exists" title)
+        ;; Without this the subsequent kills seem to be grouped together, not
+        ;; sure why
+        (kill-new "")
+        ;; Cut the subtree from the original file
+        (org-cut-subtree)
+        ;; Create the new capture file
+        (org-roam-capture- :node node)
+        ;; Paste in the subtree
+        (org-paste-subtree)
+        ;; Removing the heading from new node
+        (kill-whole-line)
+        ;; Finalizing the capture will save and close the capture buffer
+        (org-capture-finalize nil)
+        ;; Because we've deleted a subtree, we need the following line to make the
+        ;; `org-map-entries' call continue from the right place
+        (setq org-map-continue-from
+              (org-element-property :begin (org-element-at-point))))))
 
 (defun gsgx/org-roam-create-note-from-headlines ()
   (interactive)
@@ -1961,16 +1991,6 @@ With a prefix ARG, remove start location."
         orb-process-file-keyword t
         orb-file-field-extensions '("pdf"))
 
-  (setq org-roam-capture-templates
-        `(("r" "bibliography reference" plain
-           (file ,(concat org_bib_notes "/bib_ref_template.org"))
-           :if-new
-           (file+head ,(concat org_bib_notes "/${citekey}.org") "#+title: ${title}\n"))
-          ("g" "GPG encrypted" plain "%?" :if-new (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org.gpg""#+title: ${title}") :unnarrowed t)
-          ("d" "default" plain "%?" :if-new
-           (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
-")
-           :unnarrowed t)))
   (org-roam-bibtex-mode)
   :diminish org-roam-bibtex-mode)
 
