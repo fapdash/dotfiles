@@ -2495,7 +2495,7 @@ Notes:
   (setq company-idle-delay 0)
   (setq company-echo-delay 0)
 
-    (add-to-list 'company-backends 'company-capf)
+  (add-to-list 'company-backends 'company-capf)
   :diminish company-mode)
 
 (use-package company-box
