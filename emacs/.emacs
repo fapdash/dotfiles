@@ -2574,8 +2574,8 @@ Notes:
         company-transformers '())
   (setq company-dabbrev-downcase nil)
   (setq company-tooltip-limit 20)
-  (setq company-idle-delay 0)
-  (setq company-echo-delay 0)
+  (setq company-idle-delay 0.4)
+  (setq company-echo-delay 0.01)
 
   (add-to-list 'company-backends 'company-capf)
   :diminish company-mode)
