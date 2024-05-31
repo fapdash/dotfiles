@@ -1230,12 +1230,19 @@ is nil, refile in the current file."
                                 (org-datetree-find-date-create datetree-date)))))
   (setq this-command 'org-refile-to-journal))
 
+(defun fap/package-installed-p (package-name)
+  "Check if PACKAGE-NAME is installed on the system."
+  (let ((output (shell-command-to-string (concat "dpkg -l " package-name))))
+    (string-match-p "\\bii\\b" output)))
+
 (use-package jinx
   :ensure t
-  :ensure-system-package (libenchant-2-dev)
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages))
   :config
+  (unless (fap/package-installed-p "libenchant-2-dev")
+      (alert "Please apt install libenchant-2-dev")
+      (message "Please apt install libenchant-2-dev"))
   (dolist (hook '(text-mode-hook prog-mode-hook conf-mode-hook))
     (add-hook hook #'jinx-mode)))
 
