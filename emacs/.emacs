@@ -3750,7 +3750,8 @@ clear the buffers undo-tree before saving the file."
           ("https://planet.emacslife.com/atom.xml" emacs)
           ("https://csscade.com/feed.xml" css)
           ("https://jvns.ca/atom.xml" blog software-development)
-          ("https://chelseatroy.com/feed/" blog software-development)))
+          ("https://chelseatroy.com/feed/" blog software-development)
+          ("https://karthinks.com/index.xml" blog emacs)))
   (add-hook 'elfeed-search-mode-hook 'elfeed-update))
 
 ;; Show current command and it's binding / keys pressed
