@@ -333,7 +333,10 @@ Try the repeated popping up to 10 times."
   :ensure t
   :config
   (global-set-key [(control ?.)] 'goto-last-change)
-  (global-set-key [(control ?,)] 'goto-last-change-reverse))
+  (global-set-key [(control ?,)] 'goto-last-change-reverse)
+  ;; messages instead of errors, only in my fork yet,
+  ;; see https://github.com/emacs-evil/goto-chg/pull/19
+  (setq glc-no-errors t))
 
 ;; really important for discoverability,
 ;; pops up a window with all possible keystroke completions
