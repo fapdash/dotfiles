@@ -2657,16 +2657,10 @@ Notes:
   (keymap-set corfu-map "M-q" #'corfu-quick-complete)
   (keymap-set corfu-map "C-q" #'corfu-quick-insert))
 
-;; not supported on terminal, check https://github.com/LuigiPiucco/nerd-icons-corfu
-;; for terminal support
-(use-package kind-icon
+(use-package nerd-icons-corfu
   :ensure t
-  :after corfu
-  ;; :custom
-  ;; (kind-icon-blend-background t)
-  ;; (kind-icon-default-face 'corfu-default) ; only needed with blend-background
   :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 ;; A few more useful configurations...
 (use-package emacs
