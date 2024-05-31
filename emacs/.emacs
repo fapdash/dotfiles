@@ -2987,6 +2987,11 @@ Notes:
   (ivy-rich-mode 1)
   (setq ivy-rich-path-style 'abbrev))
 
+(use-package nerd-icons-ivy-rich
+  :ensure t
+  :init
+  (nerd-icons-ivy-rich-mode 1))
+
 (use-package ivy-hydra
   :ensure t
   :after (ivy hydra))
