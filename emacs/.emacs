@@ -1229,12 +1229,14 @@ is nil, refile in the current file."
                                 (org-datetree-find-date-create datetree-date)))))
   (setq this-command 'org-refile-to-journal))
 
-(dolist (hook '(text-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode 1))))
-(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode -1))))
-
-(setq flyspell-issue-message-flag nil)
+(use-package jinx
+  :ensure t
+  :ensure-system-package (libenchant-2-dev)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages))
+  :config
+  (dolist (hook '(text-mode-hook prog-mode-hook conf-mode-hook))
+    (add-hook hook #'jinx-mode)))
 
 (use-package org-preview-html
   :ensure t)
