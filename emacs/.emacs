@@ -247,7 +247,7 @@ Try the repeated popping up to 10 times."
   ;; Save command history when commands are entered
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
 
-  ;; add completions coming from bash-completion to company via capf
+  ;; add completions coming from bash-completion to corfu via capf
   (add-hook 'completion-at-point-functions
             'bash-completion-capf-nonexclusive nil t)
 
@@ -275,6 +275,7 @@ Try the repeated popping up to 10 times."
   :ensure t)
 
 (use-package esh-autosuggest
+  :hook (eshell-mode . esh-autosuggest-mode)
   :ensure t)
 
 (use-package bash-completion
@@ -302,9 +303,20 @@ Try the repeated popping up to 10 times."
 
   (eshell-git-prompt-use-theme 'powerline)
 
-  ;; use esh-autosuggest via company, make sure it's completions are on top
   (add-hook 'eshell-mode-hook
-            (lambda () (setq-local company-backends (push '(company-capf esh-autosuggest) company-backends))))
+          (lambda ()
+            (setq-local corfu-auto nil)
+            (corfu-mode)))
+
+  (defun corfu-send-shell (&rest _)
+    "Send completion candidate when inside comint/eshell."
+    (cond
+     ((and (derived-mode-p 'eshell-mode) (fboundp 'eshell-send-input))
+      (eshell-send-input))
+     ((and (derived-mode-p 'comint-mode)  (fboundp 'comint-send-input))
+      (comint-send-input))))
+
+  (advice-add #'corfu-insert :after #'corfu-send-shell)
 
   (add-hook 'eshell-mode-hook
           (lambda ()
@@ -390,7 +402,6 @@ Try the repeated popping up to 10 times."
   (diminish 'git-gutter-mode)
   (diminish 'org-roam-bibtex-mode)
   (diminish 'ace-isearch-mode)
-  (diminish 'company-box-mode)
   (diminish 'activity-watch-mode))
 
 (delete-selection-mode)
@@ -2566,44 +2577,177 @@ Notes:
 (use-package fuzzy
   :ensure t)
 
-;; trigger completion with C-M-i (traditional completion-at-point binding)
-(use-package company
+;; corfu will not work in terminal mode, check https://codeberg.org/akib/emacs-corfu-terminal
+;; and https://codeberg.org/akib/emacs-corfu-doc-terminal for terminal support
+(use-package corfu
   :ensure t
-  :defer t
+  ;; Optional customizations
+  :custom
+  (corfu-cycle t) ;; Enable cycling for `corfu-next/previous'
+  ;; (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; Enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+  :bind (("M-o" . corfu-insert-separator) ;; for Orderless completion
+         )
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
+  :init
+  (global-corfu-mode)
   :config
-  (global-company-mode)
-  ;; Use Company for completion
-  (bind-key [remap completion-at-point] #'company-complete company-mode-map)
-  (setq company-tooltip-align-annotations t
-        ;; Easy navigation to candidates with M-<n>
-        company-show-numbers t
-        ;; after typing of how many characters are we auto suggesting completions
-        company-minimum-prefix-length 3
-        company-transformers '())
-  (setq company-dabbrev-downcase nil)
-  (setq company-tooltip-limit 20)
-  (setq company-idle-delay 0.4)
-  (setq company-echo-delay 0.01)
+  (defun corfu-move-to-minibuffer ()
+    (interactive)
+    (pcase completion-in-region--data
+      (`(,beg ,end ,table ,pred ,extras)
+       (let ((completion-extra-properties extras)
+             completion-cycle-threshold completion-cycling)
+         (consult-completion-in-region beg end table pred)))))
+  (keymap-set corfu-map "M-m" #'corfu-move-to-minibuffer)
+  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer)
 
-  (add-to-list 'company-backends 'company-capf)
-  :diminish company-mode)
+  ;; TODO(FAP): configure for eglot: https://github.com/minad/corfu/wiki#configuring-corfu-for-eglot
+  )
 
-(use-package company-box
+;; Uncomment for debugging, see https://github.com/minad/corfu?tab=readme-ov-file#debugging-corfu:
+;; (setq debug-on-error t)
+
+;; (defun force-debug (func &rest args)
+;;   (condition-case e
+;;       (apply func args)
+;;     ((debug error) (signal (car e) (cdr e)))))
+
+;; (advice-add #'corfu--post-command :around #'force-debug)
+;;
+;; When Capfs do not yield the expected result you can use cape-capf-debug
+;; to add debug messages to a Capf.
+;; The Capf will then produce a completion log in the messages buffer.
+;; (setq completion-at-point-functions (list (cape-capf-debug #'cape-dict)))
+
+
+(use-package corfu-history
+  :init
+  (corfu-history-mode))
+
+(use-package corfu-popupinfo
+  :init
+  (corfu-popupinfo-mode)
+  :config
+  (setq corfu-popupinfo-delay '(0.5 . 0.3)))
+
+;; The commands `corfu-info-location' and
+;; `corfu-info-documentation' are bound by default in the `corfu-map' to M-g and
+;; M-h respectively.
+(use-package corfu-info)
+
+(use-package corfu-quick
+  :config
+  (keymap-set corfu-map "M-q" #'corfu-quick-complete)
+  (keymap-set corfu-map "C-q" #'corfu-quick-insert))
+
+;; not supported on terminal, check https://github.com/LuigiPiucco/nerd-icons-corfu
+;; for terminal support
+(use-package kind-icon
   :ensure t
-  :custom-face
-  (company-tooltip-selection ((t (:inherit highlight))))
+  :after corfu
+  ;; :custom
+  ;; (kind-icon-blend-background t)
+  ;; (kind-icon-default-face 'corfu-default) ; only needed with blend-background
   :config
-  (setq company-box-doc-delay 0.1)
-  (company-box-mode)
-  :hook (company-mode . company-box-mode)
-  :diminish company-box-mode)
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
+;; A few more useful configurations...
+(use-package emacs
+  :init
+  ;; TAB cycle if there are only few candidates
+  ;; (setq completion-cycle-threshold 3)
 
-(use-package company-statistics
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (setq tab-always-indent 'complete)
+
+  ;; Emacs 30 and newer: Disable Ispell completion function. As an alternative,
+  ;; try `cape-dict'.
+  (setq text-mode-ispell-word-completion nil)
+
+  ;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
+  ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
+  ;; setting is useful beyond Corfu.
+  (setq read-extended-command-predicate #'command-completion-default-include-p))
+
+(use-package cape
   :ensure t
-  :after company
+  ;; Bind dedicated completion commands
+  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+  :bind (("C-c a p" . completion-at-point) ;; capf
+         ("C-c a t" . complete-tag)        ;; etags
+         ("C-c a d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c a h" . cape-history)
+         ("C-c a f" . cape-file)
+         ("C-c a k" . cape-keyword)
+         ("C-c a s" . cape-elisp-symbol)
+         ("C-c a e" . cape-elisp-block)
+         ("C-c a a" . cape-abbrev)
+         ("C-c a l" . cape-line)
+         ("C-c a w" . cape-dict)
+         ("C-c a :" . cape-emoji)
+         ("C-c a \\" . cape-tex)
+         ("C-c a _" . cape-tex)
+         ("C-c a ^" . cape-tex)
+         ("C-c a &" . cape-sgml)
+         ("C-c a r" . cape-rfc1345))
+  :init
+  ;; Add to the global default value of `completion-at-point-functions' which is
+  ;; used by `completion-at-point'.  The order of the functions matters, the
+  ;; first function returning a result wins.  Note that the list of buffer-local
+  ;; completion functions takes precedence over the global list.
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  ;;(add-hook 'completion-at-point-functions #'cape-history)
+  ;;(add-hook 'completion-at-point-functions #'cape-keyword)
+  ;;(add-hook 'completion-at-point-functions #'cape-tex)
+  ;;(add-hook 'completion-at-point-functions #'cape-sgml)
+  ;;(add-hook 'completion-at-point-functions #'cape-rfc1345)
+  ;;(add-hook 'completion-at-point-functions #'cape-abbrev)
+  ;;(add-hook 'completion-at-point-functions #'cape-dict)
+  ;;(add-hook 'completion-at-point-functions #'cape-elisp-symbol)
+  ;;(add-hook 'completion-at-point-functions #'cape-line)
+  ;; see https://github.com/minad/corfu/wiki#continuously-update-the-candidates
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+)
+
+;; Use Dabbrev with Corfu!
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
   :config
-  (company-statistics-mode))
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :ensure t
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
 
 (set-frame-parameter nil 'fullscreen 'maximized)
 
@@ -2689,7 +2833,6 @@ Notes:
 
 (use-package yasnippet
   :ensure t
-  :after company
   :config
   (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"                 ;; personal snippets
@@ -2701,20 +2844,13 @@ Notes:
 
 (use-package yasnippet-snippets
   :ensure t
-  :after (yasnippet company)
+  :after (yasnippet))
+
+(use-package yasnippet-capf
+  :ensure t
+  :after (cape yasnippet)
   :config
-  ;; Add yasnippet support for all company backends
-  ;; https://github.com/syl20bnr/spacemacs/pull/179
-  (defvar company-mode/enable-yas t
-    "Enable yasnippet for all backends.")
-
-  (defun company-mode/backend-with-yas (backend)
-    (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-        backend
-      (append (if (consp backend) backend (list backend))
-              '(:with company-yasnippet))))
-
-  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package rvm
   :ensure t
@@ -2888,14 +3024,13 @@ Notes:
 ;; https://github.com/nonsequitur/inf-ruby/issues/129
 ;; need to add pry, pry-doc (optional) and webrick to the GEMFILE for robe to work
 (use-package robe
+  :after (capf)
   :ensure t
   :config
   (add-hook 'ruby-mode-hook 'robe-mode)
-  ;; use robe for smarter company-mode
-  (eval-after-load 'company
-    '(push 'company-robe company-backends)))
-
-
+  ;; use robe for smarter corfu-mode via cape-company-to-capf adapter
+  ;; see https://github.com/minad/cape?tab=readme-ov-file#company-adapter
+  (add-to-list 'completion-at-point-functions (cape-company-to-capf 'company-robe)))
 
 (use-package tide
   :ensure t
@@ -3089,10 +3224,6 @@ Notes:
   :ensure t
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
-                                        ;(global-company-mode t)
-                                        ;(push 'company-robe company-backends)
-
 
 ;; had to remove /usr/bin/ctags (which was actually etags bundled from Emacs
 ;; from the path so it would pick up the ctags from snap
@@ -3647,7 +3778,6 @@ clear the buffers undo-tree before saving the file."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-tooltip-selection ((t (:inherit highlight))))
  '(erc-input-face ((t (:foreground "antique white"))) t)
  '(fringe ((t :background "#2e3434")))
  '(header-line ((t :box (:line-width 4 :color "grey20" :style nil))))
