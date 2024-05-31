@@ -546,9 +546,13 @@ Try the repeated popping up to 10 times."
   :diminish 'all-the-icons-dired-mode)
 
 (use-package all-the-icons-completion
+  :after marginalia
   :ensure t
   :config
-  (all-the-icons-completion-mode))
+  (all-the-icons-completion-mode)
+  ;; needs some kind of setup for marginalia?
+  ;; see https://github.com/iyefrat/all-the-icons-completion/tree/9e7d456b0934ecb568b6f05a8445e3f4ce32261f?tab=readme-ov-file#usage
+  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup))
 
 ;; view large files
 (use-package vlf
