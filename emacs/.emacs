@@ -674,7 +674,8 @@ Try the repeated popping up to 10 times."
   :ensure t
   :config
   (global-set-key (kbd "C-c SPC") 'avy-goto-word-or-subword-1)
-  (global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
+  ;; suggested in https://karthinks.com/software/avy-can-do-anything/
+  (global-set-key (kbd "s-.") 'avy-goto-char-timer)
   (global-set-key (kbd "s-,") 'avy-goto-char-2))
 
 ;; Copy code in the format that GitHub, Slack, etc.. like
