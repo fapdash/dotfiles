@@ -691,11 +691,23 @@ Try the repeated popping up to 10 times."
 ;; jump to specific character
 (use-package avy
   :ensure t
+  :after embark
   :config
   (global-set-key (kbd "C-c SPC") 'avy-goto-word-or-subword-1)
   ;; suggested in https://karthinks.com/software/avy-can-do-anything/
   (global-set-key (kbd "s-.") 'avy-goto-char-timer)
-  (global-set-key (kbd "s-,") 'avy-goto-char-2))
+  (global-set-key (kbd "s-,") 'avy-goto-char-2)
+
+  (defun avy-action-embark (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (embark-act))
+      (select-window
+       (cdr (ring-ref avy-ring 0))))
+    t)
+
+  (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark))
 
 ;; Copy code in the format that GitHub, Slack, etc.. like
 (use-package copy-as-format
