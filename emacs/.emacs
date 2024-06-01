@@ -3328,6 +3328,11 @@ the mode, `toggle' toggles the state."
 
 (global-set-key (kbd "C-x C-r") 'rename-file-and-buffer)
 
+(use-package mise
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-mise-mode))
+
 (use-package editorconfig
   :ensure t
   :config
