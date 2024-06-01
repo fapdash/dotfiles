@@ -2865,14 +2865,6 @@ Notes:
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
-(use-package rvm
-  :ensure t
-  :init
-  (rvm-activate-corresponding-ruby)
-  :config
-  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
-    (rvm-activate-corresponding-ruby)))
-
 (use-package rbenv
   :ensure t
   :init
