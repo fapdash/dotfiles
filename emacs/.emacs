@@ -2868,7 +2868,8 @@ Notes:
 (use-package rbenv
   :ensure t
   :init
-  (global-rbenv-mode))
+;;  (global-rbenv-mode)
+  )
 
 (use-package rspec-mode
   :ensure t
