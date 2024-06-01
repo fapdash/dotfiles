@@ -3431,7 +3431,7 @@ clear the buffers undo-tree before saving the file."
    ("M-g j" . dumb-jump-go)
    ("M-g b" . dumb-jump-back))
   :config
-  (setq dumb-jump-selector 'ivy)
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
   (setq dumb-jump-prefer-searcher 'rg)
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   )
