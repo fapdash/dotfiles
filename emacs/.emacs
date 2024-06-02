@@ -287,6 +287,9 @@ Try the repeated popping up to 10 times."
   (add-hook 'shell-dynamic-complete-functions
             'bash-completion-dynamic-complete))
 
+(use-package dash
+  :ensure t)
+
 (use-package eshell
   :hook (eshell-first-time-mode . efs/configure-eshell)
   :config
