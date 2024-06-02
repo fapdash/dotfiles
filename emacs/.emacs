@@ -3557,6 +3557,13 @@ clear the buffers undo-tree before saving the file."
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
+  :bind (:map markdown-mode-map
+         ("C-c C-e" . markdown-do)
+         ("M-<left>" . markdown-promote)
+         ("M-<right>" . markdown-demote))
+  ;; need to define outside of markdown-mode-map to overwrite autohighlight-symbol bindings
+  :bind (("M-<up>" . markdown-move-up)
+         ("M-<down>" . markdown-move-down))
   ;; source for css: https://gist.github.com/Dashed/6714393
   :init (setq markdown-command (concat (concat "pandoc -c file:///" (getenv "HOME")) "/.emacs.d/github-pandoc.css --from markdown_github -t html5 --mathjax --highlight-style pygments --standalone")))
 
