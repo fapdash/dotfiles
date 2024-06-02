@@ -307,9 +307,9 @@ Try the repeated popping up to 10 times."
   (eshell-git-prompt-use-theme 'powerline)
 
   (add-hook 'eshell-mode-hook
-          (lambda ()
-            (setq-local corfu-auto nil)
-            (corfu-mode)))
+            (lambda ()
+              (setq-local corfu-auto nil)
+              (corfu-mode)))
 
   (defun corfu-send-shell (&rest _)
     "Send completion candidate when inside comint/eshell."
@@ -322,9 +322,9 @@ Try the repeated popping up to 10 times."
   (advice-add #'corfu-insert :after #'corfu-send-shell)
 
   (add-hook 'eshell-mode-hook
-          (lambda ()
-            (add-hook 'completion-at-point-functions
-                      'bash-completion-capf-nonexclusive nil t))))
+            (lambda ()
+              (add-hook 'completion-at-point-functions
+                        'bash-completion-capf-nonexclusive nil t))))
 
 (use-package eshell-vterm
   :ensure t
