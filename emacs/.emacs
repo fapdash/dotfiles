@@ -2501,6 +2501,11 @@ Notes:
               (org-present-show-cursor)
               (org-present-read-write))))
 
+;; Install via use-package once I'm on Emacs 30
+(unless (package-installed-p 'ox-11ty)
+  (package-vc-install "https://github.com/sachac/ox-11ty/" nil nil 'ox-11ty))
+(require 'ox-11ty)
+
 (use-package hide-mode-line
   :ensure t)
 
