@@ -3513,7 +3513,10 @@ clear the buffers undo-tree before saving the file."
     "http://www.wolframalpha.com/input/?i=%s")
 
   (defengine youtube
-    "http://www.youtube.com/results?aq=f&oq=&search_query=%s"))
+    "http://www.youtube.com/results?aq=f&oq=&search_query=%s")
+
+  (defengine melpa
+    "https://melpa.org/#/?q=%s"))
 
 (use-package google-this
   :ensure t
