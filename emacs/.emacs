@@ -2581,7 +2581,10 @@ Notes:
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
-                 (window-parameters (mode-line-format . none)))))
+                 (window-parameters (mode-line-format . none))))
+  (dolist (key-map
+           `(,embark-identifier-map ,embark-command-map ,embark-symbol-map ,embark-variable-map))
+    (define-key key-map "c" #'jinx-correct)))
 
 
 ;; edit results inside grep result buffer
