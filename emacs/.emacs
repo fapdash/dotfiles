@@ -426,9 +426,7 @@ Try the repeated popping up to 10 times."
   :config
   (setq whitespace-line-column 80) ;; limit line length
   (setq whitespace-style '(face lines-tail))
-  ;; deactivate line limit for adoc-mode
-  ;; can't be set to nil because it then uses fill-column
-  ;; TODO: would be better to remove lines-tail and tail from whitespace-style
+  ;; deactivate line limit highlighting for some modes
   (add-hook 'adoc-mode-hook #'fap/deactivate-line-max-highlight)
   (add-hook 'org-mode-hook #'fap/deactivate-line-max-highlight)
   (add-hook 'adoc-mode-hook #'fap/deactivate-line-max-highlight)
@@ -440,7 +438,8 @@ Try the repeated popping up to 10 times."
 
 (defun fap/deactivate-line-max-highlight ()
   (and (boundp 'whitespace-mode)
-       (set (make-local-variable 'whitespace-line-column) 9999)))
+       (set (make-local-variable 'whitespace-style)
+            (remove 'lines-tail whitespace-style))))
 
 (use-package saveplace
   :ensure t
