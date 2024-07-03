@@ -2896,12 +2896,11 @@ Notes:
   :ensure t
   :config
   (setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"                 ;; personal snippets
-        ))
-  :init
-  (yas-global-mode 1)
+        '("~/.emacs.d/snippets"                 ;; personal snippets
+          ))
   ;; show dropdown menu if more than one snippet available for keyword
-  (setq yas-prompt-functions '(yas-x-prompt yas-dropdown-prompt)))
+  (setq yas-prompt-functions '(yas-x-prompt yas-dropdown-prompt))
+  (yas-global-mode 1))
 
 (use-package yasnippet-snippets
   :ensure t
