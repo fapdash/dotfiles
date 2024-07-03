@@ -2908,10 +2908,19 @@ Notes:
 
 (use-package yasnippet-capf
   :ensure t
-  :after (cape yasnippet)
+  :after (cape yasnippet org-roam)
   :config
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+  ;; (defun fap/cape-yasnippet-dabbrev-dict-keyword ()
+  ;;   (cape-wrap-super #'yasnippet-capf #'cape-keyword #'cape-dabbrev #'cape-dict))
 
+  ;; (defun fap/cape-capf-setup-org ()
+  ;;   (require 'org-roam)
+  ;;   (if (org-roam-file-p)
+  ;;       (org-roam--register-completion-functions-h)
+  ;;     (setq-local completion-at-point-functions (list #'fap/cape-yasnippet-dabbrev-dict-keyword))))
+  ;; (add-hook 'org-mode-hook 'fap/cape-capf-setup-org)
+
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package rspec-mode
   :ensure t
