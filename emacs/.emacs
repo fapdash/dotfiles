@@ -3831,7 +3831,21 @@ the mode, `toggle' toggles the state."
 
 ;; Show current command and it's binding / keys pressed
 (use-package keycast
-  :ensure t)
+  :ensure t
+  :config
+  (define-minor-mode keycast-mode
+    "Show current command and its key binding in the mode line (fix for use with doom-mode-line).
+Inspiration from https://github.com/seagle0128/doom-modeline/issues/122#issuecomment-780683648
+and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
+    :global t
+    (if keycast-mode
+        (add-hook 'pre-command-hook 'keycast--update t)
+      (remove-hook 'pre-command-hook 'keycast--update)))
+  (defun fap-keycast-mode-hook-handler ()
+    (if (member '("" keycast-mode-line " ") global-mode-string)
+        (setq global-mode-string (delete '("" keycast-mode-line " ") global-mode-string))
+      (add-to-list 'global-mode-string '("" keycast-mode-line " "))))
+  (add-hook 'keycast-mode-hook 'fap-keycast-mode-hook-handler))
 
 (use-package gnuplot
   :ensure t
