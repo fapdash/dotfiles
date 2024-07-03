@@ -401,7 +401,6 @@ Try the repeated popping up to 10 times."
   :config
   (diminish 'WS)
   (diminish 'which-key-mode)
-  (diminish 'undo-tree-mode)
   (diminish 'highlight-indent-guides-mode)
   (diminish 'git-gutter-mode)
   (diminish 'yas/minor-mode)
@@ -3393,34 +3392,53 @@ the mode, `toggle' toggles the state."
    uniquify-buffer-name-style 'forward
    uniquify-separator " : "))
 
-(use-package undo-tree
+(use-package undo-fu
   :ensure t
-  :init
-  (global-undo-tree-mode)
-  :custom
-  (undo-tree-visualizer-timestamps t)
-  (undo-tree-visualizer-diff t)
-  (undo-tree-enable-undo-in-region t)
-  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree")))
   :config
-  ;; https://stackoverflow.com/a/47624232/4266296
-  (defun fap/clear-undo-tree ()
-    "Clear current buffer's undo-tree.
-Undo-tree can cause problems with file encoding when characters
-are inserted that cannot be represented using the files current
-encoding. This is even the case when characters are only
-temporarily inserted, e.g. pasted from another source and then
-instantly deleted. In these situations it can be necessary to
-clear the buffers undo-tree before saving the file."
+  (global-unset-key (kbd "C-z"))
+  (global-set-key (kbd "C-z")   'undo-fu-only-undo)
+  (global-set-key (kbd "C-S-z") 'undo-fu-only-redo)
+  (setq undo-no-redo t)
+  (setq undo-limit 67108864) ; 64mb.
+  (setq undo-strong-limit 100663296) ; 96mb.
+  (setq undo-outer-limit 1006632960) ; 960mb.
+)
+
+(use-package undo-fu-session
+  :ensure t
+  :config
+  (setq undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'" "^CAPTURE-.*.org"))
+  (undo-fu-session-global-mode)
+  (defun fap/undo-fu-session-delete-session-file-for-current-buffer ()
     (interactive)
-    (let ((buff (current-buffer)))
-      (if (local-variable-p 'buffer-undo-tree)
-          (if (y-or-n-p "Clear buffer-undo-tree? ")
-              (progn
-                (setq buffer-undo-tree nil)
-                (message "Cleared undo-tree of buffer: %s" (buffer-name buff)))
-            (message "Cancelled clearing undo-tree of buffer: %s" (buffer-name buff)))
-        (error "Buffer %s has no local binding of `buffer-undo-tree'" (buffer-name buff))))))
+    (let ((undo-file (undo-fu-session--make-file-name (buffer-file-name))))
+      (setq buffer-undo-list nil)
+      (if (file-exists-p undo-file)
+          (progn
+            (delete-file undo-file)
+            (message "Deleted undo-fu-session file %s" undo-file))))))
+
+(use-package vundo
+  :ensure t
+  ;; set up after doom-modeline :config installed nerd-fonts
+  :after doom-modeline
+  :config
+  ;; Terminal users may encounter unwanted control characters in the diff
+  ;; output.  Emacs colors diff buffers itself, so this can be remedied by
+  ;; instructing diff not to print color codes:
+  ;; (setq diff-switches "-u --color=never")
+  (setq vundo-glyph-alist vundo-unicode-symbols)
+  ;; original value:
+  ;; (setq vundo-glyph-aslit '((selected-node . 120)
+  ;;                           (node . 111)
+  ;;                           (horizontal-stem . 45)
+  ;;                           (vertical-stem . 124)
+  ;;                           (branch . 124)
+  ;;                           (last-branch . 96)))
+  (if (file-exists-p "~/.local/share/fonts/NFM.ttf")
+      (set-face-attribute 'vundo-default nil :font "FiraCode Nerd Font Mono" :family "FireCode Nerd Font")
+    (fap/alert "Please install nerd-ficons font for vundo diff!"))
+  (global-set-key (kbd "C-x u") 'vundo))
 
 (use-package ripgrep
   :ensure t
