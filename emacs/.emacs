@@ -130,8 +130,12 @@ If REPOSITORY is specified, use that."
 (use-package alert
   :ensure t
   ;; use via ~(alert "Message!")~
-  :config (when (eq system-type 'gnu/linux)
-            (setq alert-default-style 'notifications)))
+  :config
+  (when (eq system-type 'gnu/linux)
+    (setq alert-default-style 'notifications))
+  (defun fap/alert (msg)
+    (alert msg)
+    (message msg)))
 
 (global-auto-revert-mode 1) ;; Always reload the file if it changed on disk
 (prefer-coding-system 'utf-8) ;; Prefer UTF-8 encoding
