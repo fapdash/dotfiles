@@ -517,7 +517,6 @@ Try the repeated popping up to 10 times."
 
 (use-package doom-modeline
   :ensure t
-  ;; run (nerd-icons-install-fonts) once
   :init (doom-modeline-mode 1)
   :config
   (setq doom-modeline-time-icon t)
@@ -525,7 +524,11 @@ Try the repeated popping up to 10 times."
   (setq doom-modeline-time t)
   (setq doom-modeline-battery t)
   (display-battery-mode)
-  (display-time-mode))
+  (display-time-mode)
+  ;; run (nerd-icons-install-fonts) once
+  (unless (file-exists-p (expand-file-name "~/.local/share/fonts/NFM.ttf"))
+    (fap/alert "Installing nerd-icons font...")
+    (nerd-icons-install-fonts)))
 
 (use-package spacious-padding
   :ensure t
