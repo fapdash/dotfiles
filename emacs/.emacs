@@ -3771,6 +3771,8 @@ the mode, `toggle' toggles the state."
 (use-package ox-reveal
   :ensure t)
 
+;; use https://github.com/blahgeek/emacs-lsp-booster and https://github.com/jdtsmith/eglot-booster
+;; if you run into performance issues
 (use-package eglot
   :ensure t
   :hook
