@@ -3088,29 +3088,6 @@ Notes:
   ;; see https://github.com/minad/cape?tab=readme-ov-file#company-adapter
   (add-to-list 'completion-at-point-functions (cape-company-to-capf 'company-robe)))
 
-(use-package tide
-  :ensure t
-  :after (typescript-mode flycheck)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save)))
-
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1))
-
-;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
-
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
-
-(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2))
-
-
 (use-package web-mode
   :ensure t
   :config
@@ -3131,13 +3108,19 @@ Notes:
   (add-to-list 'auto-mode-alist '("\\.gohtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+  (add-to-list 'eglot-server-programs
+               '(web-mode . ("typescript-language-server" "--stdio")))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (seq-some
+                     (lambda (ext)
+                       (string-equal ext (file-name-extension buffer-file-name)))
+                     '("jsx"))
+                (eglot-ensure))))
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
   (setq web-mode-enable-auto-pairing nil)
-  (add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-equal "jsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
+
   :init
   (setq-default indent-tabs-mode nil)
   (setq web-mode-markup-indent-offset 2)
@@ -3794,7 +3777,15 @@ the mode, `toggle' toggles the state."
   :ensure t)
 
 (use-package eglot
-  :ensure t)
+  :ensure t
+  :hook
+  ((js-ts-mode . eglot-ensure)
+   (tsx-ts-mode . eglot-ensure)
+   (typescript-ts-mode . eglot-ensure)
+   (typescript-mode . eglot-ensure))
+  :init
+  (unless (executable-find "typescript-language-server")
+    (fap/alert "Please install typescript-language-server for eglot TypeScript development.")))
 
 (use-package flycheck-eglot
   :ensure t
