@@ -546,7 +546,7 @@ Try the repeated popping up to 10 times."
   :config
   ;; have to run (all-the-icons-install-fonts) once
   (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
-    (alert "Installing all-the-icons font...")
+    (fap/alert "Installing all-the-icons font...")
     (all-the-icons-install-fonts)))
 
 
@@ -1293,8 +1293,7 @@ is nil, refile in the current file."
          ("C-M-$" . jinx-languages))
   :config
   (unless (fap/package-installed-p "libenchant-2-dev")
-      (alert "Please apt install libenchant-2-dev")
-      (message "Please apt install libenchant-2-dev"))
+      (fap/alert "Please apt install libenchant-2-dev"))
   (dolist (hook '(text-mode-hook prog-mode-hook conf-mode-hook))
     (add-hook hook #'jinx-mode)))
 
@@ -3448,20 +3447,20 @@ the mode, `toggle' toggles the state."
   :ensure-system-package
   (rg . ripgrep)
   :init (unless (executable-find "rg")
-          (alert "Please apt install ripgrep")))
+          (fap/alert "Please apt install ripgrep")))
 
 (use-package projectile-ripgrep
   :ensure t
   :config
   :init (unless (executable-find "rg")
-          (alert "Please apt install ripgrep"))
+          (fap/alert "Please apt install ripgrep"))
   (defalias 'rg-project 'projectile-ripgrep))
 
 ;; also see https://github.com/Wilfred/deadgrep/blob/master/docs/ALTERNATIVES.md
 (use-package deadgrep
   :ensure t
   :init (unless (executable-find "rg")
-          (alert "Please apt install ripgrep")))
+          (fap/alert "Please apt install ripgrep")))
 
 (use-package sudo-edit
   :ensure t
