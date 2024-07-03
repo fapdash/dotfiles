@@ -1831,6 +1831,16 @@ DEPRECATED: use (org-roam-extract-subtree now"
    (let ((node (org-roam-node-read nil #'org-roam-backlinks-poi-or-moc-p)))
      (org-roam-backlinks-node-read node)))
 
+(defun fap/org-roam-node-has-tag (node tag)
+  "Filter function to check if the given NODE has the specified TAG."
+  (member tag (org-roam-node-tags node)))
+
+(defun fap/org-roam-node-find-by-tag ()
+  "Find and open an Org-roam node based on a specified tag."
+  (interactive)
+  (let ((tag (completing-read "Enter tag: " (org-roam-tag-completions))))
+    (org-roam-node-find nil nil (lambda (node) (my/org-roam-node-has-tag node tag)))))
+
 ;; https://www.reddit.com/r/emacs/comments/veesun/orgroam_is_absolutely_fantastic/
 ;; TODO(FAP): this regexp is for journal files, not dailies?
 (setq my-date-regexp "^[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} [A-Za-z]+")
