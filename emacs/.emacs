@@ -3775,6 +3775,13 @@ the mode, `toggle' toggles the state."
   (setq elisp-autofmt-on-save-p 'fap/elisp-autofmt-on-save-p
         elisp-autofmt-python-bin "/home/fap/.local/share/mise/installs/python/3.11/bin/python3"))
 
+;; elisp-refs is an intelligent code search for Emacs lisp.
+;; It can find references to functions, macros or variables.
+;; Unlike a dumb text search, elisp-refs actually parses the code,
+;; so it's never confused by comments or variables with the same name as functions.
+(use-package elisp-refs
+  :ensure t)
+
 (use-package ox-reveal
   :ensure t)
 
