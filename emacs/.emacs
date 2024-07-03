@@ -2971,8 +2971,6 @@ Notes:
      (define-key ruby-mode-map (kbd "C-c b u")
        (lambda () (interactive) (async-shell-command "bundle update" "**Bundler**")))))
 
-(use-package smex
-  :ensure t)
 
 (use-package ivy
   :ensure t
