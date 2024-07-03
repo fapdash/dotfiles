@@ -1123,6 +1123,13 @@ normally have their errors suppressed."
 
 (require 'org-columns-calc)
 
+;; when org-hide-emphasis-markers is turned on: show them when point is inside of them
+;; basically show emphasis-markers when they are needed, when editing.
+(use-package org-appear
+  :ensure t
+  :after org
+  :hook (org-mode . org-appear-mode))
+
 (use-package org-modern
   :after org
   :ensure t
