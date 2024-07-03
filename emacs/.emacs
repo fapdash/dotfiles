@@ -2912,11 +2912,6 @@ Notes:
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
-(use-package rbenv
-  :ensure t
-  :init
-;;  (global-rbenv-mode)
-  )
 
 (use-package rspec-mode
   :ensure t
