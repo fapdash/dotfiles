@@ -84,6 +84,12 @@ If REPOSITORY is specified, use that."
   (interactive)
   (byte-recompile-directory "~/.emacs.d" 0))
 
+(defun fap/clean-install-selected-packages ()
+  (interactive)
+  (package-autoremove)
+  (package-install-selected-packages)
+  (package-vc-install-selected-packages))
+
 (setq backup-directory-alist      '((".*" . "~/.emacs.d/backups")))
 (setq auto-save-file-name-transforms
       `((".*" ,"~/.emacs.d/autosave" t)))
