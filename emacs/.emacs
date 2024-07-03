@@ -3294,6 +3294,8 @@ Notes:
 (use-package paredit
   :ensure t
   :config
+  ;; fix eval-expression: https://old.reddit.com/r/emacs/comments/17k6pu4/m_aka_mx_evalexpression_does_nothing_upon_hitting/kg4q52f/
+  (define-key paredit-mode-map (kbd "RET") nil)
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   ;; enable in the *scratch* buffer
   (add-hook 'lisp-interaction-mode-hook #'paredit-mode)
