@@ -798,6 +798,7 @@ Try the repeated popping up to 10 times."
   :ensure t
   :after magit
   :config
+  (add-to-list 'magit-todos-exclude-globs "*.js.map")
   (magit-todos-mode 1))
 
 (autoload 'org-read-date "org")
@@ -986,9 +987,6 @@ Try the repeated popping up to 10 times."
  '(safe-local-variable-values
    '((backup-inhibited . t)
      (undo-tree-auto-save-history)
-     (magit-todos-exclude-globs "*.js.map")
-     (magit-todos-exclude-globs . "*.js.map")
-     (magit-todos-exclude-globs . *\.js\.map)
      (encoding . utf-8)
      (ruby-compilation-executable . "ruby")
      (ruby-compilation-executable . "ruby1.8")
