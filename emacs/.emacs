@@ -1137,30 +1137,38 @@ normally have their errors suppressed."
   :ensure t
   :config
   (setq
- ;; Edit settings
- org-auto-align-tags nil
- org-tags-column 0
- org-catch-invisible-edits 'show-and-error
- org-special-ctrl-a/e t
- org-insert-heading-respect-content t
+   ;; Edit settings
+   org-auto-align-tags nil
+   org-tags-column 0
+   org-catch-invisible-edits 'show-and-error
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
 
- ;; Org styling, hide markup etc.
- org-hide-emphasis-markers t
- org-pretty-entities t
- org-ellipsis "…"
+   ;; Org styling, hide markup etc.
+   org-hide-emphasis-markers t
+   org-pretty-entities t
+   org-ellipsis "…"
 
- ;; Agenda styling
- org-agenda-tags-column 0
- org-agenda-block-separator ?─
- org-agenda-time-grid
- '((daily today require-timed)
-   (800 1000 1200 1400 1600 1800 2000)
-   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
- org-agenda-current-time-string
- "◀── now ─────────────────────────────────────────────────")
+   ;; Agenda styling
+   org-agenda-tags-column 0
+   org-agenda-block-separator ?─
+   org-agenda-time-grid
+   '((daily today require-timed)
+     (800 1000 1200 1400 1600 1800 2000)
+     " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+   org-agenda-current-time-string
+   "◀── now ─────────────────────────────────────────────────")
   (global-org-modern-mode)
   (add-hook 'org-mode-hook (lambda () (setq line-spacing 0.2)))
   )
+
+;; (use-package org-modern-indent
+;;   :load-path "~/.emacs.d/lisp/org-modern-indent/"
+;;   ; or
+;;   ; :straight (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent"))
+;;   :config ; add late to hook
+;;   (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
+
 (use-package org-tempo
   ;; contains old template expansion syntax: <s
   ;; https://orgmode.org/manual/Structure-Templates.html
