@@ -3983,6 +3983,11 @@ and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(diff-hl-change ((t (:foreground "#a4c0e4" :background "#204a87"))))
+ '(diff-hl-delete ((t (:foreground "#ffbfbf" :background "#800000"))))
+ '(diff-hl-dired-insert ((t (:foreground "#00ff00" :background "#008c00"))))
+ '(diff-hl-dired-unknown ((t (:foreground "#d3d7cf" :background "#555753"))))
+ '(diff-hl-insert ((t (:foreground "#8ae234"))))
  '(erc-input-face ((t (:foreground "antique white"))) t)
  '(fringe ((t :background "#2e3434")))
  '(header-line ((t :box (:line-width 4 :color "grey20" :style nil))))
