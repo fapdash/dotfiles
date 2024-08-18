@@ -193,6 +193,9 @@ snap_delete_old_versions() {
     snap list --all | while read snapname ver rev trk pub notes; do if [[ $notes = *disabled* ]]; then sudo snap remove "$snapname" --revision="$rev"; fi; done
 }
 
+server_here() {
+    python3 -m http.server --bind 127.0.0.1
+}
 
 # exercism.io
 if [ -f ~/.config/exercism/exercism_completion.bash ]; then
@@ -201,26 +204,34 @@ fi
 
 alias google-java-format='/home/fap/repos/gerrit/tools/format/google-java-format-1.7'
 
-PATH=$PATH:~/dart-sass
 PATH=$PATH:/usr/lib/dart/bin:$HOME/.pub-cache/bin:$HOME/flutter/.pub-cache/bin
-PATH=$PATH:~/.local/bin
-PATH=$PATH:~/.gem/ruby/3.0.0/bin
-PATH=$PATH:~/.yarn/bin
-PATH=~/.cache/rebar3/bin:$PATH
-PATH=~/Android/Sdk/platform-tools:$PATH
+PATH=$PATH:~/.cache/rebar3/bin
+PATH=$PATH:~/Android/Sdk/platform-tools
+PATH=$PATH:~/j9.5/bin
+PATH=$PATH:~/.fzf/bin
+PATH=$PATH:~/age
 eval "$(thefuck --alias)"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/fap/.sdkman"
-[[ -s "/home/fap/.sdkman/bin/sdkman-init.sh" ]] && source "/home/fap/.sdkman/bin/sdkman-init.sh"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export http_proxy=''
 export https_proxy=''
 export ftp_proxy=''
 export socks_proxy=''
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-. $HOME/.asdf/completions/asdf.bash
-PATH=/home/fap/.rbenv/shims:/home/fap/.rbenv/bin:/home/fap/.sdkman/candidates/jbake/current/bin:/home/fap/.sdkman/candidates/java/current/bin:/home/fap/.sdkman/candidates/gradle/current/bin:/home/fap/.sdkman/candidates/ant/current/bin:/home/fap/Android/Sdk/platform-tools:/home/fap/.cache/rebar3/bin:/home/fap/.cargo/bin:/home/fap/.local/bin:/home/fap/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/fap/dart-sass:/usr/lib/dart/bin:/home/fap/.pub-cache/bin:/home/fap/.local/bin:/home/fap/.yarn/bin:/home/fap/.fzf/bin:~/.local/bin:$PATH
+PATH=~/.local/bin:/snap/bin:$PATH
 
+[ -f "/home/fap/.ghcup/env" ] && source "/home/fap/.ghcup/env" # ghcup-env
+
+# pnpm
+export PNPM_HOME="/home/fap/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/fap/.sdkman"
+[[ -s "/home/fap/.sdkman/bin/sdkman-init.sh" ]] && source "/home/fap/.sdkman/bin/sdkman-init.sh"
+
+eval "$(/home/fap/.local/bin/mise activate bash)"
+export PATH=$PATH:/usr/local/go/bin:~/go/bin
