@@ -55,7 +55,7 @@ pip3 install flake8 --user
 
 ################################
 ######### Ruby #################
-################################<<
+################################
 mise use -g ruby@latest
 ln -s ~/repos/dotfiles/ruby/.pryrc ~/.pryrc
 ln -s ~/repos/dotfiles/ruby/.irbrc ~/.irbrc
