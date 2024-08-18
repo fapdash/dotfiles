@@ -94,11 +94,6 @@ ln -s ~/repos/dotfiles/ledger-autosync/plugins/teo.py ~/.config/ledger-autosync/
 # https://superuser.com/a/1361201/669906
 sudo snap set system refresh.retain=2
 
-################################
-######### ssh ##################
-################################
-ln -s ~/repos/dotfiles/ssh/config ~/.ssh
-
 # TODO(FAP): vagrant
 # TODO(FAP): vscode, vscodium
 # TODO(FAP): virtualbox
