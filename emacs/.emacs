@@ -3876,7 +3876,7 @@ and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
   :ensure t
   :custom (xref-search-program 'ripgrep))
 
-(defun my-eval-and-run-all-tests-in-buffer ()
+(defun fap/eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
   (interactive)
   (ert-delete-all-tests)
