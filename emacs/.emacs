@@ -3847,6 +3847,30 @@ the mode, `toggle' toggles the state."
   (define-key gleam-mode-map (kbd "<M-return>") 'elixir-pipe-operator-on-newline)
   (define-key gleam-mode-map (kbd "<C-return>") 'elixir-pipe-operator))
 
+(use-package go-ts-mode
+  :ensure t
+  :after (reformatter eglot)
+  :config
+  (reformatter-define go-ts-format
+    :program "gofmt")
+  (add-hook 'go-ts-mode-hook 'go-ts-format-on-save-mode)
+  (add-to-list 'major-mode-remap-alist '(go-mode . go-ts-mode))
+  (add-to-list 'eglot-server-programs
+               '(go-ts-mode . ("gopls")))
+  (unless (executable-find "gopls")
+    (fap/alert "Please install gopls for eglot golang development.\nRun: go install -v golang.org/x/tools/gopls@latest"))
+  ;; Optional: install eglot-format-buffer as a save hook.
+  ;; The depth of -10 places this before eglot's willSave notification,
+  ;; so that that notification reports the actual contents that will be saved.
+  ;; (defun eglot-format-buffer-before-save ()
+  ;;   (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+  ;; (add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
+  ;; (add-hook 'before-save-hook
+  ;;   (lambda ()
+  ;;       (call-interactively 'eglot-code-action-organize-imports))
+  ;;   nil t)
+)
+
 (use-package elfeed
   :ensure t
   :config
