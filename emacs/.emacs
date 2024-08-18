@@ -3942,6 +3942,42 @@ and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
   (eval-buffer)
   (ert 't))
 
+(defun fap/retrieve-latest-wayback-snapshot-for-url-dwim ()
+  (interactive)
+  (let* ((at-point (ignore-errors
+                     (save-excursion
+                       (buffer-substring-no-properties
+                        (beginning-of-thing 'url)
+                        (end-of-thing 'url)))))
+         (url (or
+               ;; url at point was found
+               at-point
+               ;; url is in kill ring / "clipboard"
+               (and (string-prefix-p "http" (current-kill 0 t)) (current-kill 0 t))
+               ;; couldn't find url, ask for url input
+               (read-string "URL: "))))
+    (plz 'get (concat "https://archive.org/wayback/available?url=" url) :as #'json-read
+      :then
+      (lambda (alist)
+        (let ((snapshot-url (condition-case _err
+                                (thread-last alist
+                                             (alist-get 'archived_snapshots)
+                                             (alist-get 'closest)
+                                             (alist-get 'url))
+                              (error
+                               (message
+                                (concat "Couldn't find wayback snapshot in json: "
+                                        (prin1-to-string alist)))
+                                     nil))))
+          (if snapshot-url
+              (kill-new snapshot-url)))))))
+
+(defun fap/slurp (file)
+  "Load FILE to string."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (buffer-string)))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
