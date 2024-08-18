@@ -629,7 +629,6 @@ Try the repeated popping up to 10 times."
    ;; `(rainbow-delimiters-mismatched-face ((t (:foreground "#eeeeee" :background "#a40000")))))
 
 
-
    ;; https://en.wikipedia.org/wiki/Tango_Desktop_Project
    ;; https://en.wikipedia.org/wiki/Tango_Desktop_Project#/media/File:Tango_pallette.svg
    ;; https://webaim.org/resources/contrastchecker/
@@ -811,7 +810,6 @@ Try the repeated popping up to 10 times."
 
 (magit-define-popup-option 'magit-log-popup
   ?u "Until date" "--until=" #'magit-org-read-date)
-
 
 (use-package git-timemachine
   :ensure t)
