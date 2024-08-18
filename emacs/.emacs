@@ -3108,15 +3108,16 @@ Notes:
   (add-to-list 'auto-mode-alist '("\\.gohtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
-  (add-to-list 'eglot-server-programs
-               '(web-mode . ("typescript-language-server" "--stdio")))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (seq-some
-                     (lambda (ext)
-                       (string-equal ext (file-name-extension buffer-file-name)))
-                     '("jsx"))
-                (eglot-ensure))))
+  ;; Somehow errors
+  ;; (add-to-list 'eglot-server-programs
+  ;;              '(web-mode . ("typescript-language-server" "--stdio")))
+  ;; (add-hook 'web-mode-hook
+  ;;           (lambda ()
+  ;;             (when (seq-some
+  ;;                    (lambda (ext)
+  ;;                      (string-equal ext (file-name-extension buffer-file-name)))
+  ;;                    '("jsx"))
+  ;;               (eglot-ensure))))
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
   (setq web-mode-enable-auto-pairing nil)
