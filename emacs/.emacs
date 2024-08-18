@@ -3916,6 +3916,12 @@ and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
   :ensure t
   :custom (xref-search-program 'ripgrep))
 
+(use-package treepy
+  :ensure t)
+
+(use-package oauth2
+  :ensure t)
+
 (defun fap/eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
   (interactive)
