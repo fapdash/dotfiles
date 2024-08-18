@@ -3159,18 +3159,35 @@ Notes:
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 ;; (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
 
+
+(use-package reformatter
+  :ensure t)
+
 (use-package dart-mode
-  :ensure-system-package (dart_language_server . "pub global activate dart_language_server")
+  :after (eglot reformatter)
+  :hook
+  (dart-mode . eglot-ensure)
   :ensure t
   :custom
   (dart-format-on-save t)
-  (dart-sdk-path "/home/fap/flutter/bin/cache/dart-sdk/"))
+  (dart-sdk-path "/home/fap/flutter/bin/cache/dart-sdk/")
+  :config
+  (reformatter-define dart-format
+    :program "dart"
+    :args '("format"))
+
+  (with-eval-after-load "dart-mode"
+    (define-key dart-mode-map (kbd "C-c C-o") 'dart-format-buffer)))
+
+;; (with-eval-after-load "dart-mode"
+;;   (bind-key "C-c C-o" 'dart-format-buffer dart-mode-map)))
 
 (use-package flutter
   :after dart-mode
   :ensure t
   :bind (:map dart-mode-map
-              ("C-M-x" . #'flutter-run-or-hot-reload))
+              ("C-M-x" . #'flutter-run-or-hot-reload)
+              ("C-M-z" . #'flutter-hot-restart))
   :custom
   (flutter-sdk-path "/home/fap/flutter/"))
 
