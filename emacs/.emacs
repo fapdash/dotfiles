@@ -2579,7 +2579,7 @@ Notes:
   (add-hook 'c-mode-hook  'smart-semicolon-mode)
   (add-hook 'java-mode-hook 'smart-semicolon-mode))
 
-;; Add/Change/Delete pairs based on expand-region.
+;; Add/Change/Delete pairs based on expand-region. Like surround.el
 (use-package embrace
   :ensure t)
 
