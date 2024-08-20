@@ -3452,9 +3452,10 @@ the mode, `toggle' toggles the state."
   ;;                           (vertical-stem . 124)
   ;;                           (branch . 124)
   ;;                           (last-branch . 96)))
-  (if (file-exists-p "~/.local/share/fonts/NFM.ttf")
+  (if (file-exists-p "~/.local/share/fonts/FiraCode/FiraCodeNerdFontMono-Regular.ttf")
       (set-face-attribute 'vundo-default nil :font "FiraCode Nerd Font Mono" :family "FireCode Nerd Font")
-    (fap/alert "Please install nerd-ficons font for vundo diff!"))
+    (fap/alert "Please download FiraCode Nerd Font Mono for vundo diff! Download and unzip
+FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Then run sudo fc-cache -fv"))
   (global-set-key (kbd "C-x u") 'vundo))
 
 (use-package ripgrep
