@@ -3931,7 +3931,7 @@ and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
   :config
   (require 'ob-gnuplot))
 
-(use-package typescript-mode
+(use-package typescript-ts-mode
   :ensure t)
 
 (use-package php-mode
