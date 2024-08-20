@@ -1106,14 +1106,14 @@ normally have their errors suppressed."
   ;; https://orgmode.org/manual/Tracking-TODO-state-changes.html
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAITING(w!)" "NEXT(n!)" "IDEA(i)" "GOAL(g)" "|" "DONE(d!)" "CANCELED(c@)")))
-  (setq org-comment-string "BACKBURNER")
-  (require 'ox-taskjuggler)
-  (setq org-taskjuggler-target-version 3.7))
-
+  (setq org-comment-string "BACKBURNER"))
 
 (use-package org-contrib
   :after org
-  :ensure t)
+  :ensure t
+  :config
+  (require 'ox-taskjuggler)
+  (setq org-taskjuggler-target-version 3.7))
 
 (use-package org-duration
   :ensure org
