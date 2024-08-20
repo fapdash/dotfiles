@@ -982,7 +982,8 @@ Try the repeated popping up to 10 times."
  '(package-selected-packages
    '(j-mode xeft sly chezmoi age elisp-autofmt oauth2 treepy php-mode exercism flycheck-rust fuzzy org-tree-slide org-journal org-rich-yank org-contrib vundo undo-fu-session undo-fu org-bbdb org-appear ox-11ty mise nerd-icons-ivy-rich nerd-icons-corfu yasnippet-capf kind-icon cape orderless corfu marginalia embark jinx eshell-vterm diff-hl git-gutter-fringe nlinum wgrep-deadgrep git-modes gh-notify sudo-edit eros posframe postframe edebug-inline-result dired-preview forge flycheck-eglot all-the-icons-completion keycast elfeed yasnippet-snippets org-gcal org-ref ledger-mode mastodon markdown-mode web-mode robe quickrun org-ql cider dwim-shell-command bash-completion emacs-bash-completion esh-autosuggest eshell-git-prompt golden-ratio bufler org-bullets org-modern spacious-padding haskell-mode geiser-chez w3m yaml-mode engine-mode tide neotree rspec-mode smartparens spacemacs-theme org-roam-bibtex ada-ts-mode gnuplot wgrep-ag mustache tree-sitter-indent tree-sitter treesitter gleam-mode eglot ox-reveal org-reveal gnu-elpa-keyring-update org easy-escape diredfl macrostep-geiser citar-org-roam org-roam-ui org-transclusion nov-xwidget nov rainbow-delimiters company-statistics sly-quicklisp multi-vterm org-superstar org-preview-html writeroom-mode embrace smart-semicolon ox-hugo projectile-rails smart-mode-line terminal-here workgroups2 racer rubocop yasnippet org-present org-kanban org-download org-web-tools flycheck-ledger beginend keyfreq editorconfig org-pomodoro all-the-icons-dired mode-icons doom-modeline ace-isearch emmet-mode paredit pdfgrep org-noter-pdftools org-pdftools company-box ruby-test-mode ivy-hydra ivy-rich company-quickhelp counsel-etags emacs-w3m ivy-xref prettier-js diminish org-cliplink activity-watch-mode org-agenda-property ivy-bibtex company-org-roam ansible flutter-l10n-flycheck use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line deft deadgrep alchemist iy-go-to-char copy-as-format epresent esprent smart-shift itail vlf vfl htmlize tangotango-theme org-mode discover-my-major ivy-historian ac-dabbrev iedit imenu-list ruby-tools rbenv counsel-projectile fzf smex counsel projectile-ripgrep ripgrep dumb-jump yari undo-tree switch-window smartscan rvm ruby-refactor ruby-compilation puml-mode plantuml-mode nyan-mode move-text goto-chg google-translate google-this fullframe flymake-ruby flycheck-credo flx-ido fill-column-indicator expand-region elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window))
  '(package-vc-selected-packages
-   '((j-mode :vc-backend Git :url "https://github.com/zellio/j-mode")
+   '((gleam-mode :vc-backend Git :url "https://github.com/gleam-lang/gleam-mode")
+     (j-mode :vc-backend Git :url "https://github.com/zellio/j-mode")
      (ox-11ty :vc-backend Git :url "https://github.com/sachac/ox-11ty/")
      (treepy :vc-backend Git :url "https://github.com/volrath/treepy.el/")))
  '(pos-tip-background-color "#A6E22E")
@@ -3841,9 +3842,11 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
 (use-package tree-sitter-indent
   :ensure t)
 
+(unless (package-installed-p 'gleam-mode)
+  (package-vc-install "https://github.com/gleam-lang/gleam-mode" nil nil 'gleam-mode))
+
 (use-package gleam-mode
   :after (projectile eglot)
-  :load-path "~/.emacs.d/lisp/gleam-mode"
   :config
   (projectile-register-project-type 'gleam '("gleam.toml")
                                     :project-file "gleam.toml"
