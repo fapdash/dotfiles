@@ -2976,10 +2976,18 @@ Notes:
      (define-key ruby-mode-map (kbd "C-c b u")
        (lambda () (interactive) (async-shell-command "bundle update" "**Bundler**")))))
 
+;; counsel uses smex for command history, placing last used command at the top
+;; counsel uses smex automatically when available, not further configuration needed
+(use-package smex
+  :ensure t)
+
+(use-package counsel
+  :ensure t
+  :after smex)
 
 (use-package ivy
   :ensure t
-  :after helpful
+  :after helpful counsel
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
