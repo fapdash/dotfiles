@@ -2229,12 +2229,6 @@ With a prefix ARG, remove start location."
     (cfw:ical-create-source "gcal" "~/git/org/todo/socialhackspace.ics" "Blue") ; google calendar ICS
    )))
 
-(use-package activity-watch-mode
-  :ensure t
-  :config
-  (global-activity-watch-mode t)
-  :diminish activity-watch-mode)
-
 (use-package spacemacs-theme
   :ensure t
   :defer t
