@@ -975,7 +975,7 @@ Try the repeated popping up to 10 times."
  '(initial-frame-alist '((fullscreen . maximized)))
  '(magit-diff-use-overlays nil)
  '(org-agenda-files
-   '("/home/fap/repos/org/todo/calendar.org" "/home/fap/repos/org/todo/daily_habits.org" "/home/fap/repos/org/todo/dating.org" "/home/fap/repos/org/todo/habits.org" "/home/fap/repos/org/todo/kanban.org" "/home/fap/repos/org/todo/notes.org" "/home/fap/repos/org/todo/todo.org" "/home/fap/repos/org/todo/week_overview.org" "/home/fap/repos/org/todo/weekly_habits.org" "/home/fap/repos/org/journal/20201228"))
+   '("/home/fap/git/org/todo/calendar.org" "/home/fap/git/org/todo/daily_habits.org" "/home/fap/git/org/todo/dating.org" "/home/fap/git/org/todo/habits.org" "/home/fap/git/org/todo/kanban.org" "/home/fap/git/org/todo/notes.org" "/home/fap/git/org/todo/todo.org" "/home/fap/git/org/todo/week_overview.org" "/home/fap/git/org/todo/weekly_habits.org" "/home/fap/git/org/journal/20201228"))
  '(org-modules
    '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
  '(package-selected-packages
@@ -1085,7 +1085,7 @@ normally have their errors suppressed."
   :config
   (setq org-startup-with-inline-images t)
   (setq
-   org_top (concat (getenv "HOME") "/repos/org")
+   org_top (concat (getenv "HOME") "/git/org")
    org_todo (concat org_top "/todo")
    org_gtd (concat org_todo "/gtd")
    org_roam org_top
@@ -1328,7 +1328,7 @@ is nil, refile in the current file."
   :ensure t
   :after ox)
 
-(setq org-agenda-files '("~/repos/org/todo" "~/repos/org/todo/gtd" "~/repos/org/journal"))
+(setq org-agenda-files '("~/git/org/todo" "~/git/org/todo/gtd" "~/git/org/journal"))
 
 ;; (use-package org-brain
 ;;   :ensure t)
@@ -2164,7 +2164,7 @@ With a prefix ARG, remove start location."
         fap//org-gcal--warning-period "-1d")
   ;;  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-fetch)))
   ;;  https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
-  (load-library "~/repos/dotfiles/emacs/org-gcal-secrets.el.gpg")
+  (load-library "~/git/dotfiles/emacs/org-gcal-secrets.el.gpg")
   (org-gcal-reload-client-id-secret)
   (defun fap//org-gcal-add-warning-period (_calendar-id event _update-mode)
     "Add a warning period to the plain timestamp in the gcal drawer. Warning periods for plain timestamps are supported by Orgzly."
@@ -2198,7 +2198,7 @@ With a prefix ARG, remove start location."
 ;;           org-caldav-sync-direction 'cal->org
 ;;           org-caldav-inbox (concat org_todo "/vogella_caldav_gcal.org")
 ;;           org-caldav-save-directory org_todo)
-;;   (load-library "~/repos/dotfiles/emacs/org-gcal-secrets.el.gpg")
+;;   (load-library "~/git/dotfiles/emacs/org-gcal-secrets.el.gpg")
 ;;   :config
 ;;   (setq org-icalendar-alarm-time 60)
 ;;   (setq org-icalendar-include-todo t)
@@ -2223,8 +2223,8 @@ With a prefix ARG, remove start location."
 ;;    (cfw:howm-create-source "Blue")  ; howm source
 ;;    (cfw:cal-create-source "Orange") ; diary source
 ;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
-;;    (cfw:ical-create-source "gcal" "~/repos/org/todo/fabian.pfaff@vogella.com.ics" "IndianRed") ; google calendar ICS
-    (cfw:ical-create-source "gcal" "~/repos/org/todo/socialhackspace.ics" "Blue") ; google calendar ICS
+;;    (cfw:ical-create-source "gcal" "~/git/org/todo/fabian.pfaff@vogella.com.ics" "IndianRed") ; google calendar ICS
+    (cfw:ical-create-source "gcal" "~/git/org/todo/socialhackspace.ics" "Blue") ; google calendar ICS
    )))
 
 (use-package activity-watch-mode
