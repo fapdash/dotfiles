@@ -204,7 +204,7 @@ fi
 
 alias google-java-format='/home/fap/repos/gerrit/tools/format/google-java-format-1.7'
 
-PATH=$PATH:/usr/lib/dart/bin:$HOME/.pub-cache/bin:$HOME/flutter/.pub-cache/bin
+PATH=$PATH:/usr/lib/dart/bin:$HOME/.pub-cache/bin:$HOME/development/flutter/bin:$HOME/development/flutter/.pub-cache/bin
 PATH=$PATH:~/.cache/rebar3/bin
 PATH=$PATH:~/Android/Sdk/platform-tools
 PATH=$PATH:~/j9.5/bin
