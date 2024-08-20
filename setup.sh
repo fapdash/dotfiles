@@ -8,6 +8,9 @@ sudo apt install -y git\
 ######### chezmoi###############
 ################################
 ./install_chezmoi.sh
+chezmoi init https://github.com/fapdash/dotfiles.git
+chezmoi apply
+ln -s ~/.local/share/chezmoi/ ~/git/dotfiles
 
 ################################
 ######### Emacs ################
@@ -151,6 +154,7 @@ sudo snap set system refresh.retain=2
 # TODO(FAP): shellcheck
 # TODO(FAP): ag / silversurfer
 # TODO(FAP): tldr
+# TODO(FAP): age / rage
 
 # jinx (emacs spell checker) dependency
 sudo apt install libenchant-2-dev -y
