@@ -1,20 +1,28 @@
 #!/usr/bin/env bash
 
+sudo apt install -y git\
+                    curl\
+                    wget
+
+################################
+######### chezmoi###############
+################################
+./install_chezmoi.sh
 
 ################################
 ######### Emacs ################
 ################################
 sudo snap install emacs --classic
-ln -s ~/repos/dotfiles/emacs/.emacs ~/.emacs
+ln -s ~/git/dotfiles/emacs/.emacs ~/.emacs
 mkdir ~/.emacs.d 2> /dev/null
-ln -s ~/repos/dotfiles/emacs/lisp/ ~/.emacs.d/lisp
-ln -s ~/repos/dotfiles/emacs/.rg_ignore ~/.emacs.d
+ln -s ~/git/dotfiles/emacs/lisp/ ~/.emacs.d/lisp
+ln -s ~/git/dotfiles/emacs/.rg_ignore ~/.emacs.d
 
 
 ################################
 ######### streamlink ###########
 ################################
-ln -s ~/repos/dotfiles/streamlink ~/.config/streamlink
+ln -s ~/git/dotfiles/streamlink ~/.config/streamlink
 
 
 ################################
@@ -27,7 +35,9 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ################################
 ######### Bash #################
 ################################
-ln -s ~/repos/dotfiles/bash/.bashrc ~/.bashrc
+mv ~/.bashrc ~/.bashrc.bak
+ln -sf ~/git/dotfiles/bash/.bashrc ~/.bashrc
+source ~/.bashrc
 
 
 ################################
@@ -35,11 +45,20 @@ ln -s ~/repos/dotfiles/bash/.bashrc ~/.bashrc
 ################################
 curl https://mise.run | sh
 $HOME/.local/bin/mise activate bash
+# TODO(FAP): activating mise immediately didn't work?
 
 mise use -g node@latest
+
+# https://github.com/asdf-vm/asdf-erlang?tab=readme-ov-file#ubuntu-2404-lts
+sudo apt-get -y install build-essential autoconf m4 libncurses5-dev libwxgtk3.2-dev libwxgtk-webview3.2-dev libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop libxml2-utils libncurses-dev
 mise use -g erlang@latest
+
 mise use -g elixir@latest
+# TODO(FAP): flutter wants dart to come from flutter sdk
 mise use -g dart@latest
+dart --disable-analytics
+sudo apt install libgtk-3-dev ninja-build cmake clang -y
+
 mise use -g go@latest
 mise use -g python@latest
 
@@ -62,9 +81,10 @@ pip3 install flake8 --user
 ################################
 ######### Ruby #################
 ################################
+sudo apt-get install libz-dev libssl-dev libffi-dev libyaml-dev -y
 mise use -g ruby@latest
-ln -s ~/repos/dotfiles/ruby/.pryrc ~/.pryrc
-ln -s ~/repos/dotfiles/ruby/.irbrc ~/.irbrc
+ln -s ~/git/dotfiles/ruby/.pryrc ~/.pryrc
+ln -s ~/git/dotfiles/ruby/.irbrc ~/.irbrc
 
 ################################
 ######### sdkman ###############
@@ -85,7 +105,8 @@ sdk install gradle
 sudo apt install ledger -y
 pip3 install https://github.com/egh/ledger-autosync/archive/refs/heads/master.tar.gz --user
 mkdir -p ~/.config/ledger-autosync/plugins
-ln -s ~/repos/dotfiles/ledger-autosync/plugins/teo.py ~/.config/ledger-autosync/plugins/teo.py
+ln -s ~/git/dotfiles/ledger-autosync/plugins/teo.py ~/.config/ledger-autosync/plugins/teo.py
+ln -s ~/git/dotfiles/ledger-autosync/plugins/dkb.py ~/.config/ledger-autosync/plugins/dkb.py
 
 ################################
 ######### snap #################
@@ -107,6 +128,7 @@ sudo snap set system refresh.retain=2
 #   sdk install leiningen
 #   mise use -g clojure@latest
 #   mise use -g clj-kondo@latest
+# TODO(FAP): babashka
 # TODO(FAP): postgres
 # TODO(FAP): mysql
 # TODO(FAP): mariadb
@@ -131,13 +153,13 @@ sudo snap set system refresh.retain=2
 # TODO(FAP): tldr
 
 # jinx (emacs spell checker) dependency
-sudo apt install libenchant-2-dev
-sudo apt install ripgrep
+sudo apt install libenchant-2-dev -y
+sudo apt install ripgrep -y
 if [ ! -d ~/plantuml ]; then
     mkdir ~/plantuml
 fi
 curl -o ~/plantuml/plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2024.6/plantuml-1.2024.6.jar
-sudo apt install pandoc
+sudo apt install pandoc -y
 
 gem install asciidoctor
 gem install pry pry-doc
@@ -148,3 +170,12 @@ gem install mdl # markdownlint
 
 sudo apt install cowsay -y
 
+sudo apt install nemo -y
+xdg-mime default nemo.desktop inode/directory
+
+sudo apt install mg -y
+
+# vterm dependency
+sudo apt install libtool-bin -y
+
+sudo apt install w3m -y
