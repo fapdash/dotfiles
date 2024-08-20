@@ -11,6 +11,7 @@ sudo apt install -y git\
 chezmoi init https://github.com/fapdash/dotfiles.git
 chezmoi apply
 ln -s ~/.local/share/chezmoi/ ~/git/dotfiles
+# TODO(FAP): change remote of ~/.local/share/chezmoi/ to use ssh
 
 ################################
 ######### Emacs ################
