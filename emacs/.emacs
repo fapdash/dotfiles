@@ -1656,6 +1656,7 @@ is nil, refile in the current file."
            :if-new
            (file+head ,(concat org_bib_notes "/${citekey}.org") "#+title: ${title}\n"))
           ("g" "GPG encrypted" plain "%?" :if-new (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org.gpg""#+title: ${title}") :unnarrowed t)
+          ("a" "AGE encrypted" plain "%?" :if-new (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org.age""#+title: ${title}") :unnarrowed t)
           ("d" "default" plain "%?" :if-new
            (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 ")
