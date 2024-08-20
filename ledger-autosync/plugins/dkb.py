@@ -30,7 +30,7 @@ class DkbConverter(CsvConverter):
 
         if not date or not cleared:
             # Ignore unsettled transactions and transactions without any dates
-            return NoneTransaction()
+            return None
 
         posting_from = Posting(self.name, Amount(amount, '€', reverse=reverse), metadata=posting_metadata)
         posting_to = Posting(account, Amount(amount, '€', reverse=not(reverse)), metadata=posting_metadata)
@@ -45,8 +45,3 @@ class DkbConverter(CsvConverter):
             date_format=self.date_format,
             cleared=cleared
         )
-
-
-class NoneTransaction:
-    def format(self, _indent, _assertions):
-        return ""
