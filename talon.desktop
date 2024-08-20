@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Talon Voice
+Categories=Application
+Exec=/home/fap/talon/run.sh
+Terminal=false
+
