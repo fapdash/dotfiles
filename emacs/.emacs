@@ -1120,7 +1120,8 @@ normally have their errors suppressed."
   ;; don't show days, only total hours as maximum value
   :config (setq org-duration-format (quote h:mm)))
 
-(require 'org-columns-calc)
+(use-package org-columns-calc
+  :ensure f)
 
 ;; when org-hide-emphasis-markers is turned on: show them when point is inside of them
 ;; basically show emphasis-markers when they are needed, when editing.
