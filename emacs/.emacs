@@ -3859,6 +3859,19 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
   (define-key gleam-mode-map (kbd "<M-return>") 'elixir-pipe-operator-on-newline)
   (define-key gleam-mode-map (kbd "<C-return>") 'elixir-pipe-operator))
 
+;; load via package-vc-install?
+;; see https://github.com/slotThe/vc-use-package, built-in in Emacs 30
+(autoload 'j-mode "j-mode.el" "Major mode for editing J files" t)
+
+(use-package j-mode
+  :config
+  (custom-set-faces
+   '(j-verb-face ((t (:foreground "Red"))))
+   '(j-adverb-face ((t (:foreground "Green"))))
+   '(j-conjunction-face ((t (:foreground "Blue"))))
+   '(j-other-face ((t (:foreground "#eeeeec")))))
+)
+
 (use-package go-ts-mode
   :ensure t
   :after (reformatter eglot)
