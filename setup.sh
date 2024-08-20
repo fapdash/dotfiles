@@ -158,7 +158,6 @@ sudo snap set system refresh.retain=2
 
 # jinx (emacs spell checker) dependency
 sudo apt install libenchant-2-dev -y
-sudo apt install ripgrep -y
 if [ ! -d ~/plantuml ]; then
     mkdir ~/plantuml
 fi
