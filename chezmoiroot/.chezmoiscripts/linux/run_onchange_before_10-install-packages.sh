@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo apt install -y ripgrep\
+sudo apt-get install -y ripgrep\
                  mpv\
                  img2pdf\
                  pdftk-java\
