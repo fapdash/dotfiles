@@ -72,32 +72,8 @@ xterm*|rxvt*)
     ;;
 esac
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# clean firefox temp profile
-alias frfx='firefox --new-instance --profile $(mktemp -d)'
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -126,9 +102,6 @@ export EDITOR="emacsclient -nw"
 function ec() {
     emacsclient -nw $1
 }
-
-alias eledger="gpg --batch -d -q $LEDGER_FILE | ledger -f - "
-
 
 function key_layout_switched() {
     xkbcomp -I/home/fap/repos/dotfiles/xkb ~/repos/dotfiles/xkb/keymap/mykbd $DISPLAY 2> /dev/null
@@ -211,8 +184,6 @@ boop () {
 if [ -f ~/.config/exercism/exercism_completion.bash ]; then
   source ~/.config/exercism/exercism_completion.bash
 fi
-
-alias google-java-format='/home/fap/repos/gerrit/tools/format/google-java-format-1.7'
 
 PATH=$PATH:/usr/lib/dart/bin:$HOME/.pub-cache/bin:$HOME/development/flutter/bin:$HOME/development/flutter/.pub-cache/bin
 PATH=$PATH:~/.cache/rebar3/bin
