@@ -7,4 +7,5 @@ sudo apt install -y ripgrep\
                  texlive\
                  texlive-latex-extra\
                  texlive-extra-utils\
-                 texlive-lang-german
+                 texlive-lang-german\
+                 ocrmypdf
