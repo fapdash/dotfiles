@@ -8,4 +8,6 @@ sudo apt-get install -y ripgrep\
                  texlive-latex-extra\
                  texlive-extra-utils\
                  texlive-lang-german\
-                 ocrmypdf
+                 ocrmypdf\
+                 shellcheck
+
