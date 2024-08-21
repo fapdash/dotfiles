@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-sudo apt install -y git\
-                    curl\
+sudo apt install -y curl\
                     wget
 
 ################################
@@ -158,13 +157,10 @@ sudo snap set system refresh.retain=2
 # TODO(FAP): age / rage
 # TODO(FAP): entr
 
-# jinx (emacs spell checker) dependency
-sudo apt install libenchant-2-dev -y
 if [ ! -d ~/plantuml ]; then
     mkdir ~/plantuml
 fi
 curl -o ~/plantuml/plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2024.6/plantuml-1.2024.6.jar
-sudo apt install pandoc -y
 
 gem install asciidoctor
 gem install pry pry-doc
@@ -173,14 +169,5 @@ gem install lolcat
 gem install sqlint
 gem install mdl # markdownlint
 
-sudo apt install cowsay -y
-
 sudo apt install nemo -y
 xdg-mime default nemo.desktop inode/directory
-
-sudo apt install mg -y
-
-# vterm dependency
-sudo apt install libtool-bin -y
-
-sudo apt install w3m -y
