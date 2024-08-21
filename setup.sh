@@ -156,6 +156,7 @@ sudo snap set system refresh.retain=2
 # TODO(FAP): ag / silversurfer
 # TODO(FAP): tldr
 # TODO(FAP): age / rage
+# TODO(FAP): entr
 
 # jinx (emacs spell checker) dependency
 sudo apt install libenchant-2-dev -y
