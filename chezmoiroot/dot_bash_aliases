@@ -25,3 +25,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias eledger="gpg --batch -d -q $LEDGER_FILE | ledger -f - "
 
 alias google-java-format='/home/fap/repos/gerrit/tools/format/google-java-format-1.7'
+
+# need alias when installing via apt because of nameclash
+alias bat='batcat'
