@@ -69,6 +69,7 @@ npm install -g pnpm
 npm install -g yarn
 npm install -g stylelint
 
+# TODO(FAP): switch to https://github.com/astral-sh/uv, https://github.com/astral-sh/rye and https://github.com/astral-sh/ruff for python?
 pip3 install thefuck --user
 pip3 install ansible --user
 pip3 install yamllint --user
