@@ -42,4 +42,6 @@ sudo apt-get install -y curl\
                  ledger\
                  libreoffice-core\
                  entr\
-                 bat
+                 bat\
+                 sshpass `# ansible dependency`\
+                 wl-clipboard `# wl-copy, wl-paste`
