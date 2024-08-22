@@ -44,4 +44,6 @@ sudo apt-get install -y curl\
                  entr\
                  bat\
                  sshpass `# ansible dependency`\
-                 wl-clipboard `# wl-copy, wl-paste`
+                 wl-clipboard `# wl-copy, wl-paste`\
+                 htop\
+                 lsd
