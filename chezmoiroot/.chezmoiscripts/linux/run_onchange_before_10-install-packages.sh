@@ -46,4 +46,5 @@ sudo apt-get install -y curl\
                  sshpass `# ansible dependency`\
                  wl-clipboard `# wl-copy, wl-paste`\
                  htop\
-                 lsd
+                 lsd\
+                 psensor `# cpu/gpu temperature`
