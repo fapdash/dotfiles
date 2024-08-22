@@ -3813,7 +3813,7 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
       t))
 
   (setq elisp-autofmt-on-save-p 'fap/elisp-autofmt-on-save-p
-        elisp-autofmt-python-bin "/home/fap/.local/share/mise/installs/python/3.11/bin/python3"))
+        elisp-autofmt-python-bin "/home/fap/.local/share/mise/installs/python/latest/bin/python3"))
 
 ;; elisp-refs is an intelligent code search for Emacs lisp.
 ;; It can find references to functions, macros or variables.
