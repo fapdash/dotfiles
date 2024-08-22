@@ -1,3 +1,12 @@
+{{- $osid := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+# https://www.chezmoi.io/user-guide/machines/linux/#combine-operating-system-and-linux-distribution-conditionals
+[data]
+    osid = {{ $osid | quote }}
+
 [age]
     identity = "~/.age/key.txt"
     recipient = "age10ruf2f8c9w6z7qrvmpf3g7898xdhqu3nlxjsq9anux8g9mnnmamqzs7nle"
