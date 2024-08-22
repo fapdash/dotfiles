@@ -1385,13 +1385,28 @@ is nil, refile in the current file."
 ;; faster deft: https://sr.ht/~casouri/xeft/
 ;; also see notdeft: https://sr.ht/~casouri/xeft/
 (use-package xeft
+  :after org-roam
   :ensure t
   :bind (("C-c n x" . xeft))
   :config
   (setq xeft-recursive t)
   (setq xeft-directory org-directory)
-  ;; needed to install xapian for local build: sudo apt install libxapian-dev
-  )
+  (setq xeft-default-extension "org")
+  ;; TODO(FAP): xeft wants xeft-filename-fn to return the filename
+  (setq xeft-filename-fn (lambda (search-phrase)
+                           (org-roam-capture- :node (org-roam-node-create :title search-phrase))))
+  ;; default function would also use the first line as title no matter what and
+  ;; also gave me empty titles if the first line of the file was empty
+  (setq xeft-title-function
+        (lambda (file)
+          (if (re-search-forward (rx "#+TITLE:" (* whitespace)) nil t)
+              (let ((bol (point)) title)
+                (end-of-line)
+                (setq title (buffer-substring-no-properties bol (point)))
+                (if (eq title "")
+                    file
+                  title))
+            file))))
 
 (defun org-journal-find-location ()
   ;; Open today's journal, but specify a non-nil prefix argument in order to
