@@ -8,6 +8,7 @@ sudo apt-get install -y curl\
                  img2pdf\
                  pdftk-java\
                  texlive\
+                 texlive-xetex\
                  texlive-latex-extra\
                  texlive-extra-utils\
                  texlive-lang-german\
