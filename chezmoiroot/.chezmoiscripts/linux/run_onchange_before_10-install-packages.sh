@@ -3,6 +3,7 @@
 sudo apt-get install -y curl\
                  wget\
                  git\
+                 unzip\
                  ripgrep\
                  mpv\
                  img2pdf\
