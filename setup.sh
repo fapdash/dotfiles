@@ -60,9 +60,10 @@ mise use -g elixir@latest
 # TODO(FAP): flutter wants dart to come from flutter sdk
 mise use -g dart@latest
 dart --disable-analytics
-sudo apt install libgtk-3-dev ninja-build cmake clang -y
 
+sudo apt install libgtk-3-dev ninja-build cmake clang -y
 mise use -g go@latest
+
 mise use -g python@latest
 
 npm install -g pnpm
