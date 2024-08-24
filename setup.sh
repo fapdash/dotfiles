@@ -170,5 +170,7 @@ gem install lolcat
 gem install sqlint
 gem install mdl # markdownlint
 
+pip3 install --user streamlink
+
 sudo apt install nemo -y
 xdg-mime default nemo.desktop inode/directory
