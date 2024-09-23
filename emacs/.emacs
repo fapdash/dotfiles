@@ -4178,6 +4178,7 @@ If DATE is not provided, the current date will be used."
 
 (and window-system (server-start))
 
+
 ;; Reset startup optimizations
 ;; https://emacs.stackexchange.com/a/34367/11806
 ;; https://old.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
