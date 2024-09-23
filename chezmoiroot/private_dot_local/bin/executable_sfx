@@ -4,5 +4,10 @@ set -u
 set -o pipefail
 
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
-exec mpv --really-quiet --no-video "$XDG_CONFIG_HOME/sfx/$1.mp3" &
+if [ -f "$XDG_CONFIG_HOME/sfx/$1.mp3" ]; then
+   SOUND_FILE="$XDG_CONFIG_HOME/sfx/$1.mp3"
+else
+    SOUND_FILE="$XDG_CONFIG_HOME/sfx/$1.wav"
+fi
 
+exec mpv --really-quiet --no-video "$SOUND_FILE" &
