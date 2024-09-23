@@ -1911,7 +1911,7 @@ DEPRECATED: use (org-roam-extract-subtree now"
   "Find and open an Org-roam node based on a specified tag."
   (interactive)
   (let ((tag (completing-read "Enter tag: " (org-roam-tag-completions))))
-    (org-roam-node-find nil nil (lambda (node) (my/org-roam-node-has-tag node tag)))))
+    (org-roam-node-find nil nil (lambda (node) (fap/org-roam-node-has-tag node tag)))))
 
 ;; https://www.reddit.com/r/emacs/comments/veesun/orgroam_is_absolutely_fantastic/
 ;; TODO(FAP): this regexp is for journal files, not dailies?
