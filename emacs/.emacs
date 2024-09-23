@@ -1133,6 +1133,8 @@ normally have their errors suppressed."
    org-roam-directory org_roam
    org-roam-dailies-directory "journals/"
    )
+  ;; Start with org-timer-set-timer
+  (setq org-clock-sound "~/.config/sfx/clock-alarm.wav")
   (setq org-refile-targets `((nil :level . 3)
                              (,(concat org_gtd "/gtd.org") :maxlevel . 3)
                              (,(concat org_gtd "/someday.org") :maxlevel . 2)
