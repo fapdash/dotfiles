@@ -239,8 +239,8 @@ Try the repeated popping up to 10 times."
         (message command)
         (vterm-send-string command)
         (vterm-send-return)
-        (switch-to-buffer-other-window buf)
-        ))))
+        (switch-to-buffer-other-window buf)))))
+
 
 (use-package multi-vterm
   :ensure t)
@@ -656,8 +656,8 @@ Try the repeated popping up to 10 times."
 
    `(rainbow-delimiters-unmatched-face ((t (:foreground "#eeeeee" :background "#a40000"))))
    `(rainbow-delimiters-base-error-face ((t (:foreground "#eeeeee" :background "#a40000"))))
-   `(rainbow-delimiters-mismatched-face ((t (:foreground "#eeeeee" :background "#a40000")))))
-  )
+   `(rainbow-delimiters-mismatched-face ((t (:foreground "#eeeeee" :background "#a40000"))))))
+
 
 ;; provides color preview in buffer
 (use-package rainbow-mode
@@ -855,8 +855,8 @@ Try the repeated popping up to 10 times."
    ;; `(diff-hl-dired-change ((t (:foreground  :background ))))
    `(diff-hl-dired-insert ((t (:foreground "#00ff00" :background "#008c00")))) ;; green from Onyx theme
    ;; `(diff-hl-dired-delete ((t (:foreground :background ))))
-   `(diff-hl-dired-unknown ((t (:foreground "#d3d7cf" :background "#555753"))))
-   ))
+   `(diff-hl-dired-unknown ((t (:foreground "#d3d7cf" :background "#555753"))))))
+
 
 ;; use ibuffer groups to garbage collect temp buffers
 (use-package ibuffer
@@ -883,10 +883,10 @@ Try the repeated popping up to 10 times."
 (use-package ibuffer-projectile
   :ensure t)
 
+
 (use-package bufler
-  :ensure t
   ;; kind of like ivy-rich, but projects, mode etc. is part of the searchable term
-  )
+  :ensure t)
 
 (use-package discover
   :ensure t
@@ -925,8 +925,8 @@ Try the repeated popping up to 10 times."
 (use-package smart-shift
   :ensure t
   :config
-(global-set-key (kbd "<C-iso-lefttab>") 'smart-shift-left)
-(global-set-key [(C tab)] 'smart-shift-right))
+ (global-set-key (kbd "<C-iso-lefttab>") 'smart-shift-left)
+ (global-set-key [(C tab)] 'smart-shift-right))
 
 (use-package crux
   :ensure t
@@ -1113,8 +1113,10 @@ normally have their errors suppressed."
   :bind
   (:map org-mode-map
         ("C-j" . newline-and-indent)
-        ("C-c SPC" . nil) ;; bound to ~org-table-blank-field~, block the avy keybind
-        )
+        ;; C-c SPC bound to ~org-table-blank-field~, blocks the avy keybind,
+        ;; so remove the bind
+        ("C-c SPC" . nil))
+
   :init
   (setq org-startup-indented t)
   :config
@@ -1132,8 +1134,8 @@ normally have their errors suppressed."
    org-directory org_top
    deft-directory org_top
    org-roam-directory org_roam
-   org-roam-dailies-directory "journals/"
-   )
+   org-roam-dailies-directory "journals/")
+
   ;; Start with org-timer-set-timer
   (setq org-clock-sound "~/.config/sfx/clock-alarm.wav")
   (setq org-refile-targets `((nil :level . 3)
@@ -1194,8 +1196,8 @@ normally have their errors suppressed."
    org-agenda-current-time-string
    "◀── now ─────────────────────────────────────────────────")
   (global-org-modern-mode)
-  (add-hook 'org-mode-hook (lambda () (setq line-spacing 0.2)))
-  )
+  (add-hook 'org-mode-hook (lambda () (setq line-spacing 0.2))))
+
 
 ;; (use-package org-modern-indent
 ;;   :load-path "~/.emacs.d/lisp/org-modern-indent/"
@@ -1243,8 +1245,8 @@ is nil, refile in the current file."
   (interactive "f")
   (let* ((datetree-date (or (org-entry-get nil "TIMESTAMP" t)
                             (org-read-date t nil "now")))
-         (date (org-date-to-gregorian datetree-date))
-         )
+         (date (org-date-to-gregorian datetree-date)))
+
     (save-excursion
       (with-current-buffer (current-buffer)
         (org-cut-subtree)
@@ -1256,10 +1258,10 @@ is nil, refile in the current file."
         (newline)
         (goto-char (point-max))
         (org-paste-subtree 4)
-        (widen)
-        ))
-    )
-  )
+        (widen)))))
+
+
+
 
 ;; https://github.com/raamdev/dotfiles/blob/aff0a369fdc31de57914a7b8b030bda506f7a971/emacs.d/config/custom-functions.el#L86
 ;;-----------------------------------------------------------------
@@ -1269,19 +1271,19 @@ is nil, refile in the current file."
   (interactive)
   (require 'org-datetree)
   (let ((journal (expand-file-name org-journal-file org-directory))
-    post-date)
+        post-date)
     (setq post-date (or (org-entry-get (point) "TIMESTAMP_IA")
-            (org-entry-get (point) "TIMESTAMP")))
+                     (org-entry-get (point) "TIMESTAMP")))
     (setq post-date (nthcdr 3 (parse-time-string post-date)))
     (setq post-date (list (cadr post-date)
-              (car post-date)
-              (caddr post-date)))
+                     (car post-date)
+                     (caddr post-date)))
     (org-cut-subtree)
     (with-current-buffer (or (find-buffer-visiting journal)
-                 (find-file-noselect journal))
+                          (find-file-noselect journal))
       (save-excursion
-    (org-datetree-file-entry-under (current-kill 0) post-date)
-    (bookmark-set "org-refile-last-stored")))
+       (org-datetree-file-entry-under (current-kill 0) post-date)
+       (bookmark-set "org-refile-last-stored")))
     (message "Refiled to %s" journal))
   (setq this-command 'my/org-refile-to-journal)) ;; See http://emacs.stackexchange.com/q/21322/8494
 
@@ -1428,8 +1430,8 @@ is nil, refile in the current file."
   (setq xeft-directory org-directory)
   (setq xeft-default-extension "org")
   (setq xeft-compile-args
-  '("PREFIX=/snap/emacs/current"
-    "CXX=/snap/emacs/current/usr/bin/g++-10 --sysroot /snap/emacs/current/"))
+   '("PREFIX=/snap/emacs/current"
+     "CXX=/snap/emacs/current/usr/bin/g++-10 --sysroot /snap/emacs/current/"))
   ;; TODO(FAP): xeft wants xeft-filename-fn to return the filename
   (setq xeft-filename-fn (lambda (search-phrase)
                            (org-roam-capture- :node (org-roam-node-create :title search-phrase))))
@@ -1468,7 +1470,7 @@ is nil, refile in the current file."
   :defer t
   :init
   (unless (package-installed-p 'org-journal)
-  (package-vc-install "https://github.com/fapdash/org-journal-fork" nil nil 'org-journal))
+   (package-vc-install "https://github.com/fapdash/org-journal-fork" nil nil 'org-journal))
   ;; Change default prefix key; needs to be set before loading org-journal
   (setq org-journal-prefix-key "C-c j ")
   :config
@@ -1478,11 +1480,11 @@ is nil, refile in the current file."
         org-journal-encrypt-journal t
         org-journal-encryption-extension "age")
   (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file+headline (lambda () (concat org_gtd "/inbox.org")) "Tasks")
-                               "* TODO %i%?")
-                              ("C" "Calendar" entry
-                               (file+headline (lambda () (concat org_todo "/calendar.org")) "Termine")
-                               "* TODO %?\n- %^t")
+                                 (file+headline (lambda () (concat org_gtd "/inbox.org")) "Tasks")
+                                 "* TODO %i%?")
+                                ("C" "Calendar" entry
+                                 (file+headline (lambda () (concat org_todo "/calendar.org")) "Termine")
+                                 "* TODO %?\n- %^t")
                                 ("c" "Current file todo entry" entry
                                  (file+datetree buffer-file-name)
                                  "* TODO %? \n%t")
@@ -1519,7 +1521,7 @@ is nil, refile in the current file."
 ** Day plan")
                                 ("e" "Evening journal entry" entry
                                  (function org-journal-find-location)
-         "* Evening entry\n\
+                                 "* Evening entry\n\
 ** 5-minute journal :5min_journal:5min_journal_evening:\n\
 *** 3 amazing things that happened today...\n\
 %i    1. %?\n\
@@ -1558,7 +1560,7 @@ is nil, refile in the current file."
                                       ((agenda "" ((org-agenda-span 'day)
                                                    (org-agenda-property-list '("LOCATION"))
                                                    (org-agenda-property-position 'where-it-fits)
-                                                   (org-agenda-property-separator "|" )
+                                                   (org-agenda-property-separator "|")
                                                    (org-super-agenda-groups
                                                     '((:discard (:tag "private"))
                                                       (:name "Today"
@@ -1575,12 +1577,12 @@ is nil, refile in the current file."
                                                              :order 3)
                                                       (:name "Due Soon"
                                                              :deadline future
-                                                             :order 4)
-                                                      ))))
+                                                             :order 4)))))
+
                                        (alltodo "" ((org-agenda-overriding-header "")
                                                     (org-agenda-property-list '("LOCATION"))
                                                     (org-agenda-property-position 'where-it-fits)
-                                                    (org-agenda-property-separator "|" )
+                                                    (org-agenda-property-separator "|")
                                                     (org-super-agenda-groups
                                                      '((:discard (:tag "private"))
                                                        (:name "WORKING ON"
@@ -1641,8 +1643,8 @@ is nil, refile in the current file."
                                                        (:name "To read"
                                                               :and (:tag ("Read" "Book")
                                                                          :not (:todo "SOMEDAY"))
-                                                              :order 35
-                                                              )
+                                                              :order 35)
+
 
                                                        (:name "Mathematics"
                                                               :tag "Maths"
@@ -1654,24 +1656,24 @@ is nil, refile in the current file."
                                                        (:name "trivial"
                                                               :priority<= "C"
                                                               :tag ("Trivial" "Unimportant")
-                                                              :todo ("SOMEDAY" )
+                                                              :todo ("SOMEDAY")
                                                               :order 90)
-                                                       (:discard (:tag ("Chore" "Routine" "Daily")))
-                                                       ))
+                                                       (:discard (:tag ("Chore" "Routine" "Daily")))))))))
 
-                                                    ))
-                                       )) ; Zuper agenda view
+
+
+                                        ; Zuper agenda view
                                     '("h" "Habits" ((agenda "" ((org-super-agenda-groups
                                                                  '(
-                                                                   (:name "Habits" :habit t)
-                                                                   ))))))
+                                                                   (:name "Habits" :habit t)))))))
+
                                     '("w" "Next tasks at work " tags-todo "@work"
                                       ((org-agenda-overriding-header "Work")
                                        (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
                                     '("W" "All tasks at work" tags-todo "@work"
-                                      ((org-agenda-overriding-header "Work")
-                                       ))
-                                    ))
+                                      ((org-agenda-overriding-header "Work")))))
+
+
   :config
   (defun my-org-agenda-skip-all-siblings-but-first ()
     "Skip all but the first non-done entry."
@@ -1689,8 +1691,8 @@ is nil, refile in the current file."
   (defun org-current-is-todo ()
     (string= "TODO" (org-get-todo-state)))
 
-  (org-super-agenda-mode t)
-  )
+  (org-super-agenda-mode t))
+
 
 (use-package org-roam
   :ensure t
@@ -1709,8 +1711,8 @@ is nil, refile in the current file."
         org-roam-verbose nil ; make org-roam quiet
         ;; https://www.youtube.com/watch?v=1q9x2aZCJJ4
         ;; save db outside of roam folder so it won't get synced
-        org-roam-db-location (concat (getenv "HOME") "/.org-roam.db")
-        )
+        org-roam-db-location (concat (getenv "HOME") "/.org-roam.db"))
+
   ;; include day and calendar week in title, use logseq naming scheme for dailies
   (setq org-roam-dailies-capture-templates '(("d" "default" entry "* %<%r> %?"
                                               :target
@@ -1748,35 +1750,35 @@ is nil, refile in the current file."
 (load "~/.emacs.d/lisp/org-roam-logseq.el")
 
 
-  (defun gsgx/org-roam-create-note-from-headline ()
-    "Create an Org-roam note from the current headline if it doesn't
+(defun gsgx/org-roam-create-note-from-headline ()
+  "Create an Org-roam note from the current headline if it doesn't
 exist without jumping to it
 
 DEPRECATED: use (org-roam-extract-subtree now"
-    (let* ((title (nth 4 (org-heading-components)))
-           ;; Read in the name of the node, with the title filled in
-           ;; TODO: How can I just use the title without user input?
-           (node (org-roam-node-read title)))
-      ;; Skip the node if it already exists
-      (if (org-roam-node-file node)
-          (message "Skipping %s, node already exists" title)
-        ;; Without this the subsequent kills seem to be grouped together, not
-        ;; sure why
-        (kill-new "")
-        ;; Cut the subtree from the original file
-        (org-cut-subtree)
-        ;; Create the new capture file
-        (org-roam-capture- :node node)
-        ;; Paste in the subtree
-        (org-paste-subtree)
-        ;; Removing the heading from new node
-        (kill-whole-line)
-        ;; Finalizing the capture will save and close the capture buffer
-        (org-capture-finalize nil)
-        ;; Because we've deleted a subtree, we need the following line to make the
-        ;; `org-map-entries' call continue from the right place
-        (setq org-map-continue-from
-              (org-element-property :begin (org-element-at-point))))))
+  (let* ((title (nth 4 (org-heading-components)))
+         ;; Read in the name of the node, with the title filled in
+         ;; TODO: How can I just use the title without user input?
+         (node (org-roam-node-read title)))
+    ;; Skip the node if it already exists
+    (if (org-roam-node-file node)
+        (message "Skipping %s, node already exists" title)
+      ;; Without this the subsequent kills seem to be grouped together, not
+      ;; sure why
+      (kill-new "")
+      ;; Cut the subtree from the original file
+      (org-cut-subtree)
+      ;; Create the new capture file
+      (org-roam-capture- :node node)
+      ;; Paste in the subtree
+      (org-paste-subtree)
+      ;; Removing the heading from new node
+      (kill-whole-line)
+      ;; Finalizing the capture will save and close the capture buffer
+      (org-capture-finalize nil)
+      ;; Because we've deleted a subtree, we need the following line to make the
+      ;; `org-map-entries' call continue from the right place
+      (setq org-map-continue-from
+            (org-element-property :begin (org-element-at-point))))))
 
 (defun gsgx/org-roam-create-note-from-headlines ()
   (interactive)
@@ -1814,36 +1816,36 @@ DEPRECATED: use (org-roam-extract-subtree now"
   "List of choices for `org-roam-backlinks-node-read'.
  Check that function's docstring for more info about these.")
 
- (defun org-roam-backlinks-query* (NODE)
-   "Gets the backlinks of NODE with `org-roam-db-query'."
-   (org-roam-db-query
-      [:select [source dest]
-           :from links
-           :where (= dest $s1)
-           :and (= type "id")]
-      (org-roam-node-id NODE)))
+(defun org-roam-backlinks-query* (NODE)
+  "Gets the backlinks of NODE with `org-roam-db-query'."
+  (org-roam-db-query
+     [:select [source dest]
+          :from links
+          :where (= dest $s1)
+          :and (= type "id")]
+     (org-roam-node-id NODE)))
 
- (defun org-roam-backlinks-p (SOURCE NODE)
-   "Predicate function that checks if NODE is a backlink of SOURCE."
-   (let* ((source-id (org-roam-node-id SOURCE))
-       (backlinks (org-roam-backlinks-query* SOURCE))
-       (id (org-roam-node-id NODE))
-       (id-list (list id source-id)))
-     (member id-list backlinks)))
+(defun org-roam-backlinks-p (SOURCE NODE)
+  "Predicate function that checks if NODE is a backlink of SOURCE."
+  (let* ((source-id (org-roam-node-id SOURCE))
+         (backlinks (org-roam-backlinks-query* SOURCE))
+         (id (org-roam-node-id NODE))
+         (id-list (list id source-id)))
+    (member id-list backlinks)))
 
- (defun org-roam-backlinks-poi-or-moc-p (NODE)
-   "Check if NODE has the tag POI or the tag MOC.  Return t if it does."
-   (or (string-equal (car (org-roam-node-tags NODE)) "POI")
-    (string-equal (car (org-roam-node-tags NODE)) "MOC")))
+(defun org-roam-backlinks-poi-or-moc-p (NODE)
+  "Check if NODE has the tag POI or the tag MOC.  Return t if it does."
+  (or (string-equal (car (org-roam-node-tags NODE)) "POI")
+   (string-equal (car (org-roam-node-tags NODE)) "MOC")))
 
- (defun org-roam-backlinks--read-node-backlinks (source)
-   "Runs `org-roam-node-read' on the backlinks of SOURCE.
+(defun org-roam-backlinks--read-node-backlinks (source)
+  "Runs `org-roam-node-read' on the backlinks of SOURCE.
  The predicate used as `org-roam-node-read''s filter-fn is
  `org-roam-backlinks-p'."
-   (org-roam-node-read nil (apply-partially #'org-roam-backlinks-p source)))
+  (org-roam-node-read nil (apply-partially #'org-roam-backlinks-p source)))
 
- (defun org-roam-backlinks-node-read (node)
-   "Read a NODE and run `org-roam-backlinks--read-node-backlinks'.
+(defun org-roam-backlinks-node-read (node)
+  "Read a NODE and run `org-roam-backlinks--read-node-backlinks'.
  Upon selecting a backlink, prompt the user for what to do with
  the backlink. The prompt is created with `completing-read' with
  valid options being everything in the list
@@ -1860,39 +1862,39 @@ DEPRECATED: use (org-roam-extract-subtree now"
  `zetteldesk-desktop'. `zetteldesk.el' is a package I have written
  to extend org-roam and naturally I wanted to include some
  interaction with it in this function."
-   (let* ((backlink (org-roam-backlinks--read-node-backlinks node))
-       (choice (completing-read "What to do with NODE: "
-                    org-roam-backlinks-choices)))
-     (cond
-      ((string-equal
-     choice
-     (car org-roam-backlinks-choices))
-    (org-roam-backlinks-node-read backlink))
-      ((string-equal
-     choice
-     (cadr org-roam-backlinks-choices))
-    (find-file (org-roam-node-file backlink)))
-      ((string-equal
-     choice
-     (caddr org-roam-backlinks-choices))
-    (zetteldesk-add-node-to-desktop backlink))
-      ((string-equal
-     choice
-     (cadddr org-roam-backlinks-choices))))))
+  (let* ((backlink (org-roam-backlinks--read-node-backlinks node))
+         (choice (completing-read "What to do with NODE: "
+                      org-roam-backlinks-choices)))
+    (cond
+     ((string-equal
+       choice
+       (car org-roam-backlinks-choices))
+      (org-roam-backlinks-node-read backlink))
+     ((string-equal
+       choice
+       (cadr org-roam-backlinks-choices))
+      (find-file (org-roam-node-file backlink)))
+     ((string-equal
+       choice
+       (caddr org-roam-backlinks-choices))
+      (zetteldesk-add-node-to-desktop backlink))
+     ((string-equal
+       choice
+       (cadddr org-roam-backlinks-choices))))))
 
- (defun org-roam-backlinks-search ()
-   "Select an `org-roam-node' and recursively search its backlinks.
+(defun org-roam-backlinks-search ()
+  "Select an `org-roam-node' and recursively search its backlinks.
 
  This function is a starter function for
  `org-roam-backlinks-node-read' which gets the initial node
  selection from `org-roam-node-list'. For more information about
  this function, check `org-roam-backlinks-node-read'."
-   (interactive)
-   (let ((node (org-roam-node-read)))
-     (org-roam-backlinks-node-read node)))
+  (interactive)
+  (let ((node (org-roam-node-read)))
+    (org-roam-backlinks-node-read node)))
 
- (defun org-roam-backlinks-search-from-moc-or-poi ()
-   "`org-roam-backlinks-search' with an initial selection filter.
+(defun org-roam-backlinks-search-from-moc-or-poi ()
+  "`org-roam-backlinks-search' with an initial selection filter.
 
  Since nodes tagged as \"MOC\" or \"POI\" are the entry points to
  my personal zettelkasten, I have this helper function which is
@@ -1900,9 +1902,9 @@ DEPRECATED: use (org-roam-extract-subtree now"
  selection to only those notes. That way, they initial selection
  has a point as it will be on a node that has a decent amount of
  backlinks."
-   (interactive)
-   (let ((node (org-roam-node-read nil #'org-roam-backlinks-poi-or-moc-p)))
-     (org-roam-backlinks-node-read node)))
+  (interactive)
+  (let ((node (org-roam-node-read nil #'org-roam-backlinks-poi-or-moc-p)))
+    (org-roam-backlinks-node-read node)))
 
 (defun fap/org-roam-node-has-tag (node tag)
   "Filter function to check if the given NODE has the specified TAG."
@@ -2011,8 +2013,8 @@ Search for only document level nodes. Exclude dates."
   (add-hook 'pdf-view-mode-hook (lambda () (read-only-mode 0)))
   ;; save after adding annotation comment
   (advice-add 'pdf-annot-edit-contents-commit :after 'save-buffer)
-  (org-pdftools-setup-link) ;; make pdf:/ links work for annotations
-  )
+  (org-pdftools-setup-link)) ;; make pdf:/ links work for annotations
+
 
 (use-package pdfgrep
   :ensure t
@@ -2043,8 +2045,8 @@ Search for only document level nodes. Exclude dates."
    org-noter-hide-other nil
    ;; Everything is relative to the main notes file
    org-noter-notes-search-path (list org_bib_notes)
-   org-noter-auto-save-last-location t
-   ))
+   org-noter-auto-save-last-location t))
+
 
 (use-package org-noter-pdftools
   :ensure t
@@ -2101,9 +2103,9 @@ With a prefix ARG, remove start location."
           (org-open-file pdf-file)
         (message "No PDF found for %s" key))))
 
-  (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
+  (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point))
   ;; (org-ref-ivy-cite-completion) void-function since v3 of org-ref
-  )
+
 
 (use-package ivy-bibtex
   :ensure t
@@ -2132,8 +2134,8 @@ With a prefix ARG, remove start location."
     ":YEAR: ${year}\n"
     ":DOI: ${doi}\n"
     ":URL: ${url}\n"
-    ":END:\n\n"
-    )))
+    ":END:\n\n")))
+
 
 (use-package org-roam-bibtex
   :ensure t
@@ -2201,9 +2203,9 @@ With a prefix ARG, remove start location."
    (concat "cbthunderlink: " message-id)
    nil
    thunderlink-program
-   (concat "cbthunderlink:" message-id)
-   )
-  )
+   (concat "cbthunderlink:" message-id)))
+
+
 
 (defun org-message-thunderlink-open (slash-message-id)
   "Handler for org-link-set-parameters that converts a standard message:// link into
@@ -2214,8 +2216,8 @@ With a prefix ARG, remove start location."
          (replace-regexp-in-string (rx bos (* ":"))
                                    ""
                                    slash-message-id)))
-    (my-open-message-id-in-thunderbird message-id)
-    ))
+    (my-open-message-id-in-thunderbird message-id)))
+
 
 ;; on message://aoeu link, this will call handler with //aoeu
 (org-link-set-parameters "cbthunkderlink" :follow #'org-message-thunderlink-open)
@@ -2291,8 +2293,8 @@ With a prefix ARG, remove start location."
 ;;    (cfw:cal-create-source "Orange") ; diary source
 ;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
 ;;    (cfw:ical-create-source "gcal" "~/git/org/todo/fabian.pfaff@vogella.com.ics" "IndianRed") ; google calendar ICS
-    (cfw:ical-create-source "gcal" "~/git/org/todo/socialhackspace.ics" "Blue") ; google calendar ICS
-   )))
+    (cfw:ical-create-source "gcal" "~/git/org/todo/socialhackspace.ics" "Blue")))) ; google calendar ICS
+
 
 (use-package spacemacs-theme
   :ensure t
@@ -2387,38 +2389,38 @@ With a prefix ARG, remove start location."
       ;; Make new tree buffer
       (progn
         (clone-indirect-buffer new-buffer-name nil t)
-              (switch-to-buffer new-buffer-name)
-              (outline-show-all)
-              (outline-hide-body)
-              (read-only-mode)
-              (toggle-truncate-lines)
+        (switch-to-buffer new-buffer-name)
+        (outline-show-all)
+        (outline-hide-body)
+        (read-only-mode)
+        (toggle-truncate-lines)
 
               ;; Do this twice in case the point is in a hidden line
-              (dotimes (_ 2 (forward-line 0)))
+        (dotimes (_ 2 (forward-line 0)))
 
               ;; Map keys
               ;;(use-local-map (copy-keymap outline-mode-map))
               ;;(local-set-key (kbd "q") 'delete-window)
-              (mapc (lambda (key) (local-set-key (kbd key) 'org-tree-open-in-right-frame))
-                    '("RET"))
-              (mapc (lambda (key) (local-set-key (kbd key) 'my/jump-to-point-and-show))
-                    '("<C-M-m"))))))
+        (mapc (lambda (key) (local-set-key (kbd key) 'org-tree-open-in-right-frame))
+              '("RET"))
+        (mapc (lambda (key) (local-set-key (kbd key) 'my/jump-to-point-and-show))
+              '("<C-M-m"))))))
 
 (add-to-list 'special-display-regexps '("<tree>.*" my-display-buffers))
 
 (defun my-display-buffers (buf)
   "put all buffers in a window other than the one in the bottom right"
   (let ((window-list (window-list nil nil (frame-first-window))))
-  (print (length window-list))
-    (if (<= 3 (length window-list))
-        (progn
-          (print "if block")
-          (select-window (car window-list))
-          (split-window-vertically)))
-    (let ((pop-up-windows t))
-      (print "else block")
-      (set-window-buffer (nth 1 window-list) buf)
-      (nth 1 window-list))))
+   (print (length window-list))
+   (if (<= 3 (length window-list))
+       (progn
+         (print "if block")
+         (select-window (car window-list))
+         (split-window-vertically)))
+   (let ((pop-up-windows t))
+     (print "else block")
+     (set-window-buffer (nth 1 window-list) buf)
+     (nth 1 window-list))))
 
 (defun print-elements-of-list (list)
   "Print each element of LIST on a line of its own."
@@ -2548,14 +2550,14 @@ Notes:
                         (when
                             (re-search-forward org-element--timestamp-regexp (point-at-eol) 'noerror)
                           (replace-match (save-match-data (format-time-string
-                                          (if (and
-                                               time
-                                               (string-match
-                                                "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}"
-                                                time))
-                                              (cdr org-time-stamp-formats)
-                                            (car org-time-stamp-formats))
-                                          (apply 'encode-time pt))))
+                                                           (if (and
+                                                                time
+                                                                (string-match
+                                                                 "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}"
+                                                                 time))
+                                                               (cdr org-time-stamp-formats)
+                                                             (car org-time-stamp-formats))
+                                                           (apply 'encode-time pt))))
                           (when repeater
                             (backward-char)
                             (insert " " repeater))))))))
@@ -2655,8 +2657,8 @@ Notes:
   :bind
   (("C->" . embark-act)         ;; pick some comfortable binding
    ("C-<" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)  ;; alternative for `describe-bindings'
-   )
+   ("C-h B" . embark-bindings))  ;; alternative for `describe-bindings'
+
 
   :init
 
@@ -2721,8 +2723,8 @@ Notes:
   ;; :hook ((prog-mode . corfu-mode)
   ;;        (shell-mode . corfu-mode)
   ;;        (eshell-mode . corfu-mode))
-  :bind (("M-o" . corfu-insert-separator) ;; for Orderless completion
-         )
+  :bind (("M-o" . corfu-insert-separator)) ;; for Orderless completion
+
   ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
   ;; be used globally (M-/).  See also the customization variable
   ;; `global-corfu-modes' to exclude certain modes.
@@ -2737,10 +2739,10 @@ Notes:
              completion-cycle-threshold completion-cycling)
          (consult-completion-in-region beg end table pred)))))
   (keymap-set corfu-map "M-m" #'corfu-move-to-minibuffer)
-  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer)
+  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
   ;; TODO(FAP): configure for eglot: https://github.com/minad/corfu/wiki#configuring-corfu-for-eglot
-  )
+
 
 ;; Uncomment for debugging, see https://github.com/minad/corfu?tab=readme-ov-file#debugging-corfu:
 ;; (setq debug-on-error t)
@@ -2841,8 +2843,8 @@ Notes:
   ;;(add-hook 'completion-at-point-functions #'cape-elisp-symbol)
   ;;(add-hook 'completion-at-point-functions #'cape-line)
   ;; see https://github.com/minad/corfu/wiki#continuously-update-the-candidates
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+
 
 ;; Use Dabbrev with Corfu!
 (use-package dabbrev
@@ -2953,8 +2955,8 @@ Notes:
   :ensure t
   :config
   (setq yas-snippet-dirs
-        '("~/.emacs.d/snippets"                 ;; personal snippets
-          ))
+        '("~/.emacs.d/snippets"))                 ;; personal snippets
+
   ;; show dropdown menu if more than one snippet available for keyword
   (setq yas-prompt-functions '(yas-x-prompt yas-dropdown-prompt))
   (yas-global-mode 1))
@@ -2983,7 +2985,7 @@ Notes:
   :ensure t
   :init
     (eval-after-load 'rspec-mode
-    '(rspec-install-snippets)))
+     '(rspec-install-snippets)))
 
 (use-package ruby-test-mode
   :ensure t
@@ -3095,7 +3097,7 @@ Notes:
       (let ((inhibit-read-only t)
             (yank-undo-function (lambda (_start _end) (vterm-undo))))
         (cl-letf (((symbol-function 'insert-for-yank)
-               (lambda (str) (vterm-send-string str t))))
+                   (lambda (str) (vterm-send-string str t))))
             (apply orig-fun args)))
     (apply orig-fun args)))
 
@@ -3216,7 +3218,7 @@ Notes:
   "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
   (if (buffer-file-name)
       (if (string-match (car my-pair) buffer-file-name)
-      (funcall (cdr my-pair)))))
+       (funcall (cdr my-pair)))))
 
 ;; (use-package prettier-js
 ;;   :ensure t
@@ -3385,11 +3387,11 @@ otherwise call reformatter function."
 
 ;; Make emacs regexp more readable
 (use-package easy-escape
-  :ensure t
+  :ensure t)
   ;; :config
   ;; (add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
   ;; (add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode)
-  )
+
 
 (use-package paredit
   :ensure t
@@ -3464,7 +3466,7 @@ the mode, `toggle' toggles the state."
         (save-buffer)
       ;; Clear buffer-modified flag caused by set-visited-file-name
       (set-buffer-modified-p nil))
-  (message "Renamed to %s." new-name)))
+   (message "Renamed to %s." new-name)))
 
 (global-set-key (kbd "C-x C-r") 'rename-file-and-buffer)
 
@@ -3481,9 +3483,9 @@ the mode, `toggle' toggles the state."
 
 (use-package discover
   :ensure t
-  :init
+  :init)
   ;;(global-discover-mode 1)
-  )
+
 
 (use-package discover-my-major
   :ensure t)
@@ -3504,8 +3506,8 @@ the mode, `toggle' toggles the state."
   (setq undo-no-redo t)
   (setq undo-limit 67108864) ; 64mb.
   (setq undo-strong-limit 100663296) ; 96mb.
-  (setq undo-outer-limit 1006632960) ; 960mb.
-)
+  (setq undo-outer-limit 1006632960)) ; 960mb.
+
 
 (use-package undo-fu-session
   :ensure t
@@ -3592,8 +3594,8 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
   :config
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
   (setq dumb-jump-prefer-searcher 'rg)
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-  )
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
 
 (use-package ivy-xref
   :ensure t
@@ -3718,9 +3720,9 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
   :bind (("M-<up>" . markdown-move-up)
          ("M-<down>" . markdown-move-down))
   ;; source for css: https://gist.github.com/Dashed/6714393
-  :init (setq markdown-command (concat (concat "pandoc -c file:///" (getenv "HOME")) "/.emacs.d/github-pandoc.css --from markdown_github -t html5 --mathjax --highlight-style pygments --standalone"))
+  :init (setq markdown-command (concat (concat "pandoc -c file:///" (getenv "HOME")) "/.emacs.d/github-pandoc.css --from markdown_github -t html5 --mathjax --highlight-style pygments --standalone")))
   ;; TODO(FAP): deactivate markdownlint (mdl) via flycheck in commit messages
-  )
+
 
 (use-package workgroups2
   :ensure t
@@ -3959,8 +3961,8 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
    '(j-verb-face ((t (:foreground "Red"))))
    '(j-adverb-face ((t (:foreground "Green"))))
    '(j-conjunction-face ((t (:foreground "Blue"))))
-   '(j-other-face ((t (:foreground "#eeeeec")))))
-)
+   '(j-other-face ((t (:foreground "#eeeeec"))))))
+
 
 (use-package go-ts-mode
   :ensure t
@@ -3973,7 +3975,7 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
   (add-to-list 'eglot-server-programs
                '(go-ts-mode . ("gopls")))
   (unless (executable-find "gopls")
-    (fap/alert "Please install gopls for eglot golang development.\nRun: go install -v golang.org/x/tools/gopls@latest"))
+    (fap/alert "Please install gopls for eglot golang development.\nRun: go install -v golang.org/x/tools/gopls@latest")))
   ;; Optional: install eglot-format-buffer as a save hook.
   ;; The depth of -10 places this before eglot's willSave notification,
   ;; so that that notification reports the actual contents that will be saved.
@@ -3984,7 +3986,7 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
   ;;   (lambda ()
   ;;       (call-interactively 'eglot-code-action-organize-imports))
   ;;   nil t)
-)
+
 
 (use-package elfeed
   :ensure t
