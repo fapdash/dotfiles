@@ -321,10 +321,8 @@ Try the repeated popping up to 10 times."
     (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
     (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))
     (setq eshell-visual-commands (-union eshell-visual-commands '("htop" "less" "more" "zsh" "vim" "vi" "mg" "nano" "zellij")))
-    ;; TODO(FAP): somehow doesn't work anymore, but works manually, need to use other hook?
-    (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
     (defalias 'eshell/v 'eshell-exec-visual))
-
+  (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
   (eshell-git-prompt-use-theme 'powerline)
 
   (add-hook 'eshell-mode-hook
