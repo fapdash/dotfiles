@@ -1157,7 +1157,7 @@ normally have their errors suppressed."
   :config (setq org-duration-format (quote h:mm)))
 
 (use-package org-columns-calc
-  :ensure f)
+  :ensure nil)
 
 ;; when org-hide-emphasis-markers is turned on: show them when point is inside of them
 ;; basically show emphasis-markers when they are needed, when editing.
