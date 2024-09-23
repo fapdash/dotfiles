@@ -192,6 +192,16 @@ Try the repeated popping up to 10 times."
           (empty-line . nil)
           (unknown . nil))))
 
+(use-package age
+  :ensure t
+  :demand t
+  :custom
+  (age-program "age")
+  (age-default-identity "~/.age/key.txt")
+  (age-default-recipient '("~/.age/key.pub"))
+  :config
+  (age-file-enable))
+
 (use-package multi-term
   :ensure t
   :config
@@ -3986,16 +3996,6 @@ and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
 
 (use-package oauth2
   :ensure t)
-
-(use-package age
-  :ensure t
-  :demand t
-  :custom
-  (age-program "age")
-  (age-default-identity "~/.age/key.txt")
-  (age-default-recipient '("~/.age/key.pub"))
-  :config
-  (age-file-enable))
 
 (use-package chezmoi
   :ensure t)
