@@ -2765,7 +2765,7 @@ Notes:
   :init
   (corfu-popupinfo-mode)
   :config
-  (setq corfu-popupinfo-delay '(0.5 . 0.3)))
+  (setq corfu-popupinfo-delay '(0.5 . 0.5)))
 
 ;; The commands `corfu-info-location' and
 ;; `corfu-info-documentation' are bound by default in the `corfu-map' to M-g and
