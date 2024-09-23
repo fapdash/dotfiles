@@ -4180,5 +4180,11 @@ If DATE is not provided, the current date will be used."
 (makunbound 'gc-cons-threshold-original)
 (message "gc-cons-threshold and file-name-handler-alist restored")
 
+;; Garbage collection config - https://gitlab.com/koral/gcmh
+(use-package gcmh
+  :ensure t
+  :config
+  (gcmh-mode 1))
+
 (provide '.emacs)
 ;;; .emacs ends here
