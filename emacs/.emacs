@@ -3403,6 +3403,12 @@ otherwise call reformatter function."
   (add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
   :diminish paredit-mode)
 
+(use-package parinfer-rust-mode
+  :ensure t
+  :hook emacs-lisp-mode
+  :init
+  (setq parinfer-rust-auto-download t))
+
 (use-package nlinum
   :ensure t
   :config
