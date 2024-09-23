@@ -4054,21 +4054,19 @@ and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
                (and (string-prefix-p "http" (current-kill 0 t)) (current-kill 0 t))
                ;; couldn't find url, ask for url input
                (read-string "URL: "))))
-    (plz 'get (concat "https://archive.org/wayback/available?url=" url) :as #'json-read
-      :then
-      (lambda (alist)
-        (let ((snapshot-url (condition-case _err
-                                (thread-last alist
-                                             (alist-get 'archived_snapshots)
-                                             (alist-get 'closest)
-                                             (alist-get 'url))
-                              (error
-                               (message
-                                (concat "Couldn't find wayback snapshot in json: "
-                                        (prin1-to-string alist)))
-                                     nil))))
-          (if snapshot-url
-              (kill-new snapshot-url)))))))
+    (let ((alist (plz 'get (concat "https://archive.org/wayback/available?url=" url) :as #'json-read)))
+      (let ((snapshot-url (condition-case _err
+                              (thread-last alist
+                                           (alist-get 'archived_snapshots)
+                                           (alist-get 'closest)
+                                           (alist-get 'url))
+                            (error
+                             (message
+                              (concat "Couldn't find wayback snapshot in json: "
+                                      (prin1-to-string alist)))
+                             nil))))
+        (if snapshot-url
+            (kill-new snapshot-url))))))
 
 (defun fap/slurp (file)
   "Load FILE to string."
