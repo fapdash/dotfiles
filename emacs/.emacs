@@ -830,6 +830,13 @@ Try the repeated popping up to 10 times."
 (magit-define-popup-option 'magit-log-popup
   ?u "Until date" "--until=" #'magit-org-read-date)
 
+(use-package magit-delta
+  :ensure t
+  :hook (magit-mode . magit-delta-mode)
+  :config
+  ;; all themes from bat are available, check via ~bat --list-themes~
+  (setq magit-delta-default-dark-theme "Monokai Extended Bright"))
+
 (use-package git-timemachine
   :ensure t)
 
