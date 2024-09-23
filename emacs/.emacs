@@ -3258,9 +3258,11 @@ otherwise call reformatter function."
 ;; flycheck will automatically use eglot, but it's nice to have this as a backup
 ;; switch to flycheck-dart via ~flycheck-verify-setup~ and then select checker
 ;; or ~M-x flycheck-select-checker~
-(package-vc-install "https://github.com/flycheck/flycheck-dart/" nil nil 'flycheck-dart)
 (use-package flycheck-dart
-  :ensure t
+  :ensure nil
+  :init
+  (unless (package-installed-p 'flycheck-dart)
+    (package-vc-install "https://github.com/flycheck/flycheck-dart/" nil nil 'flycheck-dart))
   :config
   (flycheck-dart-setup))
 
