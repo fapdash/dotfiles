@@ -504,7 +504,7 @@ Try the repeated popping up to 10 times."
   (global-set-key (kbd "M-%") 'anzu-query-replace)
   (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
   (set-face-attribute 'anzu-mode-line nil
-					  :foreground "yellow" :weight 'bold)
+                      :foreground "yellow" :weight 'bold)
   (custom-set-variables
    '(anzu-mode-lighter "")
    '(anzu-deactivate-region t)
@@ -678,13 +678,13 @@ Try the repeated popping up to 10 times."
    `(markup-title-5-face ((t (:inherit markup-gen-face :height 1.3)))))
   (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode)))
 
-										;(use-package edts
-										;  :ensure t
-										;  :init (require 'edts-start))
+                                        ;(use-package edts
+                                        ;  :ensure t
+                                        ;  :init (require 'edts-start))
 
 
-										;(setq load-path (cons  "C:/Program Files/erl6.2/lib/tools-2.7/emacs"
-										;                       load-path))
+                                        ;(setq load-path (cons  "C:/Program Files/erl6.2/lib/tools-2.7/emacs"
+                                        ;                       load-path))
 (setq erlang-root-dir "C:/Program Files/erl6.2")
 (setq exec-path (cons "C:/Program Files/erl6.2/bin" exec-path))
 
@@ -1269,19 +1269,19 @@ is nil, refile in the current file."
   (interactive)
   (require 'org-datetree)
   (let ((journal (expand-file-name org-journal-file org-directory))
-	post-date)
+    post-date)
     (setq post-date (or (org-entry-get (point) "TIMESTAMP_IA")
-			(org-entry-get (point) "TIMESTAMP")))
+            (org-entry-get (point) "TIMESTAMP")))
     (setq post-date (nthcdr 3 (parse-time-string post-date)))
     (setq post-date (list (cadr post-date)
-			  (car post-date)
-			  (caddr post-date)))
+              (car post-date)
+              (caddr post-date)))
     (org-cut-subtree)
     (with-current-buffer (or (find-buffer-visiting journal)
-			     (find-file-noselect journal))
+                 (find-file-noselect journal))
       (save-excursion
-	(org-datetree-file-entry-under (current-kill 0) post-date)
-	(bookmark-set "org-refile-last-stored")))
+    (org-datetree-file-entry-under (current-kill 0) post-date)
+    (bookmark-set "org-refile-last-stored")))
     (message "Refiled to %s" journal))
   (setq this-command 'my/org-refile-to-journal)) ;; See http://emacs.stackexchange.com/q/21322/8494
 
@@ -1401,9 +1401,9 @@ is nil, refile in the current file."
   be the first non-empty line of the FILE.  Else the base name of the FILE is
   used as title."
     (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
-	  (if begin
-	      (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
-	    (deft-base-filename file))))
+      (if begin
+          (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
+        (deft-base-filename file))))
 
   (advice-add 'deft-parse-title :override #'cm/deft-parse-title)
 
@@ -1713,8 +1713,8 @@ is nil, refile in the current file."
         )
   ;; include day and calendar week in title, use logseq naming scheme for dailies
   (setq org-roam-dailies-capture-templates '(("d" "default" entry "* %<%r> %?"
-					                          :target
-					                          (file+head "%<%Y_%m_%d>.org" "#+TITLE: %<%Y-%m-%d %A | week %W | day %j>\n"))))
+                                              :target
+                                              (file+head "%<%Y_%m_%d>.org" "#+TITLE: %<%Y-%m-%d %A | week %W | day %j>\n"))))
   (setq org-roam-capture-templates
         `(("r" "bibliography reference" plain
            (file ,(concat org_bib_notes "/bib_ref_template.org"))
@@ -1817,24 +1817,24 @@ DEPRECATED: use (org-roam-extract-subtree now"
  (defun org-roam-backlinks-query* (NODE)
    "Gets the backlinks of NODE with `org-roam-db-query'."
    (org-roam-db-query
-	  [:select [source dest]
-		   :from links
-		   :where (= dest $s1)
-		   :and (= type "id")]
-	  (org-roam-node-id NODE)))
+      [:select [source dest]
+           :from links
+           :where (= dest $s1)
+           :and (= type "id")]
+      (org-roam-node-id NODE)))
 
  (defun org-roam-backlinks-p (SOURCE NODE)
    "Predicate function that checks if NODE is a backlink of SOURCE."
    (let* ((source-id (org-roam-node-id SOURCE))
-	   (backlinks (org-roam-backlinks-query* SOURCE))
-	   (id (org-roam-node-id NODE))
-	   (id-list (list id source-id)))
+       (backlinks (org-roam-backlinks-query* SOURCE))
+       (id (org-roam-node-id NODE))
+       (id-list (list id source-id)))
      (member id-list backlinks)))
 
  (defun org-roam-backlinks-poi-or-moc-p (NODE)
    "Check if NODE has the tag POI or the tag MOC.  Return t if it does."
    (or (string-equal (car (org-roam-node-tags NODE)) "POI")
-	(string-equal (car (org-roam-node-tags NODE)) "MOC")))
+    (string-equal (car (org-roam-node-tags NODE)) "MOC")))
 
  (defun org-roam-backlinks--read-node-backlinks (source)
    "Runs `org-roam-node-read' on the backlinks of SOURCE.
@@ -1861,24 +1861,24 @@ DEPRECATED: use (org-roam-extract-subtree now"
  to extend org-roam and naturally I wanted to include some
  interaction with it in this function."
    (let* ((backlink (org-roam-backlinks--read-node-backlinks node))
-	   (choice (completing-read "What to do with NODE: "
-				    org-roam-backlinks-choices)))
+       (choice (completing-read "What to do with NODE: "
+                    org-roam-backlinks-choices)))
      (cond
       ((string-equal
-	 choice
-	 (car org-roam-backlinks-choices))
-	(org-roam-backlinks-node-read backlink))
+     choice
+     (car org-roam-backlinks-choices))
+    (org-roam-backlinks-node-read backlink))
       ((string-equal
-	 choice
-	 (cadr org-roam-backlinks-choices))
-	(find-file (org-roam-node-file backlink)))
+     choice
+     (cadr org-roam-backlinks-choices))
+    (find-file (org-roam-node-file backlink)))
       ((string-equal
-	 choice
-	 (caddr org-roam-backlinks-choices))
-	(zetteldesk-add-node-to-desktop backlink))
+     choice
+     (caddr org-roam-backlinks-choices))
+    (zetteldesk-add-node-to-desktop backlink))
       ((string-equal
-	 choice
-	 (cadddr org-roam-backlinks-choices))))))
+     choice
+     (cadddr org-roam-backlinks-choices))))))
 
  (defun org-roam-backlinks-search ()
    "Select an `org-roam-node' and recursively search its backlinks.
@@ -2096,9 +2096,9 @@ With a prefix ARG, remove start location."
     (interactive)
     (let* ((results (org-ref-get-bibtex-key-and-file))
            (key (car results))
-	       (pdf-file (car (bibtex-completion-find-pdf key))))
+           (pdf-file (car (bibtex-completion-find-pdf key))))
       (if (file-exists-p pdf-file)
-	      (org-open-file pdf-file)
+          (org-open-file pdf-file)
         (message "No PDF found for %s" key))))
 
   (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
@@ -2499,46 +2499,46 @@ Notes:
     (setq next-spec-day-runningp t)
     (catch 'exit
       (dolist (type '("NEXT-SPEC-TIMESTAMP" "NEXT-SPEC-DEADLINE" "NEXT-SPEC-SCHEDULED"))
-	    (when (stringp (org-entry-get nil type))
-	      (let* ((time (org-entry-get nil (substring type (length "NEXT-SPEC-"))))
+        (when (stringp (org-entry-get nil type))
+          (let* ((time (org-entry-get nil (substring type (length "NEXT-SPEC-"))))
                  (repeater (and time
-			                    (string-match "\\([.+-]+[0-9]+[hdwmy] ?\\)+" time)
-			                    (match-string 0 time)))
-		         (pt (if time (org-parse-time-string time) (decode-time (current-time))))
-		         (func (ignore-errors (read-from-whole-string (org-entry-get nil type)))))
-	        (unless func (message "Sexp is wrong") (throw 'exit nil))
-	        (when (symbolp func)
-	          (setq func (cadr (assoc func next-spec-day-alist))))
-	        (cl-incf (nth 3 pt))
-	        (setf pt (decode-time (apply 'encode-time pt)))
-	        (cl-do ((i 0 (1+ i)))
-		        ((or
-		          (> i 1000)
-		          (let* ((d (nth 3 pt))
-			             (m (nth 4 pt))
-			             (y (nth 5 pt))
-			             (date (list m d y))
-			             entry)
-		            (calendar-dlet ((date date)
+                                (string-match "\\([.+-]+[0-9]+[hdwmy] ?\\)+" time)
+                                (match-string 0 time)))
+                 (pt (if time (org-parse-time-string time) (decode-time (current-time))))
+                 (func (ignore-errors (read-from-whole-string (org-entry-get nil type)))))
+            (unless func (message "Sexp is wrong") (throw 'exit nil))
+            (when (symbolp func)
+              (setq func (cadr (assoc func next-spec-day-alist))))
+            (cl-incf (nth 3 pt))
+            (setf pt (decode-time (apply 'encode-time pt)))
+            (cl-do ((i 0 (1+ i)))
+                ((or
+                  (> i 1000)
+                  (let* ((d (nth 3 pt))
+                         (m (nth 4 pt))
+                         (y (nth 5 pt))
+                         (date (list m d y))
+                         entry)
+                    (calendar-dlet ((date date)
                                     (entry entry))
                       (eval func))))
-		         (if (> i 1000)
-		             (message "No satisfied in 1000 days")
+                 (if (> i 1000)
+                     (message "No satisfied in 1000 days")
                    (if (or (string= "NEXT-SPEC-DEADLINE" type) (string= "NEXT-SPEC-SCHEDULED" type))
-		               (funcall
-		                (if (string= "NEXT-SPEC-DEADLINE" type)
-			                'org-deadline
-		                  'org-schedule)
-		                nil
-		                (format-time-string
-		                 (if (and
-			                  time
-			                  (string-match
-			                   "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}"
-			                   time))
-			                 (cdr org-time-stamp-formats)
-		                   (car org-time-stamp-formats))
-		                 (apply 'encode-time pt)))
+                       (funcall
+                        (if (string= "NEXT-SPEC-DEADLINE" type)
+                            'org-deadline
+                          'org-schedule)
+                        nil
+                        (format-time-string
+                         (if (and
+                              time
+                              (string-match
+                               "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}"
+                               time))
+                             (cdr org-time-stamp-formats)
+                           (car org-time-stamp-formats))
+                         (apply 'encode-time pt)))
                      (and
                       (org-back-to-heading)
                       (when (re-search-forward
@@ -2548,23 +2548,23 @@ Notes:
                         (when
                             (re-search-forward org-element--timestamp-regexp (point-at-eol) 'noerror)
                           (replace-match (save-match-data (format-time-string
-		                                  (if (and
-			                                   time
-			                                   (string-match
-			                                    "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}"
-			                                    time))
-			                                  (cdr org-time-stamp-formats)
-		                                    (car org-time-stamp-formats))
-		                                  (apply 'encode-time pt))))
+                                          (if (and
+                                               time
+                                               (string-match
+                                                "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}"
+                                                time))
+                                              (cdr org-time-stamp-formats)
+                                            (car org-time-stamp-formats))
+                                          (apply 'encode-time pt))))
                           (when repeater
                             (backward-char)
                             (insert " " repeater))))))))
-	          (cl-incf (nth 3 pt))
-	          (setf pt (decode-time (apply 'encode-time pt)))))))
+              (cl-incf (nth 3 pt))
+              (setf pt (decode-time (apply 'encode-time pt)))))))
       (if (or
-	       (org-entry-get nil "NEXT-SPEC-SCHEDULED")
-	       (org-entry-get nil "NEXT-SPEC-DEADLINE"))
-	      (org-entry-put nil "TODO" (car org-todo-heads))))
+           (org-entry-get nil "NEXT-SPEC-SCHEDULED")
+           (org-entry-get nil "NEXT-SPEC-DEADLINE"))
+          (org-entry-put nil "TODO" (car org-todo-heads))))
     (setq next-spec-day-runningp nil)))
 
 (add-hook 'org-after-todo-state-change-hook 'next-spec-day)
@@ -3010,18 +3010,18 @@ Notes:
   (add-hook 'ruby-mode-hook 'rubocop-mode))
 
 (use-package yari
-	:ensure t
-	:config
-	(defalias 'ri 'yari))
+    :ensure t
+    :config
+    (defalias 'ri 'yari))
 
 
 (use-package ruby-compilation
   :ensure t
   :config
   (after-load 'ruby-mode
-	(let ((m ruby-mode-map))
-	  (define-key m [S-f7] 'ruby-compilation-this-buffer)
-	  (define-key m [f7] 'ruby-compilation-this-test))))
+    (let ((m ruby-mode-map))
+      (define-key m [S-f7] 'ruby-compilation-this-buffer)
+      (define-key m [f7] 'ruby-compilation-this-test))))
 
 
 (setq ruby-deep-indent-paren nil)
@@ -3287,7 +3287,7 @@ otherwise call reformatter function."
   (interactive "r\n\zCoding System (utf-8): ")
   (setq coding-system (or coding-system 'utf-8))
   (let ((buffer-read-only nil)
-	    (text (buffer-substring start end)))
+        (text (buffer-substring start end)))
     (delete-region start end)
     (insert (decode-coding-string (string-make-unibyte text) coding-system))))
 
@@ -3937,12 +3937,12 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
   :config
   (projectile-register-project-type 'gleam '("gleam.toml")
                                     :project-file "gleam.toml"
-				                    :compile "gleam build"
-				                    :test "gleam test"
-				                    :run "gleam run"
+                                    :compile "gleam build"
+                                    :test "gleam test"
+                                    :run "gleam run"
                                     :src-dir "src/"
                                     :test-dir "test/"
-				                    :test-suffix "_test")
+                                    :test-suffix "_test")
   (add-to-list 'eglot-server-programs
                '(gleam-mode . ("gleam" "lsp")))
   (add-hook 'gleam-mode-hook
