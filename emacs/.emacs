@@ -4076,6 +4076,27 @@ and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
     (insert-file-contents file)
     (buffer-string)))
 
+(defun fap/add-days-to-date (days &optional date)
+  "Add given amount of DAYS to DATE.
+If DATE is not provided, the current date will be used."
+  (let* ((time
+          (if date
+              (date-to-time date)
+            (current-time)))
+         (time-with-added-days (time-add time (days-to-time days))))
+    (format-time-string "%Y-%m-%d" time-with-added-days)))
+
+(defun fap/escaped-yank ()
+  (interactive)
+  (if (nth 3 (syntax-ppss)) ;; Checks if inside a string
+      (insert-for-yank (replace-regexp-in-string "[\\\"]"
+                                                 "\\\\\\&"
+                                                 (current-kill 0)
+                                                 t))
+    (call-interactively 'yank)))
+
+(defalias 'fap/yank-escaped 'fap/escaped-yank)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
