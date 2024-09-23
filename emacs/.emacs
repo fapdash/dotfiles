@@ -1463,17 +1463,20 @@ is nil, refile in the current file."
 ;;   (goto-char (point-max)))
 
 (use-package org-journal
-  :ensure t
+  :ensure nil
   :defer t
   :init
+  (unless (package-installed-p 'org-journal)
+  (package-vc-install "https://github.com/fapdash/org-journal-fork" nil nil 'org-journal))
   ;; Change default prefix key; needs to be set before loading org-journal
   (setq org-journal-prefix-key "C-c j ")
   :config
   (setq org-journal-dir org_journal
         org-journal-date-format "%A, %d %B %Y"
-        org-journal-enable-agenda-integration t))
-
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
+        org-journal-enable-agenda-integration t
+        org-journal-encrypt-journal t
+        org-journal-encryption-extension "age")
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry
                                (file+headline (lambda () (concat org_gtd "/inbox.org")) "Tasks")
                                "* TODO %i%?")
                               ("C" "Calendar" entry
