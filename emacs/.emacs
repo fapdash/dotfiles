@@ -697,9 +697,17 @@ Try the repeated popping up to 10 times."
 
 (setq desktop-auto-save-timeout 30
       desktop-save t)
-(add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
+(add-hook 'auto-save-hook (lambda () (let ((inhibit-message t))
+                                       (desktop-save-in-desktop-dir))))
 (desktop-save-mode 1)
 (desktop-read)
+
+(defun fap/silence-messages (orig-fun &rest args)
+  (let ((inhibit-message t))
+    (apply orig-fun args)))
+
+;; Silence "Desktop saved in ..." messages - https://kisaragi-hiu.com/inhibit-message/
+(advice-add 'desktop-auto-save :around 'fap/silence-messages)
 
 (setq savehist-file "~/.emacs.d/savehist")
 (savehist-mode 1)
