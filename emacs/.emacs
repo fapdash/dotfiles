@@ -447,6 +447,9 @@ Try the repeated popping up to 10 times."
   :config
   (setq whitespace-line-column 80) ;; limit line length
   (setq whitespace-style '(face lines-tail))
+  ;; https://www.emacswiki.org/emacs/FillColumnIndicator
+  (setq display-fill-column-indicator-character ?\u254e)
+  (setq display-fill-column-indicator 1)
   ;; deactivate line limit highlighting for some modes
   (add-hook 'adoc-mode-hook #'fap/deactivate-line-max-highlight)
   (add-hook 'org-mode-hook #'fap/deactivate-line-max-highlight)
