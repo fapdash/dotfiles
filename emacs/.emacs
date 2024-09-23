@@ -1412,6 +1412,10 @@ is nil, refile in the current file."
                 "\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
                 "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
                 "\\)")))
+
+(defun fap/ignore-errors-advice (orig-fun &rest args)
+  (ignore-errors (apply orig-fun args)))
+
 ;; faster deft: https://sr.ht/~casouri/xeft/
 ;; also see notdeft: https://sr.ht/~casouri/xeft/
 (use-package xeft
@@ -1422,9 +1426,13 @@ is nil, refile in the current file."
   (setq xeft-recursive t)
   (setq xeft-directory org-directory)
   (setq xeft-default-extension "org")
+  (setq xeft-compile-args
+  '("PREFIX=/snap/emacs/current"
+    "CXX=/snap/emacs/current/usr/bin/g++-10 --sysroot /snap/emacs/current/"))
   ;; TODO(FAP): xeft wants xeft-filename-fn to return the filename
   (setq xeft-filename-fn (lambda (search-phrase)
                            (org-roam-capture- :node (org-roam-node-create :title search-phrase))))
+  (advice-add 'xeft-create-note :around #'fap/ignore-errors-advice)
   ;; default function would also use the first line as title no matter what and
   ;; also gave me empty titles if the first line of the file was empty
   (setq xeft-title-function
@@ -1437,6 +1445,7 @@ is nil, refile in the current file."
                     file
                   title))
             file))))
+
 
 (defun org-journal-find-location ()
   ;; Open today's journal, but specify a non-nil prefix argument in order to
