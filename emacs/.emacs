@@ -1536,6 +1536,7 @@ is nil, refile in the current file."
                                 ("T" "Todo [inbox] (org-protocol-capture)" entry
                                  (file+headline (lambda () (concat org_gtd "/inbox.org")) "Tasks")
                                  "* TODO [[%:link][%:description]]\n\n" :immediate-finish t)))
+  (load "~/git/dotfiles/emacs/lisp/private-org-captures.el.age"))
 
 (defun my-org-capture-ask-for-filename ()
   "Read file name to capture to."
