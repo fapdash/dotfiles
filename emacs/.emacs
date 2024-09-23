@@ -4171,6 +4171,11 @@ If DATE is not provided, the current date will be used."
       (list '(buffer-file-name "%f" "%b")
             '(:eval (format " - GNU Emacs %s" emacs-version))))
 
+(use-package rcirc
+  :ensure nil
+  :config
+  (load "~/git/dotfiles/emacs/lisp/private-rcirc-config.el.age"))
+
 (and window-system (server-start))
 
 ;; Reset startup optimizations
