@@ -3896,7 +3896,7 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
     (fap/alert "Please install typescript-language-server for eglot TypeScript development.")))
 
 (use-package eglot-booster
-  :ensure f
+  :ensure nil
   :after eglot
   :init
   (unless (package-installed-p 'eglot-booster)
