@@ -746,7 +746,6 @@ The DWIM behaviour of this command is as follows:
 ;; jump to specific character
 (use-package avy
   :ensure t
-  :after embark
   :config
   (global-set-key (kbd "C-c SPC") 'avy-goto-word-or-subword-1)
   ;; suggested in https://karthinks.com/software/avy-can-do-anything/
