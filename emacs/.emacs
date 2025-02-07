@@ -1289,6 +1289,8 @@ normally have their errors suppressed."
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAITING(w!)" "NEXT(n!)" "IDEA(i)" "GOAL(g)" "|" "DONE(d!)" "CANCELED(c@)")))
   (setq org-comment-string "BACKBURNER")
+  ;; TODO(FAP): this hook gets added too later if the buffer that gets restored after startup is an org-mode buffer
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-change-major-mode-hook (lambda () (setq-local tab-width 8)) 0 t)))
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 (use-package org-contrib
