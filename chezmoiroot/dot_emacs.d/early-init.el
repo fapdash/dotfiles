@@ -2,6 +2,15 @@
 (when initial-window-system
   (add-to-list 'default-frame-alist '(font . "Hack 9"))
 
+  ;; disable all toolbars and menus
+  (tooltip-mode -1)
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+
+  ;; Show a nice fringe
+  (set-fringe-mode '(10 . 0)))
+
 ;; Experimenting with fonts:
 
 ;; (set-frame-font "Ubuntu Sans Mono 10" nil t)

@@ -138,11 +138,8 @@ If REPOSITORY is specified, use that."
     (message msg)))
 
 (global-auto-revert-mode 1) ;; Always reload the file if it changed on disk
+
 (prefer-coding-system 'utf-8) ;; Prefer UTF-8 encoding
-
-(and window-system (set-fringe-mode '(10 . 0))) ;; Show a nice fringe
-
-(prefer-coding-system 'utf-8)
 (setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
 
@@ -397,13 +394,6 @@ Try the repeated popping up to 10 times."
 
 (use-package nyan-mode
   :ensure t)
-
-;; disable all toolbars and menus
-(when window-system
-  (tooltip-mode -1)
-  (tool-bar-mode -1)
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1))
 
 (use-package diminish
   :ensure t
