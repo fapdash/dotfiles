@@ -8,11 +8,7 @@ sudo apt-get install -y curl\
                  mpv\
                  img2pdf\
                  pdftk-java\
-                 texlive\
-                 texlive-xetex\
-                 texlive-latex-extra\
-                 texlive-extra-utils\
-                 texlive-lang-german\
+                 texlive-full\
                  ocrmypdf\
                  shellcheck\
                  qimgv\
@@ -38,9 +34,13 @@ sudo apt-get install -y curl\
                  meld\
                  libtool-bin `# vterm dependency (emacs)`\
                  w3m\
+                 lynx\
                  cowsay\
                  pandoc\
                  libenchant-2-dev `# jinx (emacs spell checker) dependency`\
+                 hunspell\
+                 hunspell-tools\
+                 hunspell-de-de `# german spellchecking for libre office`\
                  ledger\
                  libreoffice-core\
                  entr\
@@ -49,4 +49,35 @@ sudo apt-get install -y curl\
                  wl-clipboard `# wl-copy, wl-paste`\
                  htop\
                  lsd\
-                 psensor `# cpu/gpu temperature`
+                 psensor `# cpu/gpu temperature`\
+                 signify-openbsd\
+                 sigsum-go\
+                 gnuplot\
+                 dconf-editor\
+                 dictd\
+                 dict-gcide\
+                 dict-wn\
+                 dict-jargon\
+                 dict\
+                 dict-foldoc\
+                 dict-freedict-deu-eng\
+                 dict-freedict-eng-deu\
+                 p7zip-full\
+                 cloc\
+                 vlc\
+                 vlc-plugin-pipewire\
+                 scrub\
+                 inotify-tools\
+                 flatpak\
+                 gnome-software-plugin-flatpak\
+                 ausweisapp2\
+                 podman\
+                 inkscape\
+                 rustup\
+                 reflex\
+                 xchm\
+                 ncdu
+
+flatpak remote-add --if-not-exists --subset=verified flathub https://dl.flathub.org/repo/flathub.flatpakrepom
+
+sudo snap install rickrack
