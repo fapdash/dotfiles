@@ -3494,15 +3494,6 @@ otherwise call reformatter function."
 (use-package rust-mode
   :ensure t)
 
-(use-package racer
-  :ensure t
-  :init
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  :config
-  (setq racer-cmd (concat (getenv "HOME") "/.cargo/bin/racer"))
-  (setq racer-rust-src-path (concat (getenv "HOME") "/src/rust/src")))
-
 (use-package flycheck-rust
   :ensure t
   :init
@@ -4060,10 +4051,17 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
   ((js-ts-mode . eglot-ensure)
    (tsx-ts-mode . eglot-ensure)
    (typescript-ts-mode . eglot-ensure)
-   (typescript-mode . eglot-ensure))
+   (typescript-mode . eglot-ensure)
+   (rust-mode . eglot-ensure))
   :init
   (unless (executable-find "typescript-language-server")
-    (fap/alert "Please install typescript-language-server for eglot TypeScript development.")))
+    (fap/alert "Please install typescript-language-server for eglot TypeScript development."))
+  :config
+  (add-to-list 'eglot-server-programs
+                       `(rust-mode . ("rust-analyzer" :initializationOptions
+                                      ( :procMacro (:enable t)
+                                        :cargo ( :buildScripts (:enable t)
+                                                 :features "all"))))))
 
 (use-package eglot-booster
   :ensure nil
