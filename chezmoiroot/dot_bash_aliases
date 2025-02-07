@@ -28,3 +28,8 @@ alias google-java-format='/home/fap/repos/gerrit/tools/format/google-java-format
 
 # need alias when installing via apt because of nameclash
 alias bat='batcat'
+
+alias sha3-224sum="openssl dgst -sha3-224"
+alias sha3-256sum="openssl dgst -sha3-256"
+alias sha3-384sum="openssl dgst -sha3-384"
+alias sha3-512sum="openssl dgst -sha3-512"
