@@ -3353,6 +3353,24 @@ Notes:
   ;; C-Return is also mapped to this
   (define-key emmet-mode-keymap "\C-j" nil))
 
+(use-packpage lorem-ipsum
+  :ensure t
+  :config
+  ;; not fully happy with these defaults, might change later
+  (add-hook 'web-mode-hook #'lorem-ipsum-sgml-mode-hook)
+
+  (defun fap/lorem-ipsum-insert-paragraphs ()
+    (interactive)
+    (lorem-ipsum-insert-paragraphs (read-number "Number of lorem ipsum paragraphs: ")))
+
+  (defun fap/lorem-ipsum-insert-sentences ()
+    (interactive)
+    (lorem-ipsum-insert-sentences (read-number "Number of lorem ipsum sentences: ")))
+
+  (defun fap/lorem-ipsum-insert-list ()
+    (interactive)
+    (lorem-ipsum-insert-list (read-number "Number of lorem ipsum list entries: "))))
+
 (defun enable-minor-mode (my-pair)
   "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
   (if (buffer-file-name)
