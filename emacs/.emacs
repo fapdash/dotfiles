@@ -125,7 +125,10 @@ If REPOSITORY is specified, use that."
 (use-package tangotango-theme
   :ensure t
   :init (load-theme 'tangotango t)
-  :config)
+  :config
+  (custom-set-faces
+   `(web-mode-html-tag-face ((t (:foreground "#6ac214"))))))
+
 
 (use-package alert
   :ensure t
