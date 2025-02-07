@@ -1037,41 +1037,127 @@ The DWIM behaviour of this command is as follows:
  '(anzu-search-threshold 1000)
  '(compilation-message-face 'default)
  '(custom-safe-themes
-   '("d99304a051e32af7693238c5c3e74055be574616c31123d3ecdb2c41e8fd0f20" "26d003f89a6d75c5640be86ab2b6f4e9284c4fa416ad70e18c6f55c224606a8b" "6bf2f87eb089a9a5c183dd01c478a53cc5563a7b9b9dd3a2b2dec7ba96fdcc33" "74b48f3875bc2498eb7959d62e122fef33a435657d16e050c544965a9ef71dcb" "d10f45cad8c060de4dfaa4383e3fbba4d8215f8de4bd657ed3afaa8da7cda6aa" "82225f1fa1e4d3b00c63700f691fc0dc7c9bdab8a996e6a78f451f9a15bd74fc" "6df30cfb75df80e5808ac1557d5cc728746c8dbc9bc726de35b15180fa6e0ad9" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "64581032564feda2b5f2cf389018b4b9906d98293d84d84142d90d7986032d33" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default))
+   '("d99304a051e32af7693238c5c3e74055be574616c31123d3ecdb2c41e8fd0f20"
+     "26d003f89a6d75c5640be86ab2b6f4e9284c4fa416ad70e18c6f55c224606a8b"
+     "6bf2f87eb089a9a5c183dd01c478a53cc5563a7b9b9dd3a2b2dec7ba96fdcc33"
+     "74b48f3875bc2498eb7959d62e122fef33a435657d16e050c544965a9ef71dcb"
+     "d10f45cad8c060de4dfaa4383e3fbba4d8215f8de4bd657ed3afaa8da7cda6aa"
+     "82225f1fa1e4d3b00c63700f691fc0dc7c9bdab8a996e6a78f451f9a15bd74fc"
+     "6df30cfb75df80e5808ac1557d5cc728746c8dbc9bc726de35b15180fa6e0ad9"
+     "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26"
+     "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328"
+     "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
+     "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6"
+     "64581032564feda2b5f2cf389018b4b9906d98293d84d84142d90d7986032d33"
+     "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12"
+     default))
  '(highlight-changes-colors '("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
-   '(("#3C3D37" . 0)
-     ("#679A01" . 20)
-     ("#4BBEAE" . 30)
-     ("#1DB4D0" . 50)
-     ("#9A8F21" . 60)
-     ("#A75B00" . 70)
-     ("#F309DF" . 85)
+   '(("#3C3D37" . 0) ("#679A01" . 20) ("#4BBEAE" . 30) ("#1DB4D0" . 50)
+     ("#9A8F21" . 60) ("#A75B00" . 70) ("#F309DF" . 85)
      ("#3C3D37" . 100)))
  '(initial-frame-alist '((fullscreen . maximized)))
  '(magit-diff-use-overlays nil)
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(org-agenda-files
-   '("/home/fap/git/org/todo/android_inbox.org" "/home/fap/git/org/todo/calendar.org" "/home/fap/git/org/todo/daily_habits.org" "/home/fap/git/org/todo/dating.org" "/home/fap/git/org/todo/habits.org" "/home/fap/git/org/todo/kanban.org" "/home/fap/git/org/todo/learning_goals.org" "/home/fap/git/org/todo/notes.org" "/home/fap/git/org/todo/things in Programming I want to get better at.org" "/home/fap/git/org/todo/todo.org" "/home/fap/git/org/todo/vogella_gcal.org" "/home/fap/git/org/todo/week_overview.org" "/home/fap/git/org/todo/weekly_habits.org" "/home/fap/git/org/todo/gtd/gtd.org" "/home/fap/git/org/todo/gtd/inbox.org" "/home/fap/git/org/todo/gtd/someday.org" "/home/fap/git/org/todo/gtd/timeboxing.org" "/home/fap/git/org/journal/20240828.age" "/home/fap/git/org/journal/20240826.age" "/home/fap/git/org/journal/20240825.age" "/home/fap/git/org/journal/20240801.age"))
+   '("/home/fap/git/org/pages/20240911110123-project_idea_clojure_like_documentation_with_examples_for_emacs_lisp.org"
+     "/home/fap/git/org/pages/20241022203803-project_interactive_learning_how_to_program_with_ruby_wasm.org"
+     "/home/fap/git/org/pages/20240619000449-exercism_emacs_lisp_track_representer.org"
+     "/home/fap/git/org/pages/20240413171737-project_query_org_via_datalog.org"
+     "/home/fap/git/org/pages/20241121101600-project_bachelorarbeit_javafx_in_der_cloud_oppsee.org"
+     "/home/fap/git/org/todo/android_inbox.org"
+     "/home/fap/git/org/todo/calendar.org"
+     "/home/fap/git/org/todo/daily_habits.org"
+     "/home/fap/git/org/todo/dating.org"
+     "/home/fap/git/org/todo/habits.org"
+     "/home/fap/git/org/todo/kanban.org"
+     "/home/fap/git/org/todo/learning_goals.org"
+     "/home/fap/git/org/todo/notes.org"
+     "/home/fap/git/org/todo/things in Programming I want to get better at.org"
+     "/home/fap/git/org/todo/todo.org"
+     "/home/fap/git/org/todo/vogella_gcal.org"
+     "/home/fap/git/org/todo/week_overview.org"
+     "/home/fap/git/org/todo/weekly_habits.org"
+     "/home/fap/git/org/todo/gtd/gtd.org"
+     "/home/fap/git/org/todo/gtd/inbox.org"
+     "/home/fap/git/org/todo/gtd/someday.org"
+     "/home/fap/git/org/todo/gtd/timeboxing.org"
+     "/home/fap/git/org/journal/20250207.age"))
  '(org-modules
-   '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
+   '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc
+            ol-mhe ol-rmail ol-eww org-w3m))
  '(package-selected-packages
-   '(parinfer-rust-mode org-journal magit-delta gcmh eglot-booster flycheck-dart j-mode xeft sly chezmoi age elisp-autofmt oauth2 treepy php-mode exercism flycheck-rust fuzzy org-tree-slide org-rich-yank org-contrib vundo undo-fu-session undo-fu org-bbdb org-appear ox-11ty mise nerd-icons-ivy-rich nerd-icons-corfu yasnippet-capf kind-icon cape orderless corfu marginalia embark jinx eshell-vterm diff-hl git-gutter-fringe nlinum wgrep-deadgrep git-modes gh-notify sudo-edit eros posframe postframe edebug-inline-result dired-preview forge flycheck-eglot all-the-icons-completion keycast elfeed yasnippet-snippets org-gcal org-ref ledger-mode mastodon markdown-mode web-mode robe quickrun org-ql cider dwim-shell-command bash-completion emacs-bash-completion esh-autosuggest eshell-git-prompt golden-ratio bufler org-bullets org-modern spacious-padding haskell-mode geiser-chez w3m yaml-mode engine-mode tide neotree rspec-mode smartparens spacemacs-theme org-roam-bibtex ada-ts-mode gnuplot wgrep-ag mustache tree-sitter-indent tree-sitter treesitter gleam-mode eglot ox-reveal org-reveal gnu-elpa-keyring-update org easy-escape diredfl macrostep-geiser citar-org-roam org-roam-ui org-transclusion nov-xwidget nov rainbow-delimiters company-statistics sly-quicklisp multi-vterm org-superstar org-preview-html writeroom-mode embrace smart-semicolon ox-hugo projectile-rails smart-mode-line terminal-here workgroups2 racer rubocop yasnippet org-present org-kanban org-download org-web-tools flycheck-ledger beginend keyfreq editorconfig org-pomodoro all-the-icons-dired mode-icons doom-modeline ace-isearch emmet-mode paredit pdfgrep org-noter-pdftools org-pdftools company-box ruby-test-mode ivy-hydra ivy-rich company-quickhelp counsel-etags emacs-w3m ivy-xref prettier-js diminish org-cliplink activity-watch-mode org-agenda-property ivy-bibtex company-org-roam ansible flutter-l10n-flycheck use-package-ensure-system-package dart-mode calfw-ical calfw-org calfw hide-mode-line deft deadgrep alchemist iy-go-to-char copy-as-format epresent esprent smart-shift itail vlf vfl htmlize tangotango-theme org-mode discover-my-major ivy-historian ac-dabbrev iedit imenu-list ruby-tools rbenv counsel-projectile fzf smex counsel projectile-ripgrep ripgrep dumb-jump yari undo-tree switch-window smartscan rvm ruby-refactor ruby-compilation puml-mode plantuml-mode nyan-mode move-text goto-chg google-translate google-this fullframe flymake-ruby flycheck-credo flx-ido fill-column-indicator expand-region elm-mode elixir-yasnippets discover dictionary crux comment-dwim-2 color-theme-solarized color-theme-sanityinc-solarized color-theme-modern auto-highlight-symbol anzu aggressive-indent ag adoc-mode ace-window))
+   '(ace-window activity-watch-mode adoc-mode ag age aggressive-indent
+                alchemist all-the-icons-completion all-the-icons-dired
+                ansible anzu auto-highlight-symbol bash-completion
+                beginend blamer buffer-move bufler calfw calfw-ical
+                calfw-org cape chezmoi cider citar-org-roam
+                color-theme-modern color-theme-sanityinc-solarized
+                copy-as-format corfu counsel-etags counsel-projectile
+                crux dart-mode deadgrep deft diff-hl diminish
+                dired-preview dired-subtree diredfl discover
+                discover-my-major doom-modeline dumb-jump
+                dwim-shell-command easy-escape editorconfig
+                eglot-booster elfeed elisp-autofmt embark embrace
+                emmet-mode engine-mode epresent erlang eros
+                esh-autosuggest eshell-git-prompt eshell-vterm
+                exec-path-from-shell exercism flutter-l10n-flycheck
+                flycheck-dart flycheck-eglot flycheck-ledger
+                flycheck-rust fullframe fuzzy fzf gcmh geiser-chez
+                gh-notify git-modes git-timemachine gleam-mode gnuplot
+                google-this google-translate goto-chg gptel
+                haskell-mode helpful hide-mode-line ibuffer-projectile
+                ibuffer-vc iedit imenu-list indent-bars itail
+                ivy-bibtex ivy-historian ivy-hydra ivy-xref j-mode
+                jinx keycast keyfreq ledger-mode lorem-ipsum
+                macrostep-geiser magit-delta magit-popup magit-todos
+                marginalia mastodon mise monokai-theme move-text
+                multi-term multi-vterm neotree nerd-icons-corfu
+                nerd-icons-ivy-rich nlinum nov nyan-mode oauth2
+                orderless org-agenda-property org-appear org-cliplink
+                org-contrib org-download org-gcal org-journal
+                org-kanban org-modern org-noter-pdftools org-pomodoro
+                org-present org-preview-html org-ql org-ref
+                org-rich-yank org-roam-bibtex org-roam-ui
+                org-superstar org-transclusion org-tree-slide
+                org-typst-preview org-web-tools ox-11ty ox-hugo
+                ox-reveal ox-tufte ox-typst paredit parinfer-rust-mode
+                pdfgrep php-mode plantuml-mode portage-modes
+                projectile-rails projectile-ripgrep quickrun racer
+                rainbow-delimiters rainbow-mode reformatter robe
+                rspec-mode rubocop ruby-compilation ruby-refactor
+                ruby-test-mode ruby-tools sly-quicklisp
+                smart-semicolon smart-shift smartparens smartscan smex
+                spacemacs-theme spacious-padding sudo-edit
+                tangotango-theme terminal-here trashed turbo-log
+                undo-fu undo-fu-session
+                use-package-ensure-system-package verb vulpea vundo
+                w3m web-mode wgrep-ag wgrep-deadgrep which-key
+                workgroups2 writeroom-mode xeft yaml-mode yari
+                yasnippet-capf yasnippet-snippets))
  '(package-vc-selected-packages
-   '((org-journal :vc-backend Git :url "https://github.com/fapdash/org-journal-fork")
-     (flycheck-dart :vc-backend Git :url "https://github.com/flycheck/flycheck-dart/")
-     (eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")
-     (gleam-mode :vc-backend Git :url "https://github.com/gleam-lang/gleam-mode")
+   '((turbo-log :url "https://github.com/artawower/turbo-log.el" :branch
+                "feat/treesit-migration")
+     (org-typst-preview :url
+                        "https://github.com/remimimimimi/org-typst-preview.el")
+     (org-journal :vc-backend Git :url
+                  "https://github.com/fapdash/org-journal-fork")
+     (flycheck-dart :vc-backend Git :url
+                    "https://github.com/flycheck/flycheck-dart/")
+     (eglot-booster :vc-backend Git :url
+                    "https://github.com/jdtsmith/eglot-booster")
+     (gleam-mode :vc-backend Git :url
+                 "https://github.com/gleam-lang/gleam-mode")
      (j-mode :vc-backend Git :url "https://github.com/zellio/j-mode")
-     (ox-11ty :vc-backend Git :url "https://github.com/sachac/ox-11ty/")
-     (treepy :vc-backend Git :url "https://github.com/volrath/treepy.el/")))
+     (ox-11ty :vc-backend Git :url
+              "https://github.com/sachac/ox-11ty/")
+     (treepy :vc-backend Git :url
+             "https://github.com/volrath/treepy.el/")))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(safe-local-variable-values
-   '((backup-inhibited . t)
-     (undo-tree-auto-save-history)
-     (encoding . utf-8)
-     (ruby-compilation-executable . "ruby")
+   '((backup-inhibited . t) (undo-tree-auto-save-history)
+     (encoding . utf-8) (ruby-compilation-executable . "ruby")
      (ruby-compilation-executable . "ruby1.8")
      (ruby-compilation-executable . "ruby1.9")
      (ruby-compilation-executable . "rbx")
@@ -1082,7 +1168,10 @@ The DWIM behaviour of this command is as follows:
  '(sml/shorten-modes t)
  '(tab-width 4)
  '(weechat-color-list
-   (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
+   (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D"
+                "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF"
+                "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2"
+                "#F8F8F0")))
 
 
 
@@ -4164,25 +4253,16 @@ If DATE is not provided, the current date will be used."
  '(diff-hl-dired-insert ((t (:foreground "#00ff00" :background "#008c00"))))
  '(diff-hl-dired-unknown ((t (:foreground "#d3d7cf" :background "#555753"))))
  '(diff-hl-insert ((t (:foreground "#8ae234"))))
- '(fringe ((t :background "#2e3434")))
- '(header-line ((t :box (:line-width 4 :color "grey20" :style nil))))
- '(header-line-highlight ((t :box (:color "#eeeeec"))))
  '(j-adverb-face ((t (:foreground "Green"))))
  '(j-conjunction-face ((t (:foreground "Blue"))))
  '(j-other-face ((t (:foreground "#eeeeec"))))
  '(j-verb-face ((t (:foreground "Red"))))
- '(keycast-key ((t)))
- '(line-number ((t :background "#2e3434")))
  '(markup-title-0-face ((t (:inherit markup-gen-face :height 1.8))))
  '(markup-title-1-face ((t (:inherit markup-gen-face :height 1.7))))
  '(markup-title-2-face ((t (:inherit markup-gen-face :height 1.6))))
  '(markup-title-3-face ((t (:inherit markup-gen-face :height 1.5))))
  '(markup-title-4-face ((t (:inherit markup-gen-face :height 1.4))))
  '(markup-title-5-face ((t (:inherit markup-gen-face :height 1.3))))
- '(mode-line ((t :background "#2e3434" :overline "#bbbbbc" :box (:line-width 6 :color "#2e3434" :style nil))))
- '(mode-line-active ((t :background "#2e3434" :overline "#bbbbbc" :box (:line-width 6 :color "#2e3434" :style nil))))
- '(mode-line-highlight ((t :box (:color "#eeeeec"))))
- '(mode-line-inactive ((t :background "#2e3434" :overline "#bbbbbc" :box (:line-width 6 :color "#2e3434" :style nil))))
  '(rainbow-delimiters-base-error-face ((t (:foreground "#eeeeee" :background "#a40000"))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#FFE400"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "#6EDA00"))))
@@ -4195,15 +4275,11 @@ If DATE is not provided, the current date will be used."
  '(rainbow-delimiters-depth-9-face ((t (:foreground "#eeeeec"))))
  '(rainbow-delimiters-mismatched-face ((t (:foreground "#eeeeee" :background "#a40000"))))
  '(rainbow-delimiters-unmatched-face ((t (:foreground "#eeeeee" :background "#a40000"))))
- '(tab-bar-tab ((t :box (:line-width 4 :color "grey85" :style nil))))
- '(tab-bar-tab-inactive ((t :box (:line-width 4 :color "grey75" :style nil))))
- '(tab-line-tab ((t)))
- '(tab-line-tab-active ((t)))
- '(tab-line-tab-inactive ((t)))
- '(vertical-border ((t :background "#2e3434" :foreground "#2e3434")))
- '(window-divider ((t (:background "#2e3434" :foreground "#2e3434"))))
- '(window-divider-first-pixel ((t (:background "#2e3434" :foreground "#2e3434"))))
- '(window-divider-last-pixel ((t (:background "#2e3434" :foreground "#2e3434")))))
+ '(show-paren-match ((t (:background "#204a87"))))
+ '(show-paren-match-face ((t (:background "red"))))
+ '(web-mode-annotation-html-face ((t (:foreground "#edd400"))))
+ '(web-mode-annotation-tag-face ((t (:foreground "#edd400"))))
+ '(web-mode-html-tag-face ((t (:foreground "#6ac214")))))
 
  ;; '(mode-line ((t :background "#2e3434" :overline "#bbbbbc" :box (:line-width 6 :color "#2e3434" :style nil))))
  ;; '(mode-line-active ((t :background "#2e3434" :overline "#bbbbbc" :box (:line-width 6 :color "#2e3434" :style nil))))
@@ -4214,8 +4290,8 @@ If DATE is not provided, the current date will be used."
 (set-face-foreground 'success "#6ac214")
 (set-face-background 'org-modern-time-inactive "grey65")
 (set-face-foreground 'org-modern-date-inactive "grey70")
-(set-face-foreground 'highlight-indent-guides-character-face "gray30")
-(set-face-foreground 'highlight-indent-guides-top-character-face "gray50")
+;; (set-face-foreground 'highlight-indent-guides-character-face "gray30")
+;; (set-face-foreground 'highlight-indent-guides-top-character-face "gray50")
 
 (set-face-attribute 'tab-bar nil
                     :inherit 'variable-pitch :background "#2E3434" :foreground "#eeeeec")
