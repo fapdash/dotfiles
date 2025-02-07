@@ -180,6 +180,70 @@ boop () {
   $(exit "$last")
 }
 
+function time_func() {
+   date2=$((`date +%s` + $1));
+   date1=`date +%s`;
+   date_finish="$(date --date @$(($date2)) +%T )"
+
+   if [ -n "${2}" ]; then
+       COLOR='\033[0;36m'
+       NC='\033[0m' # No Color
+       echo -e "Timer for: ${COLOR}$2${NC}\n"
+   fi
+   echo "Start at `date +%T`   Will finish at $date_finish"
+
+    while [ "$date2" -ne `date +%s` ]; do
+     echo -ne "     Since start: $(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)     Till end:  $(date -u --date @$(($date2 - `date +%s`)) +%H:%M:%S)\r";
+     sleep 1
+    done
+
+    echo -ne "     Since start: $(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)     Till end:  $(date -u --date @$(($date2 - `date +%s`)) +%H:%M:%S)\r";
+    printf "\nTimer finished!\n"
+    sfx clock-alarm
+}
+
+function timer_seconds() {
+  echo "Counting to $1 seconds"
+  time_func $1 $2
+}
+
+function timer_minutes() {
+  echo "Counting to $1 minutes"
+  time_func $1*60 $2
+}
+
+function timer_hours() {
+  echo "Counting to $1 hours"
+  time_func $1*60*60 $2
+}
+
+# Accepts flexible input hh:mm:ss
+function timer_flexible() {
+    echo "Counting to $1"
+    secs=$(time2seconds $1)
+    time_func $secs $2
+}
+
+# Changes hh:mm:ss to seconds. Found in some other Stack Exchange answer
+function time2seconds() {
+    a=( ${1//:/ })
+    echo $((${a[0]}*3600+${a[1]}*60+${a[2]}))
+}
+
+function colorpicker() {
+# Get the gdbus output
+output=$(gdbus call --session --dest org.gnome.Shell.Screenshot --object-path /org/gnome/Shell/Screenshot --method org.gnome.Shell.Screenshot.PickColor)
+colors=($(echo $output | command grep -o "[0-9\.]*"))
+
+# Convert to 255-based RGB format
+for ((i = 0; i < ${#colors[@]}; i++)); do
+    colors[$i]=$(printf '%.0f' $(echo "${colors[$i]} * 255" | bc))
+done
+
+echo   "RGB: ${colors[0]} ${colors[1]} ${colors[2]}"
+printf "HEX: #%02x%02x%02x\n" "${colors[0]}" "${colors[1]}" "${colors[2]}"
+}
+
 # exercism.io
 if [ -f ~/.config/exercism/exercism_completion.bash ]; then
   source ~/.config/exercism/exercism_completion.bash
