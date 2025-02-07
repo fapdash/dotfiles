@@ -3919,7 +3919,7 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
 (use-package yaml-mode
   :ensure t
   :config
-  (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode))
+  (add-hook 'yaml-mode-hook 'indent-bars-mode))
 
 (use-package ansible
   :ensure t)
