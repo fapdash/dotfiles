@@ -1,3 +1,6 @@
+;; don't pop up warnings buffer
+(setq native-comp-async-report-warnings-errors 'silent)
+
 ;; https://stackoverflow.com/questions/6026713/how-do-i-change-emacs-default-font-size-and-font-type
 (when initial-window-system
   (add-to-list 'default-frame-alist '(font . "Hack 9"))
