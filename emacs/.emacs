@@ -922,19 +922,34 @@ The DWIM behaviour of this command is as follows:
 ;; don't require escaped backslashes in re-builder
 (setq reb-re-syntax 'string)
 
-(use-package highlight-indent-guides
+;; (use-package highlight-indent-guides
+;;   :ensure t
+;;   :config
+;;   (setq highlight-indent-guides-method 'character)
+;;   ;; if auto is enabled then the mode overwrite the font face colors
+;;   (setq highlight-indent-guides-auto-enabled nil)
+;;   ;; mark current indent block with different highlight color
+;;   (setq highlight-indent-guides-responsive "top")
+;;   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+;;   :diminish highlight-indent-guides-mode)
+
+;; (use-package highlight-indentation
+;;   :ensure t)
+
+(use-package indent-bars
   :ensure t
   :config
-  (setq highlight-indent-guides-method 'character)
-  ;; if auto is enabled then the mode overwrite the font face colors
-  (setq highlight-indent-guides-auto-enabled nil)
-  ;; mark current indent block with different highlight color
-  (setq highlight-indent-guides-responsive "top")
-  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-  :diminish highlight-indent-guides-mode)
-
-(use-package highlight-indentation
-  :ensure t)
+  ;; https://github.com/jdtsmith/indent-bars/blob/main/examples.md
+  ;; TODO(FAP): revisit once on Emacs 30
+  (setq
+   indent-bars-pattern "."
+   indent-bars-width-frac 0.15
+   indent-bars-pad-frac 0.1
+   indent-bars-color-by-depth nil
+   indent-bars-color '(highlight :face-bg t :blend 0.325)
+   ;; indent-bars-highlight-current-depth '(:face default :blend 0.4)
+   indent-bars-highlight-current-depth '(:face default :width 0.4))
+  (add-hook 'prog-mode-hook 'indent-bars-mode))
 
 (use-package move-text
   :ensure t
