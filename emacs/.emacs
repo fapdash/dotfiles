@@ -3911,7 +3911,29 @@ FiraCode.tar.xz from https://github.com/ryanoasis/nerd-fonts/releases/latest. Th
 (add-to-list 'find-file-not-found-functions #'my-create-non-existent-directory)
 
 (use-package dired-preview
+  :after dired
   :ensure t)
+
+(use-package dired-subtree
+  :ensure t
+  :after dired
+  :bind
+  ( :map dired-mode-map
+    ("<tab>" . dired-subtree-toggle)
+    ("TAB" . dired-subtree-toggle)
+    ("<backtab>" . dired-subtree-remove)
+    ("S-TAB" . dired-subtree-remove))
+  :config
+  (setq dired-subtree-use-backgrounds nil))
+
+(use-package trashed
+  :ensure t
+  :commands (trashed)
+  :config
+  (setq trashed-action-confirmer 'y-or-n-p)
+  (setq trashed-use-header-line t)
+  (setq trashed-sort-key '("Date deleted" . t))
+  (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
 (use-package terminal-here
   :ensure t)
