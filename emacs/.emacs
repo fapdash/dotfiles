@@ -877,6 +877,21 @@ The DWIM behaviour of this command is as follows:
    ;; `(diff-hl-dired-delete ((t (:foreground :background ))))
    `(diff-hl-dired-unknown ((t (:foreground "#d3d7cf" :background "#555753"))))))
 
+(use-package blamer
+  :ensure t
+  :bind (("s-b" . blamer-show-commit-info)
+         ("C-c b" . blamer-show-posframe-commit-info))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 3)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 90
+                    :italic t)))
+  :config)
+  ;; (global-blamer-mode 1)
 
 ;; use ibuffer groups to garbage collect temp buffers
 (use-package ibuffer
