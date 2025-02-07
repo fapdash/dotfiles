@@ -604,8 +604,9 @@ The DWIM behaviour of this command is as follows:
 ;; view large files
 (use-package vlf
   :ensure t
-  :config
-  (require 'vlf-setup))
+  :config)
+  ;;(require 'vlf-setup) ;; bug in advice
+
 
 ;; tail a file, possible to tail a remote log file through TRAMP
 (use-package itail
