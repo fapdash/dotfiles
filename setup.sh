@@ -59,12 +59,15 @@ mise use -g erlang@latest
 mise use -g elixir@latest
 # TODO(FAP): flutter wants dart to come from flutter sdk
 mise use -g dart@latest
+dart pub global activate interactive
 dart --disable-analytics
 
 sudo apt install libgtk-3-dev ninja-build cmake clang -y
 mise use -g go@latest
 
 mise use -g python@latest
+
+mise use --global zig@latest
 
 npm install -g pnpm
 npm install -g yarn
@@ -75,7 +78,9 @@ pip3 install thefuck --user
 pip3 install ansible --user
 pip3 install yamllint --user
 pip3 install flake8 --user
+pip3 install jupyterlab --user
 
+mise use -g sops
 
 ################################
 ######### chezmoi###############
@@ -98,11 +103,13 @@ curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk update
 
-sdk install java 11.0.23-tem
-sdk install java 17.0.11-tem
-sdk install java 21.0.3-tem
-sdk default java 21.0.3-tem
+sdk install java 11.0.26-tem
+sdk install java 17.0.14-tem
+sdk install java 21.0.6-tem
+sdk default java 21.0.6-tem
 sdk install gradle
+sdk install maven
+sdk install quarkus
 
 ################################
 ######### ledger ###############
