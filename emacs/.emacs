@@ -975,8 +975,8 @@ The DWIM behaviour of this command is as follows:
 (use-package smart-shift
   :ensure t
   :config
- (global-set-key (kbd "<C-iso-lefttab>") 'smart-shift-left)
- (global-set-key [(C tab)] 'smart-shift-right))
+  (global-set-key (kbd "<C-iso-lefttab>") 'smart-shift-left)
+  (global-set-key [(C tab)] 'smart-shift-right))
 
 (use-package crux
   :ensure t
