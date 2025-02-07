@@ -1514,7 +1514,6 @@ is nil, refile in the current file."
   :ensure t
   :after ox)
 
-(setq org-agenda-files '("~/git/org/todo" "~/git/org/todo/gtd" "~/git/org/journal"))
 
 ;; (use-package org-brain
 ;;   :ensure t)
@@ -2110,6 +2109,56 @@ Search for only document level nodes. Exclude dates."
   (interactive)
   ;;(org-roam-node-find :other-window)
   (org-roam-node-find :other-window nil #'ugt-filter-org-roam-node-file-p))
+
+(use-package vulpea
+  :ensure t
+  ;; hook into org-roam-db-autosync-mode you wish to enable
+  ;; persistence of meta values (see respective section in README to
+  ;; find out what meta means)
+  :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable)))
+
+(defun fap//org-agenda-files-static ()
+  '("~/git/org/todo" "~/git/org/todo/gtd" "~/git/org/journal"))
+
+;; https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html
+(defun vulpea-project-files ()
+  "Return a list of note files containing \"project\" tag."
+  (seq-uniq
+   (seq-map
+    #'car
+    (org-roam-db-query
+     [:select [nodes:file]
+              :from tags
+              :left-join nodes
+              :on (= tags:node-id nodes:id)
+              :where (like tag (quote "%\"project\"%"))]))))
+
+
+(defun fap/agenda-files-update (&rest _)
+  "Update the value of `org-agenda-files'."
+  (setq org-agenda-files (append (vulpea-project-files)
+                                 (fap//org-agenda-files-static))))
+
+(defun fap/org-agenda ()
+  (interactive)
+  (fap/agenda-files-update)
+  (org-agenda))
+
+(defun vulpea--title-to-tag (title)
+  "Convert TITLE to tag."
+  (concat "@" (s-replace " " "" title)))
+
+(defun vulpea-agenda-project ()
+  "Show `org-super-agenda' view for specific project."
+  (interactive)
+  (let* ((old-org-agenda-files org-agenda-files)
+         (project (vulpea-select-from
+                   "Project"
+                   (vulpea-db-query-by-tags-some '("project"))))
+         (file (org-roam-node-from-id (vulpea-note-id project))))
+    (setq org-agenda-files (list (org-roam-node-file file)))
+    (org-agenda nil "z")
+    (setq org-agenda-files old-org-agenda-files)))
 
 (require 'org-protocol)
 
