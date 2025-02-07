@@ -1246,6 +1246,10 @@ normally have their errors suppressed."
 
 (global-set-key (kbd "s-j") 'newline-and-indent-anywhere)
 
+;; REST calls via curl
+(use-package verb
+  :ensure t)
+
 (use-package org
   :ensure t
   :pin elpa
@@ -1284,7 +1288,8 @@ normally have their errors suppressed."
   ;; https://orgmode.org/manual/Tracking-TODO-state-changes.html
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAITING(w!)" "NEXT(n!)" "IDEA(i)" "GOAL(g)" "|" "DONE(d!)" "CANCELED(c@)")))
-  (setq org-comment-string "BACKBURNER"))
+  (setq org-comment-string "BACKBURNER")
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 (use-package org-contrib
   :after org
