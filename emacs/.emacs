@@ -4431,8 +4431,12 @@ If DATE is not provided, the current date will be used."
   :config
   (load "~/git/dotfiles/emacs/lisp/private-rcirc-config.el.age"))
 
-(and window-system (server-start))
+(use-package gptel
+    :ensure t
+    :config
+    (load "~/git/dotfiles/emacs/lisp/private-gptel-config.el.age"))
 
+(and window-system (server-start))
 
 ;; Reset startup optimizations
 ;; https://emacs.stackexchange.com/a/34367/11806
