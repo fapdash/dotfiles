@@ -3633,7 +3633,7 @@ otherwise call reformatter function."
 (use-package nlinum
   :ensure t
   :config
-  (define-minor-mode my/pair-programming-mode
+  (define-minor-mode fap/pair-programming-mode
     "Toggle visualizations for pair programming.
 
 Interactively with no argument, this command toggles the mode.  A
@@ -3646,16 +3646,16 @@ the mode, `toggle' toggles the state."
     " Pairing"
     ;; The minor mode bindings.
     '()
-    :group 'my/pairing
+    :group 'fap/pairing
     ;; alternatively could use display-line-numbers-mode, which is faster,
     ;; but imo looks worse
-    (nlinum-mode (if my/pair-programming-mode 1 -1)))
+    (nlinum-mode (if fap/pair-programming-mode 1 -1)))
 
-  (define-global-minor-mode my/global-pair-programming-mode
-    my/pair-programming-mode
-    (lambda () (my/pair-programming-mode 1)))
+  (define-global-minor-mode fap/global-pair-programming-mode
+    fap/pair-programming-mode
+    (lambda () (fap/pair-programming-mode 1)))
 
-  (global-set-key "\C-c\M-p" 'my/global-pair-programming-mode))
+  (global-set-key "\C-c\M-p" 'fap/global-pair-programming-mode))
 
 ;; Originally from stevey, adapted to support moving to a new directory.
 (defun rename-file-and-buffer (new-name)
