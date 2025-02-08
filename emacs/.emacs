@@ -4289,6 +4289,21 @@ and https://github.com/tarsius/keycast/issues/7#issuecomment-627604064."
 (use-package chezmoi
   :ensure t)
 
+(use-package turbo-log
+  :vc (:url "https://github.com/artawower/turbo-log.el"
+            :branch "feat/treesit-migration"
+            :rev "latest")
+  ;; :bind (("C-s-l" . turbo-log-print)
+  ;;        ("C-s-i" . turbo-log-print-immediately)
+  ;;        ("C-s-h" . turbo-log-comment-all-logs)
+  ;;        ("C-s-s" . turbo-log-uncomment-all-logs)
+  ;;        ("C-s-[" . turbo-log-paste-as-logger)
+  ;;        ("C-s-]" . turbo-log-paste-as-logger-immediately)
+  ;;        ("C-s-d" . turbo-log-delete-all-logs))
+  :config
+  (setq turbo-log-msg-format-template "\"🦄: %s\"")
+  (setq turbo-log-allow-insert-without-tree-sitter-p t))
+
 (defun fap/eval-and-run-all-tests-in-buffer ()
   "Delete all loaded tests from the runtime, evaluate the current buffer and run all loaded tests with ert."
   (interactive)
