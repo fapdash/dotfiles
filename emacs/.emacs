@@ -3409,7 +3409,7 @@ Notes:
   ;; C-Return is also mapped to this
   (define-key emmet-mode-keymap "\C-j" nil))
 
-(use-packpage lorem-ipsum
+(use-package lorem-ipsum
   :ensure t
   :config
   ;; not fully happy with these defaults, might change later
