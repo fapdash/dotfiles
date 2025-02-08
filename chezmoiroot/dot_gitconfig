@@ -1,0 +1,12 @@
+[user]
+	email = 459631+fapdash@users.noreply.github.com
+    name = fap
+# https://cscheng.info/2017/01/26/git-tip-autostash-with-git-pull-rebase.html
+[pull]
+	rebase = true
+[rebase]
+	autoStash = true
+[core]
+	excludesfile = ~/.gitignore
+[github]
+	user = fapdash
