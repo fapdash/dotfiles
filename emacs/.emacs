@@ -1993,7 +1993,7 @@ DEPRECATED: use (org-roam-extract-subtree now"
     (member id-list backlinks)))
 
 (defun org-roam-backlinks-poi-or-moc-p (NODE)
-  "Check if NODE has the tag POI or the tag MOC.  Return t if it does."
+  "Check if NODE has the tag POI (Point Of Interest) or the tag MOC (Map Of Content).  Return t if it does."
   (or (string-equal (car (org-roam-node-tags NODE)) "POI")
    (string-equal (car (org-roam-node-tags NODE)) "MOC")))
 
