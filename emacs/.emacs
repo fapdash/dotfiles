@@ -1623,7 +1623,6 @@ is nil, refile in the current file."
 
 (use-package org-journal
   :ensure nil
-  :defer t
   :init
   (unless (package-installed-p 'org-journal)
    (package-vc-install "https://github.com/fapdash/org-journal-fork" nil nil 'org-journal))
@@ -1695,7 +1694,11 @@ is nil, refile in the current file."
                                 ("T" "Todo [inbox] (org-protocol-capture)" entry
                                  (file+headline (lambda () (concat org_gtd "/inbox.org")) "Tasks")
                                  "* TODO [[%:link][%:description]]\n\n" :immediate-finish t)))
-  (load "~/git/dotfiles/emacs/lisp/private-org-captures.el.age"))
+  (load "~/git/dotfiles/emacs/lisp/private-org-captures.el.age")
+
+  (defun fap/org-journal-find-today ()
+    (interactive)
+    (org-journal-new-entry t)))
 
 (defun my-org-capture-ask-for-filename ()
   "Read file name to capture to."
