@@ -1085,7 +1085,6 @@ The DWIM behaviour of this command is as follows:
      "/home/fap/git/org/journal/20250207.age"))
  '(org-modules
    '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc
-            ol-mhe ol-rmail ol-eww org-w3m))
  '(package-selected-packages
    '(ace-window activity-watch-mode adoc-mode ag age aggressive-indent
                 alchemist all-the-icons-completion all-the-icons-dired
@@ -1135,6 +1134,7 @@ The DWIM behaviour of this command is as follows:
                 w3m web-mode wgrep-ag wgrep-deadgrep which-key
                 workgroups2 writeroom-mode xeft yaml-mode yari
                 yasnippet-capf yasnippet-snippets))
+            ol-mhe ol-rmail ol-eww))
  '(package-vc-selected-packages
    '((turbo-log :url "https://github.com/artawower/turbo-log.el" :branch
                 "feat/treesit-migration")
