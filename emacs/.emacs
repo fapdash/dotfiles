@@ -1514,6 +1514,17 @@ is nil, refile in the current file."
   :ensure t
   :after ox)
 
+(use-package ox-typst
+  :ensure t
+  :after org)
+
+(use-package org-typst-preview
+  :ensure t
+  :vc (:url "https://github.com/remimimimimi/org-typst-preview.el"
+            :rev :newest))
+
+(use-package ox-tufte
+  :ensure t)
 
 ;; (use-package org-brain
 ;;   :ensure t)
