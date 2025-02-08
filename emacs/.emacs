@@ -2315,7 +2315,6 @@ With a prefix ARG, remove start location."
   (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point))
   ;; (org-ref-ivy-cite-completion) void-function since v3 of org-ref
 
-
 (use-package ivy-bibtex
   :ensure t
   :after org-ref
