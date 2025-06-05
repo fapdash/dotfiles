@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+sink="$(pactl list short sinks | wofi --dmenu | cut -d $'\t' -f 1)" || exit 0
+
+pactl set-default-sink $sink

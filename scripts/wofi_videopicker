@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+video=$(fd ".(mp4|mkv|webm|mov|m4v)" ~/Videos --type=file | wofi --dmenu) || exit 0
+
+mpv "$video"

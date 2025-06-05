@@ -76,7 +76,12 @@ sudo apt-get install -y curl\
                  rustup\
                  reflex\
                  xchm\
-                 ncdu
+                 ncdu\
+                 wofi\
+                 mpd\
+                 mpc\
+                 ncmpcpp\
+                 playerctl
 
 flatpak remote-add --if-not-exists --subset=verified flathub https://dl.flathub.org/repo/flathub.flatpakrepom
 
