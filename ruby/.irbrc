@@ -10,6 +10,3 @@ if ENV["INSIDE_EMACS"] then
    IRB.conf[:USE_COLORIZE] = true
 end
 
-require 'irb/ext/save-history'
-IRB.conf[:SAVE_HISTORY] = 200
-IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-history"
