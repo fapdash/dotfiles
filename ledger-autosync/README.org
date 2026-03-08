@@ -1,8 +1,9 @@
 * Ledger CLI
 ** Using ledger-autosync
 *** Installation
-1. ~pip3 install ledger-autosync~
-2. Symlink the plugins: ~ln -s ~/repos/dotfiles/ledger-autosync/plugins/ \~/.config/ledger-autosync/~
+1. ~pip3 install https://github.com/egh/ledger-autosync/archive/refs/heads/master.tar.gz~
+2. Create ledger-autosync .config folder: ~mkdir $HOME/.config/ledger-autosync~
+3. Symlink the plugins: ~ln -s $HOME/git/dotfiles/ledger-autosync/plugins/ $HOME/.config/ledger-autosync/~
 *** Workflow
   1. Download csv from https://web.goteo.de or https://www.dkb.de/
   2. Remove the first 9 lines so ledger-autoscript can properly detect the csv type (included in the comment in ~3.~)
